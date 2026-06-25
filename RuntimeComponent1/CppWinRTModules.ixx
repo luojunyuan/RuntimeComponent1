@@ -4,6 +4,8 @@
 #include <Windows.h>
 #include <cassert>
 
+#include <windows.ui.xaml.hosting.referencetracker.h>
+
 export module CppWinRTModules;
 
 import winrt.Windows.Foundation;

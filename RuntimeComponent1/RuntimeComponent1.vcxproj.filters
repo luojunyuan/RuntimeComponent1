@@ -25,6 +25,12 @@
     <ClInclude Include="inc\StaticAssertFalse.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="inc\tracker_ref.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\RuntimeClassHelpers.h">
+      <Filter>inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Midl Include="Class.idl" />
