@@ -16,6 +16,6 @@ namespace winrt::RuntimeComponent1::implementation
 
     void Class::MyProperty(int32_t /* value */)
     {
-        //throw hresult_not_implemented();
+        throw hresult_not_implemented();
     }
 }
