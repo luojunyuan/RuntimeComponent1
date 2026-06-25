@@ -1,5 +1,5 @@
-﻿#pragma warning(disable: 4100) // unused parameter
-module;
+﻿module;
+#pragma warning(disable: 4100) // unused parameter
 
 #include <Windows.h>
 #include <cassert>
