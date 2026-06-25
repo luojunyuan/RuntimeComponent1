@@ -8,20 +8,29 @@
     <Filter Include="Generated Files">
       <UniqueIdentifier>{926ab91d-31b4-48c3-b9a4-e681349f27f0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="inc">
+      <UniqueIdentifier>{d196e16d-ea5c-41b6-a07d-6c2a4060c682}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Class.cpp" />
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
+    <ClCompile Include="CppWinRTModules.ixx" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
+    <ClInclude Include="inc\SharedHelpers.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\StaticAssertFalse.h">
+      <Filter>inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Midl Include="Class.idl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="RuntimeComponent1.def" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="readme.txt" />

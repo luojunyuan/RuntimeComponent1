@@ -6,7 +6,7 @@
     <CppWinRTRootNamespaceAutoMerge>true</CppWinRTRootNamespaceAutoMerge>
     <MinimalCoreWin>true</MinimalCoreWin>
     <ProjectGuid>{0D391C0C-4566-A4D8-E955-3FFD1DFE0FE1}</ProjectGuid>
-    <ProjectName>RuntimeComponent1</ProjectName>
+    <ProjectName>Islands.UI.Xaml</ProjectName>
     <RootNamespace>RuntimeComponent1</RootNamespace>
     <DefaultLanguage>zh-CN</DefaultLanguage>
     <MinimumVisualStudioVersion>16.0</MinimumVisualStudioVersion>
@@ -71,7 +71,6 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
   <ItemDefinitionGroup>
     <ClCompile>
       <BuildStlModules>true</BuildStlModules>
@@ -82,6 +81,7 @@
       <AdditionalOptions>%(AdditionalOptions) /bigobj /utf-8</AdditionalOptions>
       <PreprocessorDefinitions>_WINRT_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalUsingDirectories>$(WindowsSDK_WindowsMetadata);$(AdditionalUsingDirectories)</AdditionalUsingDirectories>
+      <AdditionalIncludeDirectories>inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -104,6 +104,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="inc\SharedHelpers.h" />
+    <ClInclude Include="inc\StaticAssertFalse.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Class.h">
       <DependentUpon>Class.cpp</DependentUpon>
@@ -112,6 +114,7 @@
   <ItemGroup>
     <ClCompile Include="Class.cpp" />
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
+    <ClCompile Include="CppWinRTModules.ixx" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="Class.idl">
