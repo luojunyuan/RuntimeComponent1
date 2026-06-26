@@ -16,6 +16,9 @@
     <ClCompile Include="Class.cpp" />
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
     <ClCompile Include="CppWinRTModules.ixx" />
+    <ClCompile Include="inc\common.ixx">
+      <Filter>inc</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -32,6 +35,27 @@
       <Filter>inc</Filter>
     </ClInclude>
     <ClInclude Include="inc\event.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\BoxHelpers.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\CastHelpers.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\CollectionHelper.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\CppWinRTHelpers.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\ErrorHandling.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\GlobalDependencyProperty.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\RoutedEventHelpers.h">
       <Filter>inc</Filter>
     </ClInclude>
   </ItemGroup>

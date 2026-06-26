@@ -4,17 +4,17 @@
 
 #pragma warning(disable: 4864) // .template as instantiation warning 
 
-#include <Windows.h>
-#include <cassert>
-
 #include <inspectable.h>
 #include <windows.ui.xaml.hosting.referencetracker.h>
 
 #include "ErrorHandling.h"
 
-export module CppWinRTModules;
+#include <cassert>
+#ifndef MUX_ASSERT
+#define MUX_ASSERT(condition) assert(condition)
+#endif
 
-import std;
+export module common;
 
 import winrt.Windows.Foundation;
 import winrt.Windows.Foundation.Collections;
@@ -121,15 +121,14 @@ namespace winrt
     using namespace ::winrt::Windows::Web;
 }
 
-#ifndef MUX_ASSERT
-#define MUX_ASSERT(condition) assert(condition)
-#endif
-//
-//using namespace ::winrt::Windows::Foundation;
-//using namespace ::winrt::Windows::Foundation::Numerics;
-//
-//using namespace std::chrono_literals;
-//using namespace std::string_view_literals;
-//
-//using ResourceIdType = const winrt::hstring&;
-//
+#include "CppWinRTHelpers.h"
+#include "RuntimeClassHelpers.h"
+#include "SharedHelpers.h"
+#include "BoxHelpers.h"
+#include "CastHelpers.h"
+#include "event.h"
+#include "AutoHandle.h"
+#include "GlobalDependencyProperty.h"
+#include "CollectionHelper.h"
+#include "RoutedEventHelpers.h"
+//#include "MUXControlsFactory.h"

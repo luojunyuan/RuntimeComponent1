@@ -105,7 +105,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="inc\BoxHelpers.h" />
+    <ClInclude Include="inc\CastHelpers.h" />
+    <ClInclude Include="inc\CollectionHelper.h" />
+    <ClInclude Include="inc\CppWinRTHelpers.h" />
+    <ClInclude Include="inc\ErrorHandling.h" />
     <ClInclude Include="inc\event.h" />
+    <ClInclude Include="inc\GlobalDependencyProperty.h" />
+    <ClInclude Include="inc\RoutedEventHelpers.h" />
     <ClInclude Include="inc\RuntimeClassHelpers.h" />
     <ClInclude Include="inc\SharedHelpers.h" />
     <ClInclude Include="inc\StaticAssertFalse.h" />
@@ -119,6 +126,7 @@
     <ClCompile Include="Class.cpp" />
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
     <ClCompile Include="CppWinRTModules.ixx" />
+    <ClCompile Include="inc\common.ixx" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="Class.idl">
