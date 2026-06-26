@@ -4,5 +4,8 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="RuntimeComponent1/RuntimeComponent1.vcxproj" Id="0d391c0c-4566-a4d8-e955-3ffd1dfe0fe1" />
+  <Folder Name="/Shared/">
+    <Project Path="RuntimeComponent1/Collections/Collections.vcxitems" Id="395a71a1-4327-477b-85d4-af0851732ccb" />
+  </Folder>
+  <Project Path="RuntimeComponent1/RuntimeComponent1.vcxproj" />
 </Solution>

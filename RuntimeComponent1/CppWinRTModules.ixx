@@ -1,5 +1,8 @@
 ﻿module;
+
 #pragma warning(disable: 4100) // unused parameter
+
+#pragma warning(disable: 4864) // .template as instantiation warning 
 
 #include <Windows.h>
 #include <cassert>
@@ -7,6 +10,8 @@
 #include <windows.ui.xaml.hosting.referencetracker.h>
 
 export module CppWinRTModules;
+
+import std;
 
 import winrt.Windows.Foundation;
 import winrt.Windows.Foundation.Collections;
@@ -117,4 +122,10 @@ namespace winrt
 #define MUX_ASSERT(condition) assert(condition)
 #endif
 
+using winrt::com_ptr;
+
+#include "tracker_ref.h"
+#include "event.h"
 #include "SharedHelpers.h"
+#include "RuntimeClassHelpers.h"
+#include "Vector.h"

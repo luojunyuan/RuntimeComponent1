@@ -31,6 +31,9 @@
     <ClInclude Include="inc\RuntimeClassHelpers.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="inc\event.h">
+      <Filter>inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Midl Include="Class.idl" />
