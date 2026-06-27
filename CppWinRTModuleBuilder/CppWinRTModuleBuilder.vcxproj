@@ -2,13 +2,10 @@
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="Globals">
     <CppWinRTBuildModule>true</CppWinRTBuildModule>
-    <CppWinRTOptimized>true</CppWinRTOptimized>
-    <CppWinRTRootNamespaceAutoMerge>true</CppWinRTRootNamespaceAutoMerge>
     <MinimalCoreWin>true</MinimalCoreWin>
-    <ProjectGuid>{0D391C0C-4566-A4D8-E955-3FFD1DFE0FE1}</ProjectGuid>
-    <ProjectName>Islands.UI.Xaml</ProjectName>
-    <RootNamespace>RuntimeComponent1</RootNamespace>
-    <DefaultLanguage>zh-CN</DefaultLanguage>
+    <ProjectGuid>{16E7B8C8-7B54-47E2-AE22-38E491AC5375}</ProjectGuid>
+    <ProjectName>CppWinRTModuleBuilder</ProjectName>
+    <RootNamespace>CppWinRTModuleBuilder</RootNamespace>
     <MinimumVisualStudioVersion>16.0</MinimumVisualStudioVersion>
     <AppContainerApplication>false</AppContainerApplication>
     <ApplicationType>Windows Store</ApplicationType>
@@ -46,31 +43,28 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <PlatformToolset Condition="'$(VisualStudioVersion)' &gt;= '18.0'">v145</PlatformToolset>
     <PlatformToolset Condition="'$(VisualStudioVersion)' &lt; '18.0'">v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
-    <GenerateManifest>false</GenerateManifest>
     <DesktopCompatible>true</DesktopCompatible>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Debug'" Label="Configuration">
     <UseDebugLibraries>true</UseDebugLibraries>
-    <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Release'" Label="Configuration">
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
-  <ImportGroup Label="Shared">
-    <Import Project="Collections\Collections.vcxitems" Label="Shared" />
-  </ImportGroup>
   <ImportGroup Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <PropertyGroup>
+    <IntDir>$(MSBuildProjectDirectory)\$(Platform)\$(Configuration)\</IntDir>
+  </PropertyGroup>
   <PropertyGroup Label="UserMacros" />
   <ItemDefinitionGroup>
     <ClCompile>
@@ -80,15 +74,9 @@
       <LanguageStandard Condition="'$(VisualStudioVersion)' &gt;= '18.0'">stdcpplatest</LanguageStandard>
       <LanguageStandard Condition="'$(VisualStudioVersion)' &lt; '18.0'">stdcpp17</LanguageStandard>
       <AdditionalOptions>%(AdditionalOptions) /bigobj /utf-8</AdditionalOptions>
-      <PreprocessorDefinitions>_WINRT_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WINRT_ENABLE_LEGACY_COM;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalUsingDirectories>$(WindowsSDK_WindowsMetadata);$(AdditionalUsingDirectories)</AdditionalUsingDirectories>
-      <AdditionalIncludeDirectories>inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <GenerateWindowsMetadata>true</GenerateWindowsMetadata>
-      <ModuleDefinitionFile>RuntimeComponent1.def</ModuleDefinitionFile>
-    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
     <ClCompile>
@@ -99,59 +87,14 @@
     <ClCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
-    <Link>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-    </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="inc\BoxHelpers.h" />
-    <ClInclude Include="inc\CastHelpers.h" />
-    <ClInclude Include="inc\CollectionHelper.h" />
-    <ClInclude Include="inc\CppWinRTHelpers.h" />
-    <ClInclude Include="inc\ErrorHandling.h" />
-    <ClInclude Include="inc\event.h" />
-    <ClInclude Include="inc\GlobalDependencyProperty.h" />
-    <ClInclude Include="inc\RoutedEventHelpers.h" />
-    <ClInclude Include="inc\RuntimeClassHelpers.h" />
-    <ClInclude Include="inc\SharedHelpers.h" />
-    <ClInclude Include="inc\StaticAssertFalse.h" />
-    <ClInclude Include="inc\tracker_ref.h" />
-    <ClInclude Include="pch.h" />
-    <ClInclude Include="Class.h">
-      <DependentUpon>Class.cpp</DependentUpon>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Class.cpp" />
-    <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
-    <ClCompile Include="CppWinRTModules.ixx" />
-    <ClCompile Include="inc\common.ixx" />
-  </ItemGroup>
-  <ItemGroup>
-    <Midl Include="Class.idl">
-      <SubType>Code</SubType>
-      <DependentUpon>Class.cpp</DependentUpon>
-    </Midl>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="RuntimeComponent1.def" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="readme.txt">
-      <DeploymentContent>false</DeploymentContent>
-    </Text>
-  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Windows.CppWinRT">
       <Version>3.0.260520.1</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CppWinRTModuleBuilder\CppWinRTModuleBuilder.vcxproj">
-      <Project>{16e7b8c8-7b54-47e2-ae22-38e491ac5375}</Project>
-      <CppWinRTConsumeModule>true</CppWinRTConsumeModule>
-    </ProjectReference>
-  </ItemGroup>
+  <Target Name="CreateStlModuleOutputDirectory" BeforeTargets="ComputeStdModulesCompileInputs;SetModuleDependencies">
+    <MakeDir Directories="$(IntDir)microsoft\STL\" />
+  </Target>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>
