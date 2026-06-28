@@ -19,3 +19,7 @@ Current decision: keep these files as upstream reference material, but do not
 wire them into the local build until the WinUI test host/testhook shared
 projects are intentionally brought over. The active local gate is
 `Tests/SmokeTests`, which verifies the library outputs and activation factories.
+
+`Tests/IUXControlsTestApp` is the local lightweight replacement host: it uses
+CoreIsland and WinUI 2 NuGet packages rather than the upstream WinUI 3 /
+Windows App SDK test app.
