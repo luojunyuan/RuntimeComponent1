@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Islands.UI.Xaml.Projection\Islands.UI.Xaml.Projection.csproj" />
+    <ProjectReference Include="..\..\dotnet\Islands.UI.Xaml.Projection\Islands.UI.Xaml.Projection.csproj" />
   </ItemGroup>
 
   <Target Name="AddIslandsPriToAppResources" BeforeTargets="_GenerateProjectPriConfigurationFiles">
