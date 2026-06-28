@@ -4,6 +4,10 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
+  <Folder Name="/Controls/" />
+  <Folder Name="/Controls/TitleBar/">
+    <Project Path="Islands.UI.Xaml/TitleBar/TitleBar.vcxitems" Id="b122b4a6-ba38-4738-984b-3dab2177d5e2" />
+  </Folder>
   <Folder Name="/Shared/">
     <Project Path="Islands.UI.Xaml/Collections/Collections.vcxitems" Id="395a71a1-4327-477b-85d4-af0851732ccb" />
     <Project Path="Islands.UI.Xaml/ResourceHelper/ResourceHelper.vcxitems" Id="45d41acc-2c3c-43d2-bc10-02aa73ffc7c7" />
