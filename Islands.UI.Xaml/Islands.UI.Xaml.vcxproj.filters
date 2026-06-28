@@ -16,7 +16,6 @@
     <ClCompile Include="Class.cpp" />
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
     <ClCompile Include="CppWinRTModules.ixx" />
-    <ClCompile Include="pch.cpp" />
     <ClCompile Include="inc\common.ixx">
       <Filter>inc</Filter>
     </ClCompile>

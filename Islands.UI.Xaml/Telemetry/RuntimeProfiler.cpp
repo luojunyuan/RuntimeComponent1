@@ -1,7 +1,7 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-#include <pch.h>
+#include <strsafe.h>
 #include "RuntimeProfiler.h"
 #include "MuxcTraceLogging.h"
 
@@ -101,7 +101,7 @@ namespace RuntimeProfiler {
             size_t      cchDest = ARRAYSIZE(OutputBuffer);
 
             // min
-            cMethods = std::min(cMethods, ArraySize);
+            cMethods = (std::min)(cMethods, ArraySize);
 
             PWSTR       pszDest = &(OutputBuffer[0]);
 
