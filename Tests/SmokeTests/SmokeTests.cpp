@@ -104,6 +104,7 @@ int wmain(int argc, wchar_t** argv)
     const std::vector<std::wstring_view> classNames{
         L"Islands.UI.Xaml.Controls.AppWindowTitleBar",
         L"Islands.UI.Xaml.Controls.InputNonClientPointerSource",
+        L"Islands.UI.Xaml.Controls.MUXControlsTestHooks",
         L"Islands.UI.Xaml.Controls.TitleBar",
         L"Islands.UI.Xaml.Controls.TitleBarAutomationPeer",
         L"Islands.UI.Xaml.Controls.TitleBarTemplateSettings",

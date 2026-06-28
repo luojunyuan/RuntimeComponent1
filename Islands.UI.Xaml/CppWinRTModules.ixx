@@ -41,6 +41,8 @@ export namespace winrt
     using IconSource = ::winrt::Microsoft::UI::Xaml::Controls::IconSource;
     using AppWindowTitleBar = ::winrt::Islands::UI::Xaml::Controls::AppWindowTitleBar;
     using InputNonClientPointerSource = ::winrt::Islands::UI::Xaml::Controls::InputNonClientPointerSource;
+    using MUXControlsTestHooks = ::winrt::Islands::UI::Xaml::Controls::MUXControlsTestHooks;
+    using MUXControlsTestHooksLoggingMessageEventArgs = ::winrt::Islands::UI::Xaml::Controls::MUXControlsTestHooksLoggingMessageEventArgs;
     using NonClientRegionKind = ::winrt::Islands::UI::Xaml::Controls::NonClientRegionKind;
     using TitleBar = ::winrt::Islands::UI::Xaml::Controls::TitleBar;
     using TitleBarAutomationPeer = ::winrt::Islands::UI::Xaml::Controls::TitleBarAutomationPeer;

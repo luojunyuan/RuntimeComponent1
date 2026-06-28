@@ -114,6 +114,8 @@ namespace winrt
     using IconSource = ::winrt::Microsoft::UI::Xaml::Controls::IconSource;
     using AppWindowTitleBar = ::winrt::Islands::UI::Xaml::Controls::AppWindowTitleBar;
     using InputNonClientPointerSource = ::winrt::Islands::UI::Xaml::Controls::InputNonClientPointerSource;
+    using MUXControlsTestHooks = ::winrt::Islands::UI::Xaml::Controls::MUXControlsTestHooks;
+    using MUXControlsTestHooksLoggingMessageEventArgs = ::winrt::Islands::UI::Xaml::Controls::MUXControlsTestHooksLoggingMessageEventArgs;
     using NonClientRegionKind = ::winrt::Islands::UI::Xaml::Controls::NonClientRegionKind;
     using TitleBar = ::winrt::Islands::UI::Xaml::Controls::TitleBar;
     using TitleBarAutomationPeer = ::winrt::Islands::UI::Xaml::Controls::TitleBarAutomationPeer;
@@ -122,12 +124,15 @@ namespace winrt
 }
 
 using namespace std::literals;
+using std::wstring_view;
 using winrt::com_ptr;
 
 #include "RuntimeClassHelpers.h"
 #include "event.h"
 #include "GlobalDependencyProperty.h"
 
+#include "MUXControlsTestHooks.h"
+#include "MUXControlsTestHooksLoggingMessageEventArgs.h"
 #include "TitleBar.h"
 #include "TitleBarTemplateSettings.h"
 #include "TitleBarAutomationPeer.h"

@@ -1,3 +1,6 @@
+#define MU_PRIVATE_CONTROLS_NAMESPACE Islands.UI.Xaml.Controls
+#define MUX_INTERNAL contract(Microsoft.UI.Xaml.XamlContract, 1)
+
 namespace MU_PRIVATE_CONTROLS_NAMESPACE
 {
 

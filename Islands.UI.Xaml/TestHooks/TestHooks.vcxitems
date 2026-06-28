@@ -7,16 +7,22 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(MSBuildThisFileDirectory)..\Generated</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="$(MSBuildThisFileDirectory)MUXControlsTestHooks.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)MUXControlsTestHooksFactory.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)MUXControlsTestHooksLoggingMessageEventArgs.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MUXControlsTestHooks.cpp">
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WINRT_IMPORT_MODULE</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)MUXControlsTestHooksFactory.cpp">
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WINRT_IMPORT_MODULE</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)MUXControlsTestHooksLoggingMessageEventArgs.cpp">
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WINRT_IMPORT_MODULE</PreprocessorDefinitions>
+    </ClCompile>
     <ClCompile Condition="'$(Configuration)'!='Debug'" Include="$(MSBuildThisFileDirectory)TestHooksReleaseStubs.cpp" />
   </ItemGroup>
   <ItemGroup>

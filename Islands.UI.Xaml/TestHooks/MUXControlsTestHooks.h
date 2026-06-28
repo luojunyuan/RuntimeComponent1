@@ -11,6 +11,8 @@
 
 #include "MUXControlsTestHooks.g.h"
 
+using UCHAR = unsigned char;
+
 class MUXControlsTestHooks :
     public winrt::implementation::MUXControlsTestHooksT<MUXControlsTestHooks>
 {
@@ -23,9 +25,6 @@ public:
     void LogMessage(const winrt::IInspectable& sender, const wstring_view& message, bool isVerboseLevel);
     winrt::event_token LoggingMessageImpl(winrt::TypedEventHandler<winrt::IInspectable, winrt::MUXControlsTestHooksLoggingMessageEventArgs> const& value);
     void LoggingMessageImpl(winrt::event_token const& token);
-    winrt::event_token BuildTreeCompletedImpl(winrt::TypedEventHandler<winrt::IInspectable, winrt::IInspectable> const& value); // subscribe
-    void BuildTreeCompletedImpl(winrt::event_token const& token); // unsubscribe
-    void NotifyBuildTreeCompletedImpl();
 
     static com_ptr<MUXControlsTestHooks> GetGlobalTestHooks()
     {
@@ -38,10 +37,6 @@ public:
 
     static winrt::event_token LoggingMessage(winrt::TypedEventHandler<winrt::IInspectable, winrt::MUXControlsTestHooksLoggingMessageEventArgs> const& value);
     static void LoggingMessage(winrt::event_token const& token);
-
-    static winrt::event_token BuildTreeCompleted(winrt::TypedEventHandler<winrt::IInspectable, winrt::IInspectable> const& value); // subscribe
-    static void BuildTreeCompleted(winrt::event_token const& token); // unsubscribe
-    static void NotifyBuildTreeCompleted();
     
 private:
     static MUXControlsTestHooks* s_testHooks;
@@ -53,5 +48,4 @@ private:
     std::map<std::wstring /*key:Type*/, UCHAR /*value:LoggingProviderLevel*/, std::less<>> m_typeLoggingLevels;
     std::map<winrt::IInspectable /*key:Instance*/, UCHAR /*value:LoggingProviderLevel*/> m_instanceLoggingLevels;
     UCHAR m_globalLoggingLevel{ WINEVENT_LEVEL_NONE };
-    winrt::event<winrt::TypedEventHandler<winrt::IInspectable, winrt::IInspectable>> m_buildTreeCompleted;
 };

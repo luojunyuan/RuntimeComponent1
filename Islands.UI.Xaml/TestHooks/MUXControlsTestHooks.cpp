@@ -1,8 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-#include "pch.h"
-#include "common.h"
+#include "MuxcTraceLogging.h"
+
+import std;
+import common;
+
 #include "MUXControlsTestHooksFactory.h"
 
 #ifdef SELECTORBAR_INCLUDED
@@ -49,8 +52,6 @@
 #ifdef TITLEBAR_INCLUDED
 #include "TitleBarTrace.h"
 #endif
-
-#include "TabViewTrace.h"
 
 /*static*/
 UCHAR MUXControlsTestHooks::GetLoggingLevelForType(const wstring_view& type)
@@ -178,10 +179,6 @@ if (type == L"AnnotatedScrollBar" || type.empty())
         TitleBarTrace::s_IsVerboseDebugOutputEnabled = isLoggingVerboseLevel;
     }
 #endif
-    if (type == L"TabView" || type.empty())
-    {
-        TabViewTrace::s_IsDebugOutputEnabled = isLoggingInfoLevel || isLoggingVerboseLevel;
-    }
 }
 
 void MUXControlsTestHooks::SetLoggingLevelForTypeImpl(const wstring_view& type, bool isLoggingInfoLevel, bool isLoggingVerboseLevel)
