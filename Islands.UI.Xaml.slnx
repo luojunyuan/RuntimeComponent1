@@ -6,6 +6,8 @@
   </Configurations>
   <Folder Name="/Controls/" />
   <Folder Name="/Controls/TitleBar/">
+    <Project Path="Islands.UI.Xaml/TitleBar/InteractionTests/TitleBar_InteractionTests.shproj" Id="aec0baee-7a86-4539-9e07-a5363f7b9a8c" />
+    <Project Path="Islands.UI.Xaml/TitleBar/TestUI/TitleBar_TestUI.shproj" Id="0c05e2f0-f21f-4e60-a5bd-b4f5eb655c1d" />
     <Project Path="Islands.UI.Xaml/TitleBar/TitleBar.vcxitems" Id="b122b4a6-ba38-4738-984b-3dab2177d5e2" />
   </Folder>
   <Folder Name="/Shared/">
