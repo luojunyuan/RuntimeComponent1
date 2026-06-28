@@ -5,6 +5,7 @@
 #include "RuntimeProfiler.h"
 #include "MuxcTraceLogging.h"
 
+import std;
 import CppWinRTModules;
 
 // Version of binary, defined in dllmain.cpp from WinUIrc.ver in the WinUI repo.

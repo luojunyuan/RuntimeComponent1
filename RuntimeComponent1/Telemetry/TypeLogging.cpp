@@ -3,6 +3,7 @@
 
 #include "pch.h"
 
+import std;
 import CppWinRTModules;
 
 #include "TypeLogging.h"

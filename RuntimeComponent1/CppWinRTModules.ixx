@@ -4,7 +4,6 @@
 
 export module CppWinRTModules;
 
-export import std;
 export import winrt_base;
 export import winrt.Windows.Foundation;
 export import winrt.Windows.Foundation.Numerics;
