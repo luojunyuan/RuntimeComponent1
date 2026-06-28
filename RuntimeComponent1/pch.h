@@ -4,3 +4,5 @@
 // Undefine GetCurrentTime macro to prevent
 // conflict with Storyboard::GetCurrentTime
 //#undef GetCurrentTime
+
+#include <Windows.h>
