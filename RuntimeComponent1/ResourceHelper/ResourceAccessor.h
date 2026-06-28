@@ -3,8 +3,6 @@
 
 #pragma once
 
-#include "pch.h"
-
 /// <summary>
 /// Resource Accessor
 /// </summary>
@@ -23,12 +21,12 @@ private:
     static PCWSTR c_assetLoc;
     static PCWSTR c_resourceLocWinUI;
 
-    static winrt::Microsoft::Windows::ApplicationModel::Resources::ResourceMap GetAssetMap();
-    static winrt::Microsoft::Windows::ApplicationModel::Resources::ResourceMap GetResourceMap();
-    static winrt::Microsoft::Windows::ApplicationModel::Resources::ResourceManager GetResourceManagerImpl();
-    static winrt::Microsoft::Windows::ApplicationModel::Resources::ResourceManager GetResourceManager();
-    static winrt::Microsoft::Windows::ApplicationModel::Resources::ResourceContext GetResourceContext();
-    static winrt::Microsoft::Windows::ApplicationModel::Resources::ResourceManager m_resourceManagerWinRT;
+    static winrt::Windows::ApplicationModel::Resources::Core::ResourceMap GetAssetMap();
+    static winrt::Windows::ApplicationModel::Resources::Core::ResourceMap GetResourceMap();
+    static winrt::Windows::ApplicationModel::Resources::Core::ResourceManager GetResourceManagerImpl();
+    static winrt::Windows::ApplicationModel::Resources::Core::ResourceManager GetResourceManager();
+    static winrt::Windows::ApplicationModel::Resources::Core::ResourceContext GetResourceContext();
+    static winrt::Windows::ApplicationModel::Resources::Core::ResourceManager m_resourceManagerWinRT;
 public:
     static winrt::hstring GetLocalizedStringResource(const wstring_view &resourceName);
     static winrt::LoadedImageSurface GetImageSurface(const wstring_view &assetName, winrt::Size imageSize);

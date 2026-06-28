@@ -16,57 +16,59 @@
 
 export module common;
 
-import winrt.Windows.Foundation;
-import winrt.Windows.Foundation.Collections;
-import winrt.Windows.Foundation.Metadata;
-import winrt.Windows.ApplicationModel.Activation;
-import winrt.Windows.ApplicationModel.Contacts;
-import winrt.Windows.ApplicationModel.Core;
-import winrt.Windows.ApplicationModel.DataTransfer;
-import winrt.Windows.ApplicationModel.DataTransfer.DragDrop;
-import winrt.Windows.ApplicationModel.Resources;
-import winrt.Windows.ApplicationModel.Resources.Core;
-import winrt.Windows.Devices.Geolocation;
-import winrt.Windows.Globalization;
-import winrt.Windows.Globalization.NumberFormatting;
-import winrt.Windows.Graphics;
-import winrt.Windows.Graphics.Imaging;
-import winrt.Windows.Graphics.Display;
-import winrt.Windows.Graphics.Effects;
-import winrt.Windows.Storage;
-import winrt.Windows.Storage.Streams;
-import winrt.Windows.System;
-import winrt.Windows.System.Power;
-import winrt.Windows.System.Profile;
-import winrt.Windows.System.Threading;
-import winrt.Windows.System.UserProfile;
-import winrt.Windows.UI;
-import winrt.Windows.UI.Composition;
-import winrt.Windows.UI.Composition.Interactions;
-import winrt.Windows.UI.Core;
-import winrt.Windows.UI.Input;
-import winrt.Windows.UI.Input.Inking;
-import winrt.Windows.UI.Text;
-import winrt.Windows.UI.ViewManagement;
-import winrt.Windows.UI.Xaml;
-import winrt.Windows.UI.Xaml.Automation;
-import winrt.Windows.UI.Xaml.Automation.Peers;
-import winrt.Windows.UI.Xaml.Automation.Provider;
-import winrt.Windows.UI.Xaml.Controls;
-import winrt.Windows.UI.Xaml.Controls.Primitives;
-import winrt.Windows.UI.Xaml.Data;
-import winrt.Windows.UI.Xaml.Documents;
-import winrt.Windows.UI.Xaml.Hosting;
-import winrt.Windows.UI.Xaml.Input;
-import winrt.Windows.UI.Xaml.Interop;
-import winrt.Windows.UI.Xaml.Markup;
-import winrt.Windows.UI.Xaml.Media;
-import winrt.Windows.UI.Xaml.Media.Animation;
-import winrt.Windows.UI.Xaml.Media.Imaging;
-import winrt.Windows.UI.Xaml.Shapes;
-import winrt.Windows.Data.Json;
+import std;
+export import winrt_base;
+export import winrt.Windows.Foundation;
+export import winrt.Windows.Foundation.Collections;
+export import winrt.Windows.Foundation.Metadata;
+export import winrt.Windows.ApplicationModel.Activation;
+export import winrt.Windows.ApplicationModel.Contacts;
+export import winrt.Windows.ApplicationModel.Core;
+export import winrt.Windows.ApplicationModel.DataTransfer;
+export import winrt.Windows.ApplicationModel.DataTransfer.DragDrop;
+export import winrt.Windows.ApplicationModel.Resources;
+export import winrt.Windows.ApplicationModel.Resources.Core;
+export import winrt.Windows.Devices.Geolocation;
+export import winrt.Windows.Globalization;
+export import winrt.Windows.Globalization.NumberFormatting;
+export import winrt.Windows.Graphics;
+export import winrt.Windows.Graphics.Imaging;
+export import winrt.Windows.Graphics.Display;
+export import winrt.Windows.Graphics.Effects;
+export import winrt.Windows.Storage;
+export import winrt.Windows.Storage.Streams;
+export import winrt.Windows.System;
+export import winrt.Windows.System.Power;
+export import winrt.Windows.System.Profile;
+export import winrt.Windows.System.Threading;
+export import winrt.Windows.System.UserProfile;
+export import winrt.Windows.UI;
+export import winrt.Windows.UI.Composition;
+export import winrt.Windows.UI.Composition.Interactions;
+export import winrt.Windows.UI.Core;
+export import winrt.Windows.UI.Input;
+export import winrt.Windows.UI.Input.Inking;
+export import winrt.Windows.UI.Text;
+export import winrt.Windows.UI.ViewManagement;
+export import winrt.Windows.UI.Xaml;
+export import winrt.Windows.UI.Xaml.Automation;
+export import winrt.Windows.UI.Xaml.Automation.Peers;
+export import winrt.Windows.UI.Xaml.Automation.Provider;
+export import winrt.Windows.UI.Xaml.Controls;
+export import winrt.Windows.UI.Xaml.Controls.Primitives;
+export import winrt.Windows.UI.Xaml.Data;
+export import winrt.Windows.UI.Xaml.Documents;
+export import winrt.Windows.UI.Xaml.Hosting;
+export import winrt.Windows.UI.Xaml.Input;
+export import winrt.Windows.UI.Xaml.Interop;
+export import winrt.Windows.UI.Xaml.Markup;
+export import winrt.Windows.UI.Xaml.Media;
+export import winrt.Windows.UI.Xaml.Media.Animation;
+export import winrt.Windows.UI.Xaml.Media.Imaging;
+export import winrt.Windows.UI.Xaml.Shapes;
+export import winrt.Windows.Data.Json;
 
-namespace winrt
+export namespace winrt
 {
     using namespace ::winrt::Windows;
     using namespace ::winrt::Windows::ApplicationModel::Activation;
@@ -120,6 +122,9 @@ namespace winrt
     using namespace ::winrt::Windows::UI::Xaml::Shapes;
     using namespace ::winrt::Windows::Web;
 }
+
+export using std::wstring_view;
+export using ResourceIdType = const winrt::hstring&;
 
 #include "CppWinRTHelpers.h"
 #include "RuntimeClassHelpers.h"

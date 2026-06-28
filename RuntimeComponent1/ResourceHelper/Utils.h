@@ -3,9 +3,6 @@
 
 #pragma once
 
-#include <codecvt>
-#include <string>
-
 namespace StringUtil
 {
     /// <summary>

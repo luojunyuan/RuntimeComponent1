@@ -1,14 +1,18 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-#include "pch.h"
+#include <Windows.h>
+
+import std;
+import common;
+
 #include "Utils.h"
 
 winrt::hstring StringUtil::FormatString(std::wstring_view formatString, ...)
 {
     va_list pArgs;
     va_start(pArgs, formatString);
-    
+
     LPVOID formattedString = nullptr;
 
     // Format the string

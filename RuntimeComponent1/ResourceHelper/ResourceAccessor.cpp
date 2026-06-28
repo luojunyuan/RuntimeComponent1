@@ -1,8 +1,10 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-#include "pch.h"
-#include "common.h"
+import std;
+import CppWinRTModules;
+import common;
+
 #include "ResourceAccessor.h"
 
 #define LOC_PREFIX L"Microsoft.UI.Xaml"
@@ -12,44 +14,46 @@ PCWSTR ResourceAccessor::c_resourceLoc{ LOC_PREFIX L"/Resources" };
 PCWSTR ResourceAccessor::c_assetLoc{ L"Files/" LOC_PREFIX L"/Assets"};
 PCWSTR ResourceAccessor::c_resourceLocWinUI{ LOC_PREFIX_WINUI L"/Resources" };
 
-winrt::Microsoft::Windows::ApplicationModel::Resources::ResourceManager  ResourceAccessor::m_resourceManagerWinRT{ nullptr };
+winrt::Windows::ApplicationModel::Resources::Core::ResourceManager ResourceAccessor::m_resourceManagerWinRT{ nullptr };
 
-winrt::Microsoft::Windows::ApplicationModel::Resources::ResourceMap ResourceAccessor::GetAssetMap()
+winrt::Windows::ApplicationModel::Resources::Core::ResourceMap ResourceAccessor::GetAssetMap()
 {
     return ResourceAccessor::GetResourceManager().MainResourceMap().GetSubtree(ResourceAccessor::c_assetLoc);
 }
 
-winrt::Microsoft::Windows::ApplicationModel::Resources::ResourceMap ResourceAccessor::GetResourceMap()
+winrt::Windows::ApplicationModel::Resources::Core::ResourceMap ResourceAccessor::GetResourceMap()
 {
     return ResourceAccessor::GetResourceManager().MainResourceMap().GetSubtree(ResourceAccessor::c_resourceLoc);
 }
 
-winrt::Microsoft::Windows::ApplicationModel::Resources::ResourceManager ResourceAccessor::GetResourceManagerImpl()
+winrt::Windows::ApplicationModel::Resources::Core::ResourceManager ResourceAccessor::GetResourceManagerImpl()
 {
     winrt::hstring frameworkInstallLocation;
     if (m_resourceManagerWinRT == nullptr)
     {
-        if (SharedHelpers::IsInFrameworkPackage(frameworkInstallLocation))
-        {
-            ResourceAccessor::m_resourceManagerWinRT = winrt::Microsoft::Windows::ApplicationModel::Resources::ResourceManager(frameworkInstallLocation + L"\\resources.pri");
-        }
-        else
-        {
-            ResourceAccessor:: m_resourceManagerWinRT = winrt::Microsoft::Windows::ApplicationModel::Resources::ResourceManager();
-        }
+        // if (SharedHelpers::IsInFrameworkPackage(frameworkInstallLocation))
+        // {
+        //     ResourceAccessor::m_resourceManagerWinRT = winrt::Microsoft::Windows::ApplicationModel::Resources::ResourceManager(frameworkInstallLocation + L"\\resources.pri");
+        // }
+        // else
+        // {
+        ResourceAccessor::m_resourceManagerWinRT = winrt::Windows::ApplicationModel::Resources::Core::ResourceManager::Current();
+        // }
     }
+
     return m_resourceManagerWinRT;
 }
 
-winrt::Microsoft::Windows::ApplicationModel::Resources::ResourceManager ResourceAccessor::GetResourceManager()
+winrt::Windows::ApplicationModel::Resources::Core::ResourceManager ResourceAccessor::GetResourceManager()
 {
     auto static resourceManager = ResourceAccessor::GetResourceManagerImpl();
     return resourceManager;
 }
 
-winrt::Microsoft::Windows::ApplicationModel::Resources::ResourceContext ResourceAccessor::GetResourceContext()
+winrt::Windows::ApplicationModel::Resources::Core::ResourceContext ResourceAccessor::GetResourceContext()
 {
-    auto static m_resourceContextWinRT = ResourceAccessor::GetResourceManager().CreateResourceContext(); 
+    //auto static m_resourceContextWinRT = ResourceAccessor::GetResourceManager().CreateResourceContext();
+    auto static m_resourceContextWinRT = winrt::Windows::ApplicationModel::Resources::Core::ResourceContext::GetForViewIndependentUse();
     return m_resourceContextWinRT;
 }
 
