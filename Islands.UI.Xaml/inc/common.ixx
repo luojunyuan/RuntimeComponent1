@@ -1,8 +1,4 @@
-﻿module;
-
-#pragma warning(disable: 4100) // unused parameter
-
-#pragma warning(disable: 4864) // .template as instantiation warning 
+module;
 
 #include <inspectable.h>
 #include <windows.ui.xaml.hosting.referencetracker.h>
@@ -10,6 +6,7 @@
 #include "ErrorHandling.h"
 
 #include <cassert>
+
 #ifndef MUX_ASSERT
 #define MUX_ASSERT(condition) assert(condition)
 #endif
@@ -67,9 +64,21 @@ export import winrt.Windows.UI.Xaml.Media.Animation;
 export import winrt.Windows.UI.Xaml.Media.Imaging;
 export import winrt.Windows.UI.Xaml.Shapes;
 export import winrt.Windows.Data.Json;
+export import winrt.Microsoft.UI.Xaml.Controls;
+export import winrt.Microsoft.UI.Xaml.Controls.AnimatedVisuals;
+export import winrt.Islands.UI.Xaml.Controls;
+
+export namespace winrt::Islands::UI::Xaml::Controls
+{
+    namespace implementation {}
+    namespace factory_implementation {}
+}
 
 export namespace winrt
 {
+    namespace implementation = ::winrt::Islands::UI::Xaml::Controls::implementation;
+    namespace factory_implementation = ::winrt::Islands::UI::Xaml::Controls::factory_implementation;
+
     using namespace ::winrt::Windows;
     using namespace ::winrt::Windows::ApplicationModel::Activation;
     using namespace ::winrt::Windows::ApplicationModel::Contacts;
@@ -120,12 +129,23 @@ export namespace winrt
     using namespace ::winrt::Windows::UI::Xaml::Media::Animation;
     using namespace ::winrt::Windows::UI::Xaml::Media::Imaging;
     using namespace ::winrt::Windows::UI::Xaml::Shapes;
+    using IconSource = ::winrt::Microsoft::UI::Xaml::Controls::IconSource;
+    using AppWindowTitleBar = ::winrt::Islands::UI::Xaml::Controls::AppWindowTitleBar;
+    using InputNonClientPointerSource = ::winrt::Islands::UI::Xaml::Controls::InputNonClientPointerSource;
+    using NonClientRegionKind = ::winrt::Islands::UI::Xaml::Controls::NonClientRegionKind;
+    using TitleBar = ::winrt::Islands::UI::Xaml::Controls::TitleBar;
+    using TitleBarAutomationPeer = ::winrt::Islands::UI::Xaml::Controls::TitleBarAutomationPeer;
+    using TitleBarTemplateSettings = ::winrt::Islands::UI::Xaml::Controls::TitleBarTemplateSettings;
+    using TitleBarWindowAdapter = ::winrt::Islands::UI::Xaml::Controls::TitleBarWindowAdapter;
     using namespace ::winrt::Windows::Web;
 }
 
 export using std::wstring_view;
+export using namespace std::literals;
 export using ResourceIdType = const winrt::hstring&;
 
+export
+{
 #include "CppWinRTHelpers.h"
 #include "RuntimeClassHelpers.h"
 #include "SharedHelpers.h"
@@ -136,4 +156,5 @@ export using ResourceIdType = const winrt::hstring&;
 #include "GlobalDependencyProperty.h"
 #include "CollectionHelper.h"
 #include "RoutedEventHelpers.h"
+}
 //#include "MUXControlsFactory.h"

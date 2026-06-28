@@ -1,12 +1,8 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 #pragma once
 
-#include "pch.h"
-#include "common.h"
-
-#include "TitleBarTrace.h"
 #include "TitleBar.g.h"
 #include "TitleBar.properties.h"
 
@@ -29,6 +25,13 @@ public:
 
     // Public API for manual drag region refresh
     void RecomputeDragRegions();
+    void SetWindowActive(bool active);
+    void SetCaptionInsets(double left, double right);
+    int32_t HitTest(int32_t screenX, int32_t screenY, int32_t xamlRootScreenX, int32_t xamlRootScreenY);
+    winrt::Rect GetTitleBarRootBounds();
+    std::vector<winrt::Rect> GetPassthroughRects();
+    std::vector<winrt::Rect> GetIconRects();
+    double RasterizationScale();
 
     // Static callback for IsDragRegion attached property changes
     static void OnIsDragRegionPropertyChanged(
@@ -37,8 +40,6 @@ public:
 
 private:
     void GoToState(std::wstring_view const& stateName, bool useTransitions);
-    void HandleTitleChange(const winrt::hstring& oldTitle, const winrt::hstring& newTitle);
-    void ResetTitle(winrt::hstring const& lastAppliedTitle);
     void UpdatePadding();
     void UpdateIcon();
     void UpdateBackButton();
@@ -55,8 +56,6 @@ private:
     void UpdateLeftHeaderSpacing();
     void UpdateAutoRefreshDragRegions();
 
-    void OnInputActivationChanged(const winrt::InputActivationListener& sender, const winrt::InputActivationListenerActivationChangedEventArgs& args);
-    void OnWindowRectChanged(const winrt::InputNonClientPointerSource& sender, const winrt::WindowRectChangedEventArgs& args);
     void OnBackButtonClick(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& args);
     void OnPaneToggleButtonClick(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& args);
     void OnSizeChanged(const winrt::IInspectable& sender, const winrt::SizeChangedEventArgs& args);
@@ -68,28 +67,21 @@ private:
     void LoadBackButton();
     void LoadPaneToggleButton();
 
-    winrt::InputNonClientPointerSource const& GetInputNonClientPointerSource();
-    winrt::Windows::Graphics::RectInt32 const GetBounds(const winrt::FrameworkElement& element);
-    winrt::WindowId GetAppWindowId();
-    winrt::Microsoft::UI::Windowing::AppWindow TryGetAppWindow();
+    void ApplyActivationStates();
+    winrt::Rect GetElementBounds(winrt::FrameworkElement const& element);
+    static bool ContainsPoint(winrt::Rect const& bounds, winrt::Point const& point);
+    static double ValidLength(double value);
+    static double MaxLength(double first, double second);
+    static bool IsElementOrDescendantOf(winrt::DependencyObject const& candidate, winrt::DependencyObject const& ancestor);
 
-    winrt::event_token m_inputActivationChangedToken{};
-    winrt::event_token m_windowRectChangedToken{};
-    winrt::hstring m_defaultAppWindowTitle{};
     winrt::Button::Click_revoker m_backButtonClickRevoker{};
     winrt::Button::Click_revoker m_paneToggleButtonClickRevoker{};
     winrt::FrameworkElement::SizeChanged_revoker m_sizeChangedRevoker;
     winrt::FrameworkElement::LayoutUpdated_revoker m_iconLayoutUpdatedRevoker{};
     winrt::FrameworkElement::LayoutUpdated_revoker m_contentLayoutUpdatedRevoker{};
-    // Add a cached AppWindow field to avoid repeated GetFromWindowId calls
-    winrt::Microsoft::UI::Windowing::AppWindow m_appWindow{ nullptr };
-    PropertyChanged_revoker m_flowDirectionChangedRevoker{};
+    int64_t m_flowDirectionChangedToken{};
 
     std::list<winrt::FrameworkElement> m_interactableElementsList{};
-    std::vector<winrt::Windows::Graphics::RectInt32> m_previousPassthroughRects{};
-    winrt::InputActivationListener m_inputActivationListener = nullptr;
-    winrt::InputNonClientPointerSource m_inputNonClientPointerSource{ nullptr };
-    winrt::WindowId m_lastAppWindowId{};
 
     tracker_ref<winrt::ColumnDefinition> m_leftPaddingColumn{ this };
     tracker_ref<winrt::ColumnDefinition> m_rightPaddingColumn{ this };
@@ -101,9 +93,11 @@ private:
     tracker_ref<winrt::FrameworkElement> m_contentArea{ this };
     tracker_ref<winrt::FrameworkElement> m_rightHeaderArea{ this };
 
+    double m_leftCaptionInset{ 0.0 };
+    double m_rightCaptionInset{ 0.0 };
     double m_compactModeThresholdWidth{ 0.0 };
     bool m_isCompact{ false };
-    bool m_hasDefaultAppWindowTitle{ false };
+    bool m_isWindowActive{ true };
 
     static constexpr std::wstring_view s_leftPaddingColumnName{ L"LeftPaddingColumn"sv };
     static constexpr std::wstring_view s_rightPaddingColumnName{ L"RightPaddingColumn"sv };
@@ -147,3 +141,8 @@ private:
     static constexpr std::wstring_view s_rightHeaderCollapsedVisualStateName{ L"RightHeaderCollapsed"sv };
     static constexpr std::wstring_view s_rightHeaderDeactivatedVisualStateName{ L"RightHeaderDeactivated"sv };
 };
+
+namespace winrt::Islands::UI::Xaml::Controls::implementation
+{
+    using TitleBar = ::TitleBar;
+}

@@ -1,8 +1,13 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-#include "pch.h"
-#include "common.h"
+#include "MuxcTraceLogging.h"
+
+import std;
+import common;
+
+#include "Utils.h"
+#include "TitleBarTrace.h"
 #include "TitleBar.h"
 #include "TitleBarTemplateSettings.h"
 #include "TitleBarAutomationPeer.h"
@@ -21,10 +26,11 @@ TitleBar::TitleBar()
 
     SetValue(s_TemplateSettingsProperty, winrt::make<::TitleBarTemplateSettings>());
 
-    SetDefaultStyleKey(this);
+    winrt::IControlProtected controlProtected{ *this };
+    SetDefaultStyleKeyWorker(controlProtected, GetRuntimeClassName());
 
     m_sizeChangedRevoker = SizeChanged(winrt::auto_revoke, { this, &TitleBar::OnSizeChanged });
-    m_flowDirectionChangedRevoker = RegisterPropertyChanged(*this, winrt::FrameworkElement::FlowDirectionProperty(), { this, &TitleBar::OnFlowDirectionChanged });
+    m_flowDirectionChangedToken = RegisterPropertyChangedCallback(winrt::FrameworkElement::FlowDirectionProperty(), { this, &TitleBar::OnFlowDirectionChanged });
 }
 
 TitleBar::~TitleBar()
@@ -32,19 +38,10 @@ TitleBar::~TitleBar()
     TITLEBAR_TRACE_INFO(nullptr, TRACE_MSG_METH, METH_NAME, this);
 
     m_sizeChangedRevoker.revoke();
-    m_flowDirectionChangedRevoker.revoke();
-
-    if (m_inputActivationChangedToken.value)
+    if (m_flowDirectionChangedToken)
     {
-        m_inputActivationListener.InputActivationChanged(m_inputActivationChangedToken);
-        m_inputActivationChangedToken.value = 0;
-    }
-
-    const auto appWindow = TryGetAppWindow();
-    if (appWindow)
-    {
-        // Safely restore default if the window title still matches what we last applied
-        ResetTitle(Title());
+        UnregisterPropertyChangedCallback(winrt::FrameworkElement::FlowDirectionProperty(), m_flowDirectionChangedToken);
+        m_flowDirectionChangedToken = 0;
     }
 }
 
@@ -64,14 +61,6 @@ void TitleBar::OnApplyTemplate()
     m_leftPaddingColumn.set(GetTemplateChildT<winrt::ColumnDefinition>(s_leftPaddingColumnName, controlProtected));
     m_rightPaddingColumn.set(GetTemplateChildT<winrt::ColumnDefinition>(s_rightPaddingColumnName, controlProtected));
 
-    auto appWindowId = GetAppWindowId();
-
-    if (appWindowId.Value != 0)
-    {
-        m_inputActivationListener = winrt::Microsoft::UI::Input::InputActivationListener::GetForWindowId(appWindowId);
-        m_inputActivationChangedToken = m_inputActivationListener.InputActivationChanged({ this, &TitleBar::OnInputActivationChanged });
-    }
-
     UpdateHeight();
     UpdatePadding();
     UpdateIcon();
@@ -85,20 +74,6 @@ void TitleBar::OnApplyTemplate()
     UpdateInteractableElementsList();
     UpdateDragRegion();
     UpdateIconRegion();
-}
-
-void TitleBar::HandleTitleChange(const winrt::hstring& oldTitle, const winrt::hstring& newTitle)
-{
-    // If transitioning from non-empty to empty, prefer ResetTitle to avoid overwriting external titles.
-    if (!oldTitle.empty() && newTitle.empty())
-    {
-        ResetTitle(oldTitle);
-        GoToState(s_titleTextCollapsedVisualStateName, false);
-    }
-    else
-    {
-        UpdateTitle();
-    }
 }
 
 void TitleBar::OnPropertyChanged(winrt::DependencyPropertyChangedEventArgs const& args)
@@ -127,10 +102,7 @@ void TitleBar::OnPropertyChanged(winrt::DependencyPropertyChangedEventArgs const
     }
     else if (property == s_TitleProperty)
     {
-        const auto oldTitle = winrt::unbox_value_or<winrt::hstring>(args.OldValue(), L"");
-        const auto newTitle = Title();
-
-        HandleTitleChange(oldTitle, newTitle);
+        UpdateTitle();
     }
     else if (property == s_SubtitleProperty)
     {
@@ -199,68 +171,6 @@ void TitleBar::OnFlowDirectionChanged(const winrt::DependencyObject& /*sender*/,
     UpdatePadding();
 }
 
-void TitleBar::OnInputActivationChanged(const winrt::InputActivationListener& sender, const winrt::InputActivationListenerActivationChangedEventArgs& args)
-{
-    bool isDeactivated = sender.State() == winrt::InputActivationState::Deactivated;
-
-    TITLEBAR_TRACE_VERBOSE_DBG(*this, TRACE_MSG_METH_STR_INT, METH_NAME, this, L"isDeactivated:", isDeactivated);
-
-    if (IsBackButtonVisible() && IsBackButtonEnabled())
-    {
-       GoToState(isDeactivated ? s_backButtonDeactivatedVisualStateName : s_backButtonVisibleVisualStateName, false);
-    }
-
-    if (IsPaneToggleButtonVisible())
-    {
-        GoToState(isDeactivated ? s_paneToggleButtonDeactivatedVisualStateName : s_paneToggleButtonVisibleVisualStateName, false);
-    }
-
-    if (IconSource() != nullptr)
-    {
-       GoToState(isDeactivated ? s_iconDeactivatedVisualStateName : s_iconVisibleVisualStateName, false);
-    }
-
-    if (!Title().empty())
-    {
-        if (!m_isCompact)
-        {
-            GoToState(isDeactivated ? s_titleTextDeactivatedVisualStateName : s_titleTextVisibleVisualStateName, false);
-        }
-    }
-
-    if (!Subtitle().empty())
-    {
-        if (!m_isCompact)
-        {
-            GoToState(isDeactivated ? s_subtitleTextDeactivatedVisualStateName : s_subtitleTextVisibleVisualStateName, false);
-        }
-    }
-
-    if (LeftHeader() != nullptr)
-    {
-        GoToState(isDeactivated ? s_leftHeaderDeactivatedVisualStateName : s_leftHeaderVisibleVisualStateName, false);
-    }
-
-    if (Content() != nullptr)
-    {
-        GoToState(isDeactivated ? s_contentDeactivatedVisualStateName : s_contentVisibleVisualStateName, false);
-    }
-
-    if (RightHeader() != nullptr)
-    {
-        GoToState(isDeactivated ? s_rightHeaderDeactivatedVisualStateName : s_rightHeaderVisibleVisualStateName, false);
-    }
-
-    UpdateIconRegion();
-}
-
-void TitleBar::OnWindowRectChanged(const winrt::InputNonClientPointerSource& sender, const winrt::WindowRectChangedEventArgs& args)
-{
-    TITLEBAR_TRACE_VERBOSE(*this, TRACE_MSG_METH, METH_NAME, this);
-
-    UpdateIconRegion();
-}
-
 void TitleBar::OnBackButtonClick(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& args)
 {
     TITLEBAR_TRACE_VERBOSE(*this, TRACE_MSG_METH, METH_NAME, this);
@@ -299,28 +209,12 @@ void TitleBar::UpdateIcon()
             m_iconLayoutUpdatedRevoker.revoke();
         }
 
-        if (const auto& nonClientPointerSource = GetInputNonClientPointerSource())
-        {
-            m_windowRectChangedToken = nonClientPointerSource.WindowRectChanged({ this, &TitleBar::OnWindowRectChanged });
-        }
-        else if (m_inputNonClientPointerSource)
-        {
-            m_inputNonClientPointerSource.WindowRectChanged(m_windowRectChangedToken);
-            m_windowRectChangedToken.value = 0;
-        }
-
         templateSettings->IconElement(SharedHelpers::MakeIconElementFrom(source));
-        GoToState(s_iconVisibleVisualStateName, false);
+        GoToState(m_isWindowActive ? s_iconVisibleVisualStateName : s_iconDeactivatedVisualStateName, false);
     }
     else
     {
         m_iconLayoutUpdatedRevoker.revoke();
-
-        if (m_inputNonClientPointerSource)
-        {
-            m_inputNonClientPointerSource.WindowRectChanged(m_windowRectChangedToken);
-            m_windowRectChangedToken.value = 0;
-        }
 
         templateSettings->IconElement(nullptr);
         GoToState(s_iconCollapsedVisualStateName, false);
@@ -397,7 +291,7 @@ void TitleBar::UpdateBackButton()
             LoadBackButton();
         }
 
-        GoToState(s_backButtonVisibleVisualStateName, false);
+        GoToState(m_isWindowActive && IsBackButtonEnabled() ? s_backButtonVisibleVisualStateName : s_backButtonDeactivatedVisualStateName, false);
     }
     else
     {
@@ -419,7 +313,7 @@ void TitleBar::UpdatePaneToggleButton()
             LoadPaneToggleButton();
         }
 
-        GoToState(s_paneToggleButtonVisibleVisualStateName, false);
+        GoToState(m_isWindowActive ? s_paneToggleButtonVisibleVisualStateName : s_paneToggleButtonDeactivatedVisualStateName, false);
     }
     else
     {
@@ -443,40 +337,14 @@ void TitleBar::UpdatePadding()
 {
     TITLEBAR_TRACE_VERBOSE(*this, TRACE_MSG_METH, METH_NAME, this);
 
-    const auto appWindow = TryGetAppWindow();
-    if (appWindow)
+    if (const auto leftColumn = m_leftPaddingColumn.get())
     {
-        // TODO 50724421: Bind to appTitleBar Left and Right inset changed event.
-        if (const auto appTitleBar = appWindow.TitleBar())
-        {
-            if (const auto leftColumn = m_leftPaddingColumn.get())
-            {
-                const auto leftColumnInset =
-                    FlowDirection() == winrt::FlowDirection::LeftToRight ?
-                    appTitleBar.LeftInset() :
-                    appTitleBar.RightInset();
+        leftColumn.Width(winrt::GridLengthHelper::FromPixels(FlowDirection() == winrt::FlowDirection::RightToLeft ? m_rightCaptionInset : m_leftCaptionInset));
+    }
 
-                TITLEBAR_TRACE_VERBOSE_DBG(*this, TRACE_MSG_METH_STR_INT, METH_NAME, this,
-                    L"LeftColumn width:",
-                    leftColumnInset);
-                
-                leftColumn.Width(winrt::GridLengthHelper::FromPixels(leftColumnInset));
-            }
-
-            if (const auto rightColumn = m_rightPaddingColumn.get())
-            {
-                const auto rightColumnInset =
-                    FlowDirection() == winrt::FlowDirection::LeftToRight ?
-                    appTitleBar.RightInset() :
-                    appTitleBar.LeftInset();
-
-                TITLEBAR_TRACE_VERBOSE_DBG(*this, TRACE_MSG_METH_STR_INT, METH_NAME, this,
-                    L"RightColumn width:",
-                    rightColumnInset);
-              
-                rightColumn.Width(winrt::GridLengthHelper::FromPixels(rightColumnInset));
-            }
-        }
+    if (const auto rightColumn = m_rightPaddingColumn.get())
+    {
+        rightColumn.Width(winrt::GridLengthHelper::FromPixels(FlowDirection() == winrt::FlowDirection::RightToLeft ? m_leftCaptionInset : m_rightCaptionInset));
     }
 }
 
@@ -486,57 +354,13 @@ void TitleBar::UpdateTitle()
 
     TITLEBAR_TRACE_VERBOSE(*this, TRACE_MSG_METH_STR, METH_NAME, this, titleText.c_str());
 
-    const auto appWindow = TryGetAppWindow();
-
-    // Capture default title once.
-    if (appWindow && !m_hasDefaultAppWindowTitle)
-    {
-        m_defaultAppWindowTitle = appWindow.Title();
-        m_hasDefaultAppWindowTitle = true;
-    }
-
     if (titleText.empty())
     {
-        // Do not set appWindow.Title here. Reset is handled by ResetTitle via OnPropertyChanged.
         GoToState(s_titleTextCollapsedVisualStateName, false);
         return;
     }
 
-    // Only set the window title if it actually needs to change.
-    if (appWindow)
-    {
-        const auto currentTitle = appWindow.Title();
-        if (currentTitle != titleText)
-        {
-            appWindow.Title(titleText);
-        }
-    }
-
-    GoToState(s_titleTextVisibleVisualStateName, false);
-}
-
-void TitleBar::ResetTitle(winrt::hstring const& lastAppliedTitle)
-{
-    TITLEBAR_TRACE_INFO(nullptr, TRACE_MSG_METH, METH_NAME, nullptr);
-
-    if (!m_hasDefaultAppWindowTitle)
-    {
-        return;
-    }
-
-    const auto appWindow = TryGetAppWindow();
-    if (!appWindow)
-    {
-        return;
-    }
-
-    // Restore only if the current title matches what we previously applied
-    const auto currentTitle = appWindow.Title();
-    if (lastAppliedTitle == currentTitle && currentTitle != m_defaultAppWindowTitle)
-    {
-        appWindow.Title(m_defaultAppWindowTitle);
-        m_hasDefaultAppWindowTitle = false;
-    }
+    GoToState(m_isCompact ? s_titleTextCollapsedVisualStateName : (m_isWindowActive ? s_titleTextVisibleVisualStateName : s_titleTextDeactivatedVisualStateName), false);
 }
 
 void TitleBar::UpdateSubtitle()
@@ -551,7 +375,7 @@ void TitleBar::UpdateSubtitle()
     }
     else
     {
-        GoToState(s_subtitleTextVisibleVisualStateName, false);
+        GoToState(m_isCompact ? s_subtitleTextCollapsedVisualStateName : (m_isWindowActive ? s_subtitleTextVisibleVisualStateName : s_subtitleTextDeactivatedVisualStateName), false);
     }
 }
 
@@ -569,7 +393,7 @@ void TitleBar::UpdateLeftHeader()
         {
             m_leftHeaderArea.set(GetTemplateChildT<winrt::FrameworkElement>(s_leftHeaderPresenterPartName, *this));
         }
-        GoToState(s_leftHeaderVisibleVisualStateName, false);
+        GoToState(m_isWindowActive ? s_leftHeaderVisibleVisualStateName : s_leftHeaderDeactivatedVisualStateName, false);
     }
 
     UpdateHeight();
@@ -605,7 +429,7 @@ void TitleBar::UpdateContent()
             m_contentLayoutUpdatedRevoker = content.LayoutUpdated(winrt::auto_revoke, { this, &TitleBar::OnContentLayoutUpdated });
         }
 
-        GoToState(s_contentVisibleVisualStateName, false);
+        GoToState(m_isWindowActive ? s_contentVisibleVisualStateName : s_contentDeactivatedVisualStateName, false);
     }
 
     UpdateHeight();
@@ -626,127 +450,23 @@ void TitleBar::UpdateRightHeader()
         {
             m_rightHeaderArea.set(GetTemplateChildT<winrt::FrameworkElement>(s_rightHeaderPresenterPartName, *this));
         }
-        GoToState(s_rightHeaderVisibleVisualStateName, false);
+        GoToState(m_isWindowActive ? s_rightHeaderVisibleVisualStateName : s_rightHeaderDeactivatedVisualStateName, false);
     }
 
     UpdateHeight();
     UpdateInteractableElementsList();
 }
 
-winrt::Windows::Graphics::RectInt32 const TitleBar::GetBounds(const winrt::FrameworkElement& element)
-{
-    const auto transformBounds = element.TransformToVisual(nullptr);
-    const auto width = element.ActualWidth();
-    const auto height = element.ActualHeight();
-    const auto bounds = transformBounds.TransformBounds(winrt::Rect{
-        0.0f,
-        0.0f,
-        static_cast<float>(width),
-        static_cast<float>(height) });
-
-    const auto scale = XamlRoot().RasterizationScale();
-    const auto returnRect = winrt::Windows::Graphics::RectInt32{
-        static_cast<int32_t>(bounds.X * scale),
-        static_cast<int32_t>(bounds.Y * scale),
-        static_cast<int32_t>(bounds.Width * scale),
-        static_cast<int32_t>(bounds.Height * scale),
-    };
-
-    TITLEBAR_TRACE_VERBOSE(*this, TRACE_MSG_METH_STR_STR,
-        METH_NAME, this,
-        element.Name().c_str(),
-        TypeLogging::RectInt32ToString(returnRect).c_str());
-
-    return returnRect;
-}
-
-// Once TitleBar control is set as the Window titlebar in developer codebehind, the entire region's input is marked as non-client
-// and becomes non interactable. We need to punch out a hole for each interactable region in TitleBar. 
 void TitleBar::UpdateDragRegion()
 {
-    if (const auto& nonClientPointerSource = GetInputNonClientPointerSource())
-    {
-        if (!m_interactableElementsList.empty())
-        {
-            std::vector<winrt::Windows::Graphics::RectInt32> passthroughRects;
-
-            // Get rects for each interactable element in TitleBar.
-            for (const auto& frameworkElement : m_interactableElementsList)
-            {
-                const auto transparentRect = GetBounds(frameworkElement);
-
-                if (transparentRect.X >= 0 || transparentRect.Y >= 0)
-                {
-                    passthroughRects.push_back(transparentRect);
-                }
-            }
-
-            // Skip the SetRegionRects call if the rects haven't changed since last update.
-            if (passthroughRects.size() == m_previousPassthroughRects.size() &&
-                std::equal(passthroughRects.begin(), passthroughRects.end(),
-                    m_previousPassthroughRects.begin(),
-                    [](const winrt::Windows::Graphics::RectInt32& a, const winrt::Windows::Graphics::RectInt32& b)
-                    {
-                        return a.X == b.X && a.Y == b.Y && a.Width == b.Width && a.Height == b.Height;
-                    }))
-            {
-                TITLEBAR_TRACE_VERBOSE_DBG(*this, TRACE_MSG_METH_STR, METH_NAME, this, L"Passthrough rects unchanged, skipping SetRegionRects");
-                return;
-            }
-
-            TITLEBAR_TRACE_VERBOSE_DBG(*this, L"%s[0x%p](SetRegionRects - Size: %d)\n", METH_NAME, this, passthroughRects.size());
-
-            m_previousPassthroughRects = passthroughRects;
-
-            // Set list of rects as passthrough regions for the non-client area.
-            nonClientPointerSource.SetRegionRects(winrt::NonClientRegionKind::Passthrough, passthroughRects);
-        }
-        else
-        {
-            // Skip if we already had no rects previously.
-            if (m_previousPassthroughRects.empty())
-            {
-                return;
-            }
-
-            TITLEBAR_TRACE_VERBOSE_DBG(*this, TRACE_MSG_METH_STR, METH_NAME, this, L"Clear Passthrough RegionRects");
-
-            m_previousPassthroughRects.clear();
-
-            // There is no interactable areas. Clear previous passthrough rects.
-            nonClientPointerSource.ClearRegionRects(winrt::NonClientRegionKind::Passthrough);
-        }
-    }
+    UpdateInteractableElementsList();
 }
 
 void TitleBar::UpdateIconRegion()
 {
-    if (const auto& nonClientPointerSource = GetInputNonClientPointerSource())
+    if (IconSource() && !m_iconViewbox.get())
     {
-        if (IconSource())
-        {
-            if (const auto iconViewbox = m_iconViewbox.get())
-            {               
-                std::vector<winrt::Windows::Graphics::RectInt32> iconRects;
-
-                const auto iconRect = GetBounds(iconViewbox);
-
-                if (iconRect.X >= 0 || iconRect.Y >= 0)
-                {
-                    iconRects.push_back(iconRect);
-                }
-
-                TITLEBAR_TRACE_VERBOSE_DBG(*this, L"%s[0x%p](Set Icon RegionRects)\n", METH_NAME, this);
-
-                nonClientPointerSource.SetRegionRects(winrt::NonClientRegionKind::Icon, iconRects);
-            }
-        }
-        else
-        {
-            TITLEBAR_TRACE_VERBOSE_DBG(*this, TRACE_MSG_METH_STR, METH_NAME, this, L"Clear Icon RegionRects");
-
-            nonClientPointerSource.ClearRegionRects(winrt::NonClientRegionKind::Icon);
-        }
+        m_iconViewbox.set(GetTemplateChildT<winrt::FrameworkElement>(s_iconViewboxPartName, *this));
     }
 }
 
@@ -832,6 +552,216 @@ void TitleBar::RecomputeDragRegions()
     UpdateDragRegion();
 }
 
+void TitleBar::SetWindowActive(bool active)
+{
+    if (m_isWindowActive != active)
+    {
+        m_isWindowActive = active;
+        ApplyActivationStates();
+    }
+}
+
+void TitleBar::SetCaptionInsets(double left, double right)
+{
+    m_leftCaptionInset = (std::max)(0.0, left);
+    m_rightCaptionInset = (std::max)(0.0, right);
+    UpdatePadding();
+}
+
+winrt::Rect TitleBar::GetTitleBarRootBounds()
+{
+    auto titleBounds = GetElementBounds(*this);
+    if (titleBounds.Width <= 0.0f)
+    {
+        titleBounds.Width = static_cast<float>(MaxLength(ActualWidth(), Width()));
+    }
+    if (titleBounds.Height <= 0.0f)
+    {
+        titleBounds.Height = static_cast<float>((std::max)(MaxLength(ActualHeight(), Height()), (std::max)(ValidLength(MinHeight()), 32.0)));
+    }
+
+    return titleBounds;
+}
+
+std::vector<winrt::Rect> TitleBar::GetPassthroughRects()
+{
+    UpdateInteractableElementsList();
+
+    std::vector<winrt::Rect> rects;
+    rects.reserve(m_interactableElementsList.size());
+
+    for (auto const& element : m_interactableElementsList)
+    {
+        auto rect = GetElementBounds(element);
+        if (rect.Width > 0.0f && rect.Height > 0.0f)
+        {
+            rects.push_back(rect);
+        }
+    }
+
+    return rects;
+}
+
+std::vector<winrt::Rect> TitleBar::GetIconRects()
+{
+    std::vector<winrt::Rect> rects;
+
+    if (!IconSource())
+    {
+        return rects;
+    }
+
+    if (!m_iconViewbox.get())
+    {
+        m_iconViewbox.set(GetTemplateChildT<winrt::FrameworkElement>(s_iconViewboxPartName, *this));
+    }
+
+    if (const auto iconViewbox = m_iconViewbox.get())
+    {
+        auto rect = GetElementBounds(iconViewbox);
+        if (rect.Width > 0.0f && rect.Height > 0.0f)
+        {
+            rects.push_back(rect);
+        }
+    }
+
+    return rects;
+}
+
+double TitleBar::RasterizationScale()
+{
+    if (auto root = XamlRoot())
+    {
+        return root.RasterizationScale();
+    }
+
+    return 1.0;
+}
+
+int32_t TitleBar::HitTest(int32_t screenX, int32_t screenY, int32_t xamlRootScreenX, int32_t xamlRootScreenY)
+{
+    double scale = RasterizationScale();
+
+    winrt::Point point{
+        static_cast<float>((screenX - xamlRootScreenX) / scale),
+        static_cast<float>((screenY - xamlRootScreenY) / scale)
+    };
+
+    auto titleBounds = GetTitleBarRootBounds();
+    if (!ContainsPoint(titleBounds, point))
+    {
+        return HTNOWHERE;
+    }
+
+    for (auto const& iconRect : GetIconRects())
+    {
+        if (ContainsPoint(iconRect, point))
+        {
+            return HTSYSMENU;
+        }
+    }
+
+    UpdateInteractableElementsList();
+
+    try
+    {
+        for (auto const& hitElement : winrt::VisualTreeHelper::FindElementsInHostCoordinates(point, *this, true))
+        {
+            for (auto const& element : m_interactableElementsList)
+            {
+                if (IsElementOrDescendantOf(hitElement, element))
+                {
+                    return HTCLIENT;
+                }
+            }
+        }
+    }
+    catch (...)
+    {
+    }
+
+    for (auto const& element : m_interactableElementsList)
+    {
+        if (ContainsPoint(GetElementBounds(element), point))
+        {
+            return HTCLIENT;
+        }
+    }
+
+    return HTCAPTION;
+}
+
+void TitleBar::ApplyActivationStates()
+{
+    UpdateIcon();
+    UpdateBackButton();
+    UpdatePaneToggleButton();
+    UpdateTitle();
+    UpdateSubtitle();
+    UpdateLeftHeader();
+    UpdateContent();
+    UpdateRightHeader();
+}
+
+winrt::Rect TitleBar::GetElementBounds(winrt::FrameworkElement const& element)
+{
+    if (!element)
+    {
+        return {};
+    }
+
+    const auto width = static_cast<float>(MaxLength(element.ActualWidth(), element.Width()));
+    const auto height = static_cast<float>((std::max)(MaxLength(element.ActualHeight(), element.Height()), ValidLength(element.MinHeight())));
+
+    try
+    {
+        winrt::UIElement rootContent{ nullptr };
+        if (auto root = element.XamlRoot())
+        {
+            rootContent = root.Content();
+        }
+
+        return element.TransformToVisual(rootContent).TransformBounds({ 0.0f, 0.0f, width, height });
+    }
+    catch (...)
+    {
+        return { 0.0f, 0.0f, width, height };
+    }
+}
+
+bool TitleBar::ContainsPoint(winrt::Rect const& bounds, winrt::Point const& point)
+{
+    return bounds.Width > 0 &&
+        bounds.Height > 0 &&
+        point.X >= bounds.X &&
+        point.X < bounds.X + bounds.Width &&
+        point.Y >= bounds.Y &&
+        point.Y < bounds.Y + bounds.Height;
+}
+
+double TitleBar::ValidLength(double value)
+{
+    return std::isfinite(value) && value > 0.0 ? value : 0.0;
+}
+
+double TitleBar::MaxLength(double first, double second)
+{
+    return (std::max)(ValidLength(first), ValidLength(second));
+}
+
+bool TitleBar::IsElementOrDescendantOf(winrt::DependencyObject const& candidate, winrt::DependencyObject const& ancestor)
+{
+    for (auto current = candidate; current; current = winrt::VisualTreeHelper::GetParent(current))
+    {
+        if (current == ancestor)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 void TitleBar::UpdateAutoRefreshDragRegions()
 {
     TITLEBAR_TRACE_VERBOSE(*this, TRACE_MSG_METH, METH_NAME, this);
@@ -907,61 +837,6 @@ void TitleBar::LoadPaneToggleButton()
         tooltip.Content(box_value(winrt::AutomationProperties::GetName(paneToggleButton)));
         winrt::ToolTipService::SetToolTip(paneToggleButton, tooltip);
     }
-}
-
-winrt::WindowId TitleBar::GetAppWindowId()
-{
-    winrt::WindowId appWindowId{};
-
-    if (auto xamlRoot = XamlRoot())
-    {
-        if (auto contentIslandEnvironment = xamlRoot.ContentIslandEnvironment())
-        {
-            appWindowId = contentIslandEnvironment.AppWindowId();
-        }
-    }
-
-    if (appWindowId.Value != m_lastAppWindowId.Value)
-    {
-        m_lastAppWindowId = appWindowId;
-
-        m_inputNonClientPointerSource = nullptr;
-
-        m_appWindow = nullptr;
-    }
-
-    return appWindowId;
-}
-
-winrt::InputNonClientPointerSource const& TitleBar::GetInputNonClientPointerSource()
-{
-    auto appWindowId = GetAppWindowId();
-
-    if (!m_inputNonClientPointerSource && appWindowId.Value != 0)
-    {
-        m_inputNonClientPointerSource = winrt::InputNonClientPointerSource::GetForWindowId(appWindowId);
-    }
-
-    return m_inputNonClientPointerSource;
-}
-
-// Helper to retrieve and cache AppWindow for current WindowId
-winrt::Microsoft::UI::Windowing::AppWindow TitleBar::TryGetAppWindow()
-{
-    const auto appWindowId = GetAppWindowId();
-    if (appWindowId.Value == 0)
-    {
-        m_appWindow = nullptr;
-        return nullptr;
-    }
-
-    // Refresh cache if WindowId changed or cache is empty
-    if (!m_appWindow)
-    {
-        m_appWindow = winrt::Microsoft::UI::Windowing::AppWindow::GetFromWindowId(appWindowId);
-    }
-
-    return m_appWindow;
 }
 
 void TitleBar::FindInteractableElements(const winrt::DependencyObject& element, bool parentIsDragRegion)
