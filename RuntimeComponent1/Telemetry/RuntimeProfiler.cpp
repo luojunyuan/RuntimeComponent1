@@ -5,8 +5,11 @@
 #include "RuntimeProfiler.h"
 #include "MuxcTraceLogging.h"
 
-// Version of binary, defined in dllmain.cpp from WinUIrc.ver
-extern const char *gFileVersion;
+import CppWinRTModules;
+
+// Version of binary, defined in dllmain.cpp from WinUIrc.ver in the WinUI repo.
+// extern const char *gFileVersion;
+const char *gFileVersion = "";
 
 #define DEFINE_PROFILEGROUP(name, group, size) \
     CMethodProfileGroup<size>        name(group)
@@ -179,6 +182,7 @@ namespace RuntimeProfiler {
 
     //  Yes, we're declaring this as a global, the ctor/dtor are implemented
     //  very carefully and this will not create issues with DllMain().
+#pragma warning(disable: 5054) // 运算符 '+': 已在不同类型的枚举之间弃用
     DEFINE_PROFILEGROUP(gGroupClasses, PG_Class, ProfId_Size + ProfMemberId_Size);
 
     struct ProfileGroupInfo

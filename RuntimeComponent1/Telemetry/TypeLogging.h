@@ -19,7 +19,6 @@ namespace TypeLogging
     winrt::hstring ScrollEventTypeToString(const winrt::ScrollEventType& scrollEventType);
     winrt::hstring ScrollingIndicatorModeToString(const winrt::ScrollingIndicatorMode& indicatorMode);    
     winrt::hstring FocusStateToString(const winrt::FocusState& focusState);
-    winrt::hstring ItemContainerInteractionTriggerToString(const winrt::ItemContainerInteractionTrigger& interactionTrigger);
-    winrt::hstring ItemContainerMultiSelectModeToString(const winrt::ItemContainerMultiSelectMode& multiSelectMode);
+    // winrt::hstring ItemContainerInteractionTriggerToString(const winrt::ItemContainerInteractionTrigger& interactionTrigger);
+    // winrt::hstring ItemContainerMultiSelectModeToString(const winrt::ItemContainerMultiSelectMode& multiSelectMode);
 }
-

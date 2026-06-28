@@ -158,6 +158,9 @@
     <PackageReference Include="Microsoft.Windows.CppWinRT">
       <Version>3.0.260520.1</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.Windows.ImplementationLibrary">
+      <Version>1.0.260126.7</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CppWinRTModuleBuilder\CppWinRTModuleBuilder.vcxproj">

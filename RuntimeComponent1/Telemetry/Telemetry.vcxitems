@@ -16,7 +16,7 @@
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)microsofttelemetry.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeLogging.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)TraceLogging.h" />
+    <!-- <ClInclude Include="$(MSBuildThisFileDirectory)TraceLogging.h" /> -->
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)TypeLogging.cpp" />

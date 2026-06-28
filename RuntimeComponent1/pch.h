@@ -5,4 +5,9 @@
 // conflict with Storyboard::GetCurrentTime
 //#undef GetCurrentTime
 
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+
 #include <Windows.h>
+#include <strsafe.h>

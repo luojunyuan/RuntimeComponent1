@@ -2,6 +2,9 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 #include "pch.h"
+
+import CppWinRTModules;
+
 #include "TypeLogging.h"
 #include "Utils.h"
 
@@ -14,8 +17,9 @@ winrt::hstring PointerPointToString(const winrt::PointerPoint& pointerPoint, boo
     if (verbose)
     {
         return StringUtil::FormatString(L"PointerPoint: PointerId: %1!u!, Position: (%2!u!, %3!u!), IsInContact: %4!u!, PointerDeviceType: %5!u!",
-            pointerPoint.PointerId(), static_cast<uint32_t>(pointerPoint.Position().X), static_cast<uint32_t>(pointerPoint.Position().Y), 
-            pointerPoint.IsInContact(), pointerPoint.PointerDeviceType());
+            pointerPoint.PointerId(), static_cast<uint32_t>(pointerPoint.Position().X), static_cast<uint32_t>(pointerPoint.Position().Y),
+            // pointerPoint.IsInContact(), pointerPoint.PointerDeviceType());
+            pointerPoint.IsInContact(), pointerPoint.PointerDevice().PointerDeviceType());
     }
     else
     {
@@ -184,70 +188,6 @@ winrt::hstring FocusStateToString(const winrt::FocusState& focusState)
         MUX_ASSERT(false);
         return L"";
     }
-}
-
-winrt::hstring ItemContainerInteractionTriggerToString(const winrt::ItemContainerInteractionTrigger& interactionTrigger)
-{
-    switch (interactionTrigger)
-    {
-    case winrt::ItemContainerInteractionTrigger::PointerPressed:
-        return L"PointerPressed";
-    case winrt::ItemContainerInteractionTrigger::PointerReleased:
-        return L"PointerReleased";
-    case winrt::ItemContainerInteractionTrigger::Tap:
-        return L"Tap";
-    case winrt::ItemContainerInteractionTrigger::DoubleTap:
-        return L"DoubleTap";
-    case winrt::ItemContainerInteractionTrigger::EnterKey:
-        return L"EnterKey";
-    case winrt::ItemContainerInteractionTrigger::SpaceKey:
-        return L"SpaceKey";
-    default:
-        MUX_ASSERT(false);
-        return L"";
-    }
-}
-
-winrt::hstring ItemContainerMultiSelectModeToString(const winrt::ItemContainerMultiSelectMode& multiSelectMode)
-{
-    std::vector<winrt::hstring> modes;
-    winrt::hstring str;
-
-    if (static_cast<int>(multiSelectMode & winrt::ItemContainerMultiSelectMode::Auto) != 0)
-    {
-        modes.push_back(L"Auto");
-    }
-
-    if (static_cast<int>(multiSelectMode & winrt::ItemContainerMultiSelectMode::Single) != 0)
-    {
-        modes.push_back(L"Single");
-    }
-
-    if (static_cast<int>(multiSelectMode & winrt::ItemContainerMultiSelectMode::Extended) != 0)
-    {
-        modes.push_back(L"Extended");
-    }
-
-    if (static_cast<int>(multiSelectMode & winrt::ItemContainerMultiSelectMode::Multiple) != 0)
-    {
-        modes.push_back(L"Multiple");
-    }
-
-    if (modes.empty())
-    {
-        MUX_ASSERT(false);
-        return L"";
-    }
-
-    str = modes[0];
-
-    // If more than one, concatenate strings with "|".
-    for (size_t i = 1; i < modes.size(); i++)
-    {
-        str = str + L"|" + modes[i];
-    }
-
-    return str;
 }
 
 winrt::hstring KeyRoutedEventArgsToString(const winrt::KeyRoutedEventArgs& eventArgs)

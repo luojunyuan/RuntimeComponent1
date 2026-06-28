@@ -4,6 +4,8 @@
 #include <pch.h>
 #include "MuxcTraceLogging.h"
 
+import CppWinRTModules;
+
 // GUID for Microsoft.UI.Xaml.Controls : {21e0ae07-56a7-55b5-12f9-011e6bc08cca}
 // GUID for Microsoft.UI.Xaml.Controls : {21e0ae07-56a7-55b5-12f9-011e6bc08ccb}
 TRACELOGGING_DEFINE_PROVIDER(
