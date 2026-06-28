@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include <Windows.h>
+using PCWSTR = const wchar_t*;
 
 /// <summary>
 /// Resource Accessor

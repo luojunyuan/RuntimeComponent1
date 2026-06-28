@@ -7,6 +7,8 @@
 #include "WinEventLogLevels.h"
 #include <TraceLoggingProvider.h>
 
+using PCWSTR = const wchar_t*;
+
 // In the OS repo, we want to pick up the published version of MicrosoftTelemetry.h,
 // so we'll use the "telemetry/" prefix to differentiate that version from the one
 // in our repo.

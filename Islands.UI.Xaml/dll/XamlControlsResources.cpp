@@ -3,8 +3,6 @@
 
 module;
 
-#include <Windows.h>
-
 module common;
 
 import std;

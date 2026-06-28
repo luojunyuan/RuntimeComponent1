@@ -6,6 +6,8 @@
 #include <Windows.h>
 #include <strsafe.h>
 
+using PCWSTR = const wchar_t*;
+
 #if __has_include("MUXControlsTestHooks.h")
 #include "MUXControlsTestHooks.h"
 #define TITLEBAR_HAS_TEST_HOOKS 1

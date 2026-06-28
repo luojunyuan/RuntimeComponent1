@@ -1,9 +1,9 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 #pragma once
 
-#include <windows.h>
+#include <winerror.h>
 #include <exception>
 
 #ifndef E_INVALID_OPERATION

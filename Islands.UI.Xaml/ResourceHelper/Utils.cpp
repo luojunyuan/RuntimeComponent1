@@ -8,6 +8,9 @@ import common;
 
 #include "Utils.h"
 
+using LPVOID = void*;
+using LPTSTR = wchar_t*;
+
 winrt::hstring StringUtil::FormatString(std::wstring_view formatString, ...)
 {
     va_list pArgs;
