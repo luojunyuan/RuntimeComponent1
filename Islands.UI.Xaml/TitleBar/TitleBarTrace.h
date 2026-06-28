@@ -1,12 +1,17 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 #pragma once
 
-#include "common.h"
-#include "MuxcTraceLogging.h"
-#include "Utils.h"
+#include <Windows.h>
+#include <strsafe.h>
+
+#if __has_include("MUXControlsTestHooks.h")
 #include "MUXControlsTestHooks.h"
+#define TITLEBAR_HAS_TEST_HOOKS 1
+#else
+#define TITLEBAR_HAS_TEST_HOOKS 0
+#endif
 
 inline bool IsTitleBarTracingEnabled()
 {
@@ -102,6 +107,7 @@ public:
                 OutputDebugStringW(buffer);
             }
 
+#if TITLEBAR_HAS_TEST_HOOKS
             com_ptr<MUXControlsTestHooks> globalTestHooks = MUXControlsTestHooks::GetGlobalTestHooks();
 
             if (globalTestHooks &&
@@ -109,6 +115,7 @@ public:
             {
                 globalTestHooks->LogMessage(sender, buffer, false /*isVerboseLevel*/);
             }
+#endif
         }
         va_end(args);
     }
@@ -138,6 +145,7 @@ public:
                 OutputDebugStringW(buffer);
             }
 
+#if TITLEBAR_HAS_TEST_HOOKS
             com_ptr<MUXControlsTestHooks> globalTestHooks = MUXControlsTestHooks::GetGlobalTestHooks();
 
             if (globalTestHooks &&
@@ -145,6 +153,7 @@ public:
             {
                 globalTestHooks->LogMessage(sender, buffer, true /*isVerboseLevel*/);
             }
+#endif
         }
         va_end(args);
     }

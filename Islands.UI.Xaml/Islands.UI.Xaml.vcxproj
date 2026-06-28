@@ -7,7 +7,7 @@
     <MinimalCoreWin>true</MinimalCoreWin>
     <ProjectGuid>{0D391C0C-4566-A4D8-E955-3FFD1DFE0FE1}</ProjectGuid>
     <ProjectName>Islands.UI.Xaml</ProjectName>
-    <RootNamespace>RuntimeComponent1</RootNamespace>
+    <RootNamespace>Islands.UI.Xaml.Controls</RootNamespace>
     <DefaultLanguage>zh-CN</DefaultLanguage>
     <MinimumVisualStudioVersion>16.0</MinimumVisualStudioVersion>
     <AppContainerApplication>false</AppContainerApplication>
@@ -69,6 +69,7 @@
     <Import Project="Collections\Collections.vcxitems" Label="Shared" />
     <Import Project="ResourceHelper\ResourceHelper.vcxitems" Label="Shared" />
     <Import Project="Telemetry\Telemetry.vcxitems" Label="Shared" />
+    <Import Project="TitleBar\TitleBar.vcxitems" Label="Shared" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -81,15 +82,20 @@
       <WarningLevel>Level4</WarningLevel>
       <LanguageStandard Condition="'$(VisualStudioVersion)' &gt;= '18.0'">stdcpplatest</LanguageStandard>
       <LanguageStandard Condition="'$(VisualStudioVersion)' &lt; '18.0'">stdcpp17</LanguageStandard>
+      <!-- C4002: GetCurrentTime macro from Win32 headers collides with generated WinRT projection methods -->
+      <!-- C4100: unused parameter -->
+      <!-- C4864: .template as instantiation warning  -->
+      <!-- C4875: gsl::suppress deprecated syntax  -->
+      <DisableSpecificWarnings>4002;4100;4864;4875;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <AdditionalOptions>%(AdditionalOptions) /bigobj /utf-8</AdditionalOptions>
       <PreprocessorDefinitions>_WINRT_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalUsingDirectories>$(WindowsSDK_WindowsMetadata);$(AdditionalUsingDirectories)</AdditionalUsingDirectories>
-      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory);inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory);$(MSBuildProjectDirectory)\inc;$(MSBuildProjectDirectory)\TitleBar;$(MSBuildProjectDirectory)\Generated;$(GeneratedFilesDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateWindowsMetadata>true</GenerateWindowsMetadata>
-      <ModuleDefinitionFile>RuntimeComponent1.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>Islands.UI.Xaml.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
@@ -110,6 +116,7 @@
     <ClInclude Include="inc\BoxHelpers.h" />
     <ClInclude Include="inc\CastHelpers.h" />
     <ClInclude Include="inc\CollectionHelper.h" />
+    <ClInclude Include="inc\CppWinRTActivatableClassMacros.h" />
     <ClInclude Include="inc\CppWinRTHelpers.h" />
     <ClInclude Include="inc\ErrorHandling.h" />
     <ClInclude Include="inc\event.h" />
@@ -120,29 +127,18 @@
     <ClInclude Include="inc\StaticAssertFalse.h" />
     <ClInclude Include="inc\tracker_ref.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="Class.h">
-      <DependentUpon>Class.cpp</DependentUpon>
-    </ClInclude>
+    <ClInclude Include="XamlTypeInfoActivationIncludes.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Class.cpp" />
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
     <ClCompile Include="CppWinRTModules.ixx" />
+    <ClCompile Include="dll\SharedHelpers.cpp" />
+    <ClCompile Include="dll\XamlControlsResources.cpp" />
     <ClCompile Include="inc\common.ixx" />
   </ItemGroup>
   <ItemGroup>
-    <Midl Include="Class.idl">
-      <SubType>Code</SubType>
-      <DependentUpon>Class.cpp</DependentUpon>
-    </Midl>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="RuntimeComponent1.def" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="readme.txt">
-      <DeploymentContent>false</DeploymentContent>
-    </Text>
+    <None Include="PatchXamlTypeInfo.ps1" />
+    <None Include="Islands.UI.Xaml.def" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.UI.Xaml">
@@ -162,4 +158,7 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <Target Name="PatchXamlTypeInfoActivationIncludes" BeforeTargets="CompileXamlGeneratedFiles" Condition="Exists('$(XamlGeneratedOutputPath)XamlTypeInfo.g.cpp')">
+    <Exec Command="powershell -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildProjectDirectory)\PatchXamlTypeInfo.ps1&quot; -Path &quot;$(XamlGeneratedOutputPath)XamlTypeInfo.g.cpp&quot;" />
+  </Target>
 </Project>

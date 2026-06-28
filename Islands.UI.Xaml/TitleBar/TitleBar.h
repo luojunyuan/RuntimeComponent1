@@ -1,12 +1,8 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 #pragma once
 
-#include "pch.h"
-#include "common.h"
-
-#include "TitleBarTrace.h"
 #include "TitleBar.g.h"
 #include "TitleBar.properties.h"
 
@@ -55,8 +51,6 @@ private:
     void UpdateLeftHeaderSpacing();
     void UpdateAutoRefreshDragRegions();
 
-    void OnInputActivationChanged(const winrt::InputActivationListener& sender, const winrt::InputActivationListenerActivationChangedEventArgs& args);
-    void OnWindowRectChanged(const winrt::InputNonClientPointerSource& sender, const winrt::WindowRectChangedEventArgs& args);
     void OnBackButtonClick(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& args);
     void OnPaneToggleButtonClick(winrt::IInspectable const& sender, winrt::RoutedEventArgs const& args);
     void OnSizeChanged(const winrt::IInspectable& sender, const winrt::SizeChangedEventArgs& args);
@@ -68,28 +62,18 @@ private:
     void LoadBackButton();
     void LoadPaneToggleButton();
 
-    winrt::InputNonClientPointerSource const& GetInputNonClientPointerSource();
     winrt::Windows::Graphics::RectInt32 const GetBounds(const winrt::FrameworkElement& element);
-    winrt::WindowId GetAppWindowId();
-    winrt::Microsoft::UI::Windowing::AppWindow TryGetAppWindow();
 
-    winrt::event_token m_inputActivationChangedToken{};
-    winrt::event_token m_windowRectChangedToken{};
     winrt::hstring m_defaultAppWindowTitle{};
     winrt::Button::Click_revoker m_backButtonClickRevoker{};
     winrt::Button::Click_revoker m_paneToggleButtonClickRevoker{};
     winrt::FrameworkElement::SizeChanged_revoker m_sizeChangedRevoker;
     winrt::FrameworkElement::LayoutUpdated_revoker m_iconLayoutUpdatedRevoker{};
     winrt::FrameworkElement::LayoutUpdated_revoker m_contentLayoutUpdatedRevoker{};
-    // Add a cached AppWindow field to avoid repeated GetFromWindowId calls
-    winrt::Microsoft::UI::Windowing::AppWindow m_appWindow{ nullptr };
     PropertyChanged_revoker m_flowDirectionChangedRevoker{};
 
     std::list<winrt::FrameworkElement> m_interactableElementsList{};
     std::vector<winrt::Windows::Graphics::RectInt32> m_previousPassthroughRects{};
-    winrt::InputActivationListener m_inputActivationListener = nullptr;
-    winrt::InputNonClientPointerSource m_inputNonClientPointerSource{ nullptr };
-    winrt::WindowId m_lastAppWindowId{};
 
     tracker_ref<winrt::ColumnDefinition> m_leftPaddingColumn{ this };
     tracker_ref<winrt::ColumnDefinition> m_rightPaddingColumn{ this };
@@ -147,3 +131,8 @@ private:
     static constexpr std::wstring_view s_rightHeaderCollapsedVisualStateName{ L"RightHeaderCollapsed"sv };
     static constexpr std::wstring_view s_rightHeaderDeactivatedVisualStateName{ L"RightHeaderDeactivated"sv };
 };
+
+namespace winrt::Islands::UI::Xaml::Controls::implementation
+{
+    using TitleBar = ::TitleBar;
+}

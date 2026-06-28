@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "TitleBar.h"
 #include "TitleBarAutomationPeer.g.h"
 
@@ -14,3 +14,8 @@ public:
     winrt::hstring GetClassNameCore();
     winrt::hstring GetNameCore();
 };
+
+namespace winrt::Islands::UI::Xaml::Controls::implementation
+{
+    using TitleBarAutomationPeer = ::TitleBarAutomationPeer;
+}

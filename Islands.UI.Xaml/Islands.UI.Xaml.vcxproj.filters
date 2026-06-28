@@ -11,11 +11,19 @@
     <Filter Include="inc">
       <UniqueIdentifier>{d196e16d-ea5c-41b6-a07d-6c2a4060c682}</UniqueIdentifier>
     </Filter>
+    <Filter Include="dll">
+      <UniqueIdentifier>{205910fb-3429-482d-9c90-fef8e2c9575f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Class.cpp" />
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
     <ClCompile Include="CppWinRTModules.ixx" />
+    <ClCompile Include="dll\SharedHelpers.cpp">
+      <Filter>dll</Filter>
+    </ClCompile>
+    <ClCompile Include="dll\XamlControlsResources.cpp">
+      <Filter>dll</Filter>
+    </ClCompile>
     <ClCompile Include="inc\common.ixx">
       <Filter>inc</Filter>
     </ClCompile>
@@ -46,6 +54,9 @@
     <ClInclude Include="inc\CollectionHelper.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="inc\CppWinRTActivatableClassMacros.h">
+      <Filter>inc</Filter>
+    </ClInclude>
     <ClInclude Include="inc\CppWinRTHelpers.h">
       <Filter>inc</Filter>
     </ClInclude>
@@ -58,14 +69,10 @@
     <ClInclude Include="inc\RoutedEventHelpers.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="XamlTypeInfoActivationIncludes.h" />
   </ItemGroup>
   <ItemGroup>
-    <Midl Include="Class.idl" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="RuntimeComponent1.def" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="readme.txt" />
+    <None Include="PatchXamlTypeInfo.ps1" />
+    <None Include="Islands.UI.Xaml.def" />
   </ItemGroup>
 </Project>

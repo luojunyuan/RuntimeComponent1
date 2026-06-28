@@ -1,11 +1,9 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 #pragma once
 
 #include "tracker_ref.h"
-
-import winrt.Windows.UI.Xaml;
 
 // This type is a helper to make ReferenceTracker work with winrt::implements intead of a concrete implementation type
 template <typename D, typename WinRTClassType, template <typename, typename ...> class ImplT, typename ... I>
@@ -85,7 +83,8 @@ struct ReferenceTracker : public ImplT<D, I ..., ::IReferenceTrackerExtension>, 
         // implementation of IWeakReferenceSource. However there are some bugs on RS2 where XAML calls
         // back out to the outer during initialization for IWeakReferenceSource and so our m_inner is null.
         // In that case we allow our "self" implementation to leak out (if we returned null, XAML would crash).
-        if (InlineIsEqualGUID(riid, __uuidof(::IWeakReferenceSource)) && this->m_inner)
+        // if (InlineIsEqualGUID(riid, __uuidof(::IWeakReferenceSource)) && this->m_inner)
+        if (winrt::is_guid_of<winrt::impl::IWeakReferenceSource>(riid) && this->m_inner)
         {
             return winrt::get_unknown(this->m_inner)->QueryInterface(riid, value);
         }
