@@ -1,0 +1,16 @@
+<Solution>
+  <Configurations>
+    <Platform Name="ARM64" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/Shared/">
+    <Project Path="Islands.UI.Xaml/Collections/Collections.vcxitems" Id="395a71a1-4327-477b-85d4-af0851732ccb" />
+    <Project Path="Islands.UI.Xaml/ResourceHelper/ResourceHelper.vcxitems" Id="45d41acc-2c3c-43d2-bc10-02aa73ffc7c7" />
+    <Project Path="Islands.UI.Xaml/Telemetry/Telemetry.vcxitems" Id="0db22ba9-6053-459b-baf5-e82ea1c78ab3" />
+  </Folder>
+  <Project Path="CppWinRTModuleBuilder/CppWinRTModuleBuilder.vcxproj" Id="16e7b8c8-7b54-47e2-ae22-38e491ac5375" />
+  <Project Path="Islands.UI.Xaml/Islands.UI.Xaml.vcxproj" Id="0d391c0c-4566-a4d8-e955-3ffd1dfe0fe1">
+    <BuildDependency Project="CppWinRTModuleBuilder/CppWinRTModuleBuilder.vcxproj" />
+  </Project>
+</Solution>
