@@ -59,6 +59,11 @@ TitleBarWindowAdapter::TitleBarWindowAdapter(winrt::TitleBar const& titleBar) :
 
 TitleBarWindowAdapter::~TitleBarWindowAdapter()
 {
+    if (m_titleBar)
+    {
+        winrt::get_self<::TitleBar>(m_titleBar)->UnregisterWindowAdapter(this);
+    }
+
     ResetWindowTitle(m_lastAppliedTitle);
     UnregisterTitleChanged();
 }
@@ -94,6 +99,11 @@ winrt::InputNonClientPointerSource TitleBarWindowAdapter::NonClientPointerSource
 
 void TitleBarWindowAdapter::SetTitleBar(winrt::UIElement const& titleBar)
 {
+    if (m_titleBar)
+    {
+        winrt::get_self<::TitleBar>(m_titleBar)->UnregisterWindowAdapter(this);
+    }
+
     ResetWindowTitle(m_lastAppliedTitle);
     UnregisterTitleChanged();
 
@@ -103,6 +113,8 @@ void TitleBarWindowAdapter::SetTitleBar(winrt::UIElement const& titleBar)
 
     if (m_titleBar)
     {
+        winrt::get_self<::TitleBar>(m_titleBar)->RegisterWindowAdapter(this);
+
         m_titleChangedToken = m_titleBar.RegisterPropertyChangedCallback(
             winrt::TitleBar::TitleProperty(),
             [this](auto&&, auto&&)

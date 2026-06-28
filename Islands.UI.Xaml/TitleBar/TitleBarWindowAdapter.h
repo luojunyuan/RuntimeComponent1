@@ -19,12 +19,12 @@ public:
     void SetCaptionInsets(double left, double right);
     int32_t HitTest(int32_t screenX, int32_t screenY, int32_t xamlRootScreenX, int32_t xamlRootScreenY);
     bool ApplyTitleBarWindowRegion(int64_t titleBarWindowHandle, int32_t xamlRootScreenX, int32_t xamlRootScreenY);
+    void SyncNonClientRegions();
 
 private:
     void UnregisterTitleChanged();
     void OnTitleChanged();
     void SyncWindowTitle();
-    void SyncNonClientRegions();
     void EnsureDefaultWindowTitle();
     void ApplyWindowTitle(winrt::hstring const& title);
     void ResetWindowTitle(winrt::hstring const& lastAppliedTitle);

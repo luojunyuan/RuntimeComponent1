@@ -9,6 +9,7 @@ import common;
 #include "Utils.h"
 #include "TitleBarTrace.h"
 #include "TitleBar.h"
+#include "TitleBarWindowAdapter.h"
 #include "TitleBarTemplateSettings.h"
 #include "TitleBarAutomationPeer.h"
 #include "ResourceAccessor.h"
@@ -460,6 +461,11 @@ void TitleBar::UpdateRightHeader()
 void TitleBar::UpdateDragRegion()
 {
     UpdateInteractableElementsList();
+
+    if (m_windowAdapter)
+    {
+        m_windowAdapter->SyncNonClientRegions();
+    }
 }
 
 void TitleBar::UpdateIconRegion()
@@ -467,6 +473,11 @@ void TitleBar::UpdateIconRegion()
     if (IconSource() && !m_iconViewbox.get())
     {
         m_iconViewbox.set(GetTemplateChildT<winrt::FrameworkElement>(s_iconViewboxPartName, *this));
+    }
+
+    if (m_windowAdapter)
+    {
+        m_windowAdapter->SyncNonClientRegions();
     }
 }
 
@@ -636,6 +647,21 @@ double TitleBar::RasterizationScale()
     }
 
     return 1.0;
+}
+
+void TitleBar::RegisterWindowAdapter(TitleBarWindowAdapter* adapter)
+{
+    m_windowAdapter = adapter;
+    UpdateDragRegion();
+    UpdateIconRegion();
+}
+
+void TitleBar::UnregisterWindowAdapter(TitleBarWindowAdapter* adapter)
+{
+    if (m_windowAdapter == adapter)
+    {
+        m_windowAdapter = nullptr;
+    }
 }
 
 int32_t TitleBar::HitTest(int32_t screenX, int32_t screenY, int32_t xamlRootScreenX, int32_t xamlRootScreenY)

@@ -6,6 +6,8 @@
 #include "TitleBar.g.h"
 #include "TitleBar.properties.h"
 
+class TitleBarWindowAdapter;
+
 class TitleBar :
     public ReferenceTracker<TitleBar, winrt::implementation::TitleBarT>,
     public TitleBarProperties
@@ -32,6 +34,8 @@ public:
     std::vector<winrt::Rect> GetPassthroughRects();
     std::vector<winrt::Rect> GetIconRects();
     double RasterizationScale();
+    void RegisterWindowAdapter(TitleBarWindowAdapter* adapter);
+    void UnregisterWindowAdapter(TitleBarWindowAdapter* adapter);
 
     // Static callback for IsDragRegion attached property changes
     static void OnIsDragRegionPropertyChanged(
@@ -98,6 +102,7 @@ private:
     double m_compactModeThresholdWidth{ 0.0 };
     bool m_isCompact{ false };
     bool m_isWindowActive{ true };
+    TitleBarWindowAdapter* m_windowAdapter{};
 
     static constexpr std::wstring_view s_leftPaddingColumnName{ L"LeftPaddingColumn"sv };
     static constexpr std::wstring_view s_rightPaddingColumnName{ L"RightPaddingColumn"sv };
