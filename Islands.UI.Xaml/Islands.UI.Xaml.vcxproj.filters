@@ -24,49 +24,58 @@
     <ClCompile Include="dll\XamlControlsResources.cpp">
       <Filter>dll</Filter>
     </ClCompile>
+    <ClCompile Include="inc\AutoHandle.ixx">
+      <Filter>inc</Filter>
+    </ClCompile>
+    <ClCompile Include="inc\BoxHelpers.ixx">
+      <Filter>inc</Filter>
+    </ClCompile>
+    <ClCompile Include="inc\CastHelpers.ixx">
+      <Filter>inc</Filter>
+    </ClCompile>
+    <ClCompile Include="inc\CollectionHelper.ixx">
+      <Filter>inc</Filter>
+    </ClCompile>
+    <ClCompile Include="inc\common_base.ixx">
+      <Filter>inc</Filter>
+    </ClCompile>
     <ClCompile Include="inc\common.ixx">
+      <Filter>inc</Filter>
+    </ClCompile>
+    <ClCompile Include="inc\CppWinRTHelpers.ixx">
+      <Filter>inc</Filter>
+    </ClCompile>
+    <ClCompile Include="inc\ErrorHandling.ixx">
+      <Filter>inc</Filter>
+    </ClCompile>
+    <ClCompile Include="inc\event.ixx">
+      <Filter>inc</Filter>
+    </ClCompile>
+    <ClCompile Include="inc\GlobalDependencyProperty.ixx">
+      <Filter>inc</Filter>
+    </ClCompile>
+    <ClCompile Include="inc\RoutedEventHelpers.ixx">
+      <Filter>inc</Filter>
+    </ClCompile>
+    <ClCompile Include="inc\RuntimeClassHelpers.ixx">
+      <Filter>inc</Filter>
+    </ClCompile>
+    <ClCompile Include="inc\RuntimeClassHelpers.cpp">
+      <Filter>inc</Filter>
+    </ClCompile>
+    <ClCompile Include="inc\SharedHelpers.ixx">
+      <Filter>inc</Filter>
+    </ClCompile>
+    <ClCompile Include="inc\StaticAssertFalse.ixx">
+      <Filter>inc</Filter>
+    </ClCompile>
+    <ClCompile Include="inc\tracker_ref.ixx">
       <Filter>inc</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
-    <ClInclude Include="inc\SharedHelpers.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\StaticAssertFalse.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\tracker_ref.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\RuntimeClassHelpers.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\event.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\BoxHelpers.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\CastHelpers.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\CollectionHelper.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\CppWinRTActivatableClassMacros.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\CppWinRTHelpers.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\ErrorHandling.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\GlobalDependencyProperty.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\RoutedEventHelpers.h">
+    <ClInclude Include="inc\win32.ixx">
       <Filter>inc</Filter>
     </ClInclude>
   </ItemGroup>

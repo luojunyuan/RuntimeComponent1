@@ -1,15 +1,31 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-#include "MuxcTraceLogging.h"
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+
+#include <SDKDDKVer.h>
+#include <Windows.h>
+#include <TraceLoggingProvider.h>
+
+#pragma warning(push)
+#pragma warning(disable: 6387 6553 26400 26401 26409 26439)
+#include <wil/TraceLogging.h>
+#pragma warning(pop)
+
+#define TelemetryPrivacyDataTag(tag) TraceLoggingUInt64((tag), "PartA_PrivTags")
 
 import CppWinRTModules;
+import inc.win32;
+import ixx.MicrosoftTelemetry;
+import ixx.MuxcTraceLogging;
 
 // GUID for Microsoft.UI.Xaml.Controls : {21e0ae07-56a7-55b5-12f9-011e6bc08cca}
 // GUID for Microsoft.UI.Xaml.Controls : {21e0ae07-56a7-55b5-12f9-011e6bc08ccb}
 TRACELOGGING_DEFINE_PROVIDER(
     g_hTelemetryProvider,
-    TELEMETRY_PROVIDER_NAME,
+    "Microsoft.UI.Xaml.Controls",
     (0x21e0ae07, 0x56a7, 0x55b5, 0x12, 0xf9, 0x01, 0x1e, 0x6b, 0xc0, 0x8c, 0xca));
 
 bool g_IsTelemetryProviderEnabled{};
@@ -35,7 +51,7 @@ void WINAPI TelemetryProviderEnabledCallback(
 // GUID for Microsoft.UI.Xaml.Controls.Perf : {f55f7011-988d-4674-a724-e01b39dc7af7}
 TRACELOGGING_DEFINE_PROVIDER(
     g_hPerfProvider,
-    PERF_PROVIDER_NAME,
+    "Microsoft.UI.Xaml.Controls.Perf",
     (0xf55f7011, 0x988d, 0x4674, 0xa7, 0x24, 0xe0, 0x1b, 0x39, 0xdc, 0x7a, 0xf6));
 
 bool g_IsPerfProviderEnabled{};
@@ -61,7 +77,7 @@ void WINAPI PerfProviderEnabledCallback(
 // GUID for Microsoft.UI.Xaml.Controls.Debug :{afe0ae07-66a7-55bb-12ff-01116bc08c1b}
 TRACELOGGING_DEFINE_PROVIDER(
     g_hLoggingProvider,
-    DEBUG_PROVIDER_NAME,
+    "Microsoft.UI.Xaml.Controls.Debug",
     (0xafe0ae07, 0x66a7, 0x55bb, 0x12, 0xff, 0x01, 0x11, 0x6b, 0xc0, 0x8c, 0x1a));
 
 bool g_IsLoggingProviderEnabled{};
@@ -85,12 +101,12 @@ void WINAPI LoggingProviderEnabledCallback(
 
 void RegisterTraceLogging()
 {
-    HRESULT hr = S_OK;
+    HRESULT hr = sOk;
 
     TraceLoggingRegisterEx(g_hTelemetryProvider, TelemetryProviderEnabledCallback, nullptr);
     //Generate the ActivityId used to track the session
     hr = CoCreateGuid(&g_TelemetryProviderActivityId);
-    if (FAILED(hr))
+    if (failed(hr))
     {
         TraceLoggingWriteActivity(
             g_hTelemetryProvider,
@@ -107,7 +123,7 @@ void RegisterTraceLogging()
     TraceLoggingRegisterEx(g_hPerfProvider, PerfProviderEnabledCallback, nullptr);
     //Generate the ActivityId used to track the session
     hr = CoCreateGuid(&g_PerfProviderActivityId);
-    if (FAILED(hr))
+    if (failed(hr))
     {
         TraceLoggingWriteActivity(
             g_hPerfProvider,
@@ -122,7 +138,7 @@ void RegisterTraceLogging()
     TraceLoggingRegisterEx(g_hLoggingProvider, LoggingProviderEnabledCallback, nullptr);
     //Generate the ActivityId used to track the session
     hr = CoCreateGuid(&g_LoggingProviderActivityId);
-    if (FAILED(hr))
+    if (failed(hr))
     {
         TraceLoggingWriteActivity(
             g_hLoggingProvider,

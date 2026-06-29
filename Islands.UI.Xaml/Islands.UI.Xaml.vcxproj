@@ -127,19 +127,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="inc\BoxHelpers.h" />
-    <ClInclude Include="inc\CastHelpers.h" />
-    <ClInclude Include="inc\CollectionHelper.h" />
-    <ClInclude Include="inc\CppWinRTActivatableClassMacros.h" />
-    <ClInclude Include="inc\CppWinRTHelpers.h" />
-    <ClInclude Include="inc\ErrorHandling.h" />
-    <ClInclude Include="inc\event.h" />
-    <ClInclude Include="inc\GlobalDependencyProperty.h" />
-    <ClInclude Include="inc\RoutedEventHelpers.h" />
-    <ClInclude Include="inc\RuntimeClassHelpers.h" />
-    <ClInclude Include="inc\SharedHelpers.h" />
-    <ClInclude Include="inc\StaticAssertFalse.h" />
-    <ClInclude Include="inc\tracker_ref.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
@@ -147,7 +134,24 @@
     <ClCompile Include="CppWinRTModules.ixx" />
     <ClCompile Include="dll\SharedHelpers.cpp" />
     <ClCompile Include="dll\XamlControlsResources.cpp" />
+    <ClCompile Include="inc\AutoHandle.ixx" />
+    <ClCompile Include="inc\BoxHelpers.ixx" />
+    <ClCompile Include="inc\CastHelpers.ixx" />
+    <ClCompile Include="inc\CollectionHelper.ixx" />
+    <ClCompile Include="inc\common_base.ixx" />
     <ClCompile Include="inc\common.ixx" />
+    <ClCompile Include="inc\CppWinRTHelpers.ixx" />
+    <ClCompile Include="inc\ErrorHandling.ixx" />
+    <ClCompile Include="inc\event.ixx" />
+    <ClCompile Include="inc\GlobalDependencyProperty.ixx" />
+    <ClCompile Include="inc\RoutedEventHelpers.ixx" />
+    <ClCompile Include="inc\RuntimeClassHelpers.ixx" />
+    <ClCompile Include="inc\RuntimeClassHelpers.cpp" />
+    <ClCompile Include="inc\SharedHelpers.ixx" />
+    <ClCompile Include="inc\StaticAssertFalse.ixx" />
+    <ClCompile Include="inc\tracker_ref.ixx" />
+    <ClCompile Include="inc\WinEventLogLevels.ixx" />
+    <ClCompile Include="inc\win32.ixx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Islands.UI.Xaml.def" />

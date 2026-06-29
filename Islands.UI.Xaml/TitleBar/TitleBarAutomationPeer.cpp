@@ -1,11 +1,8 @@
-#include <UIAutomationCore.h>
-#include <UIAutomationCoreApi.h>
-
 import std;
-import common;
+import inc.common;
+import ixx.ResourceAccessor;
+import ixx.TitleBarAutomationPeer;
 
-#include "TitleBarAutomationPeer.h"
-#include "ResourceAccessor.h"
 #include "TitleBarAutomationPeer.properties.cpp"
 
 TitleBarAutomationPeer::TitleBarAutomationPeer(winrt::TitleBar const& owner) : ReferenceTracker(owner)

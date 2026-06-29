@@ -3,9 +3,8 @@
 
 import std;
 import CppWinRTModules;
-
-#include "TypeLogging.h"
-#include "Utils.h"
+import ixx.TypeLogging;
+import ixx.Utils;
 
 namespace TypeLogging
 {

@@ -1,12 +1,15 @@
-#include <Windows.h>
-
 import std;
-import common;
+import inc.common;
+import ixx.AppWindowTitleBar;
+import ixx.InputNonClientPointerSource;
+import ixx.TitleBar.interop;
+import ixx.TitleBarWindowAdapter;
 
-#include "AppWindowTitleBar.h"
-#include "InputNonClientPointerSource.h"
-#include "TitleBar.h"
-#include "TitleBarWindowAdapter.h"
+#ifdef WINRT_EXPORT
+#undef WINRT_EXPORT
+#endif
+#define WINRT_EXPORT
+
 #include "TitleBarWindowAdapter.g.cpp"
 
 namespace
@@ -61,7 +64,7 @@ TitleBarWindowAdapter::~TitleBarWindowAdapter()
 {
     if (m_titleBar)
     {
-        winrt::get_self<::TitleBar>(m_titleBar)->UnregisterWindowAdapter(this);
+        TitleBarImplementation::UnregisterWindowAdapter(m_titleBar, this);
     }
 
     ResetWindowTitle(m_lastAppliedTitle);
@@ -101,7 +104,7 @@ void TitleBarWindowAdapter::SetTitleBar(winrt::UIElement const& titleBar)
 {
     if (m_titleBar)
     {
-        winrt::get_self<::TitleBar>(m_titleBar)->UnregisterWindowAdapter(this);
+        TitleBarImplementation::UnregisterWindowAdapter(m_titleBar, this);
     }
 
     ResetWindowTitle(m_lastAppliedTitle);
@@ -113,7 +116,7 @@ void TitleBarWindowAdapter::SetTitleBar(winrt::UIElement const& titleBar)
 
     if (m_titleBar)
     {
-        winrt::get_self<::TitleBar>(m_titleBar)->RegisterWindowAdapter(this);
+        TitleBarImplementation::RegisterWindowAdapter(m_titleBar, this);
 
         m_titleChangedToken = m_titleBar.RegisterPropertyChangedCallback(
             winrt::TitleBar::TitleProperty(),
@@ -131,7 +134,7 @@ void TitleBarWindowAdapter::NotifyWindowActivated(bool active)
 {
     if (m_titleBar)
     {
-        winrt::get_self<::TitleBar>(m_titleBar)->SetWindowActive(active);
+        TitleBarImplementation::SetWindowActive(m_titleBar, active);
     }
 }
 
@@ -145,13 +148,13 @@ void TitleBarWindowAdapter::SetCaptionInsets(double left, double right)
 
     if (m_titleBar)
     {
-        winrt::get_self<::TitleBar>(m_titleBar)->SetCaptionInsets(left, right);
+        TitleBarImplementation::SetCaptionInsets(m_titleBar, left, right);
     }
 }
 
 int32_t TitleBarWindowAdapter::HitTest(int32_t screenX, int32_t screenY, int32_t xamlRootScreenX, int32_t xamlRootScreenY)
 {
-    return m_titleBar ? winrt::get_self<::TitleBar>(m_titleBar)->HitTest(screenX, screenY, xamlRootScreenX, xamlRootScreenY) : HTNOWHERE;
+    return m_titleBar ? TitleBarImplementation::HitTest(m_titleBar, screenX, screenY, xamlRootScreenX, xamlRootScreenY) : hitTestNowhere;
 }
 
 bool TitleBarWindowAdapter::ApplyTitleBarWindowRegion(int64_t titleBarWindowHandle, int32_t xamlRootScreenX, int32_t xamlRootScreenY)
@@ -164,35 +167,34 @@ bool TitleBarWindowAdapter::ApplyTitleBarWindowRegion(int64_t titleBarWindowHand
 
     if (!m_windowTitleBar || !m_windowTitleBar.ExtendsContentIntoTitleBar() || !m_titleBar)
     {
-        SetWindowRgn(hwnd, nullptr, TRUE);
+        SetWindowRgn(hwnd, nullptr, win32True);
         return false;
     }
 
-    auto titleBarImpl = winrt::get_self<::TitleBar>(m_titleBar);
-    auto titleRect = titleBarImpl->GetTitleBarRootBounds();
+    auto titleRect = TitleBarImplementation::GetTitleBarRootBounds(m_titleBar);
     if (titleRect.Width <= 0.0f || titleRect.Height <= 0.0f)
     {
-        SetWindowRgn(hwnd, nullptr, TRUE);
+        SetWindowRgn(hwnd, nullptr, win32True);
         return false;
     }
 
     SyncNonClientRegions();
 
     RECT targetWindowRect{};
-    if (!GetWindowRect(hwnd, &targetWindowRect))
+    if (!getWindowRect(hwnd, &targetWindowRect))
     {
         return false;
     }
 
-    const double scale = titleBarImpl->RasterizationScale();
+    const double scale = TitleBarImplementation::RasterizationScale(m_titleBar);
     RECT titleRegionRect = ToWindowPixels(titleRect, scale, xamlRootScreenX, xamlRootScreenY, targetWindowRect);
     if (IsEmptyRect(titleRegionRect))
     {
-        SetWindowRgn(hwnd, nullptr, TRUE);
+        SetWindowRgn(hwnd, nullptr, win32True);
         return false;
     }
 
-    HRGN titleRegion = CreateRectRgn(titleRegionRect.left, titleRegionRect.top, titleRegionRect.right, titleRegionRect.bottom);
+    HRGN titleRegion = createRectRgn(titleRegionRect.left, titleRegionRect.top, titleRegionRect.right, titleRegionRect.bottom);
     if (!titleRegion)
     {
         return false;
@@ -207,7 +209,7 @@ bool TitleBarWindowAdapter::ApplyTitleBarWindowRegion(int64_t titleBarWindowHand
             continue;
         }
 
-        HRGN passthroughRegion = CreateRectRgn(
+        HRGN passthroughRegion = createRectRgn(
             passthroughRegionRect.left,
             passthroughRegionRect.top,
             passthroughRegionRect.right,
@@ -217,11 +219,11 @@ bool TitleBarWindowAdapter::ApplyTitleBarWindowRegion(int64_t titleBarWindowHand
             continue;
         }
 
-        CombineRgn(titleRegion, titleRegion, passthroughRegion, RGN_DIFF);
+        combineRgn(titleRegion, titleRegion, passthroughRegion, regionDiff);
         DeleteObject(passthroughRegion);
     }
 
-    if (!SetWindowRgn(hwnd, titleRegion, TRUE))
+    if (!SetWindowRgn(hwnd, titleRegion, win32True))
     {
         DeleteObject(titleRegion);
         return false;
@@ -297,7 +299,7 @@ void TitleBarWindowAdapter::ApplyWindowTitle(winrt::hstring const& title)
     const HWND hwnd = reinterpret_cast<HWND>(m_windowHandle);
     if (GetWindowTitle(hwnd) != title)
     {
-        SetWindowTextW(hwnd, title.c_str());
+        setWindowText(hwnd, title.c_str());
     }
 
     m_lastAppliedTitle = title;
@@ -313,7 +315,7 @@ void TitleBarWindowAdapter::ResetWindowTitle(winrt::hstring const& lastAppliedTi
     const HWND hwnd = reinterpret_cast<HWND>(m_windowHandle);
     if (GetWindowTitle(hwnd) == lastAppliedTitle)
     {
-        SetWindowTextW(hwnd, m_defaultWindowTitle.c_str());
+        setWindowText(hwnd, m_defaultWindowTitle.c_str());
     }
 
     m_lastAppliedTitle = {};
@@ -334,6 +336,6 @@ void TitleBarWindowAdapter::SyncNonClientRegions()
         return;
     }
 
-    sourceImpl->SetRegionRectsInternal(winrt::NonClientRegionKind::Passthrough, winrt::get_self<::TitleBar>(m_titleBar)->GetPassthroughRects());
-    sourceImpl->SetRegionRectsInternal(winrt::NonClientRegionKind::Icon, winrt::get_self<::TitleBar>(m_titleBar)->GetIconRects());
+    sourceImpl->SetRegionRectsInternal(winrt::NonClientRegionKind::Passthrough, TitleBarImplementation::GetPassthroughRects(m_titleBar));
+    sourceImpl->SetRegionRectsInternal(winrt::NonClientRegionKind::Icon, TitleBarImplementation::GetIconRects(m_titleBar));
 }

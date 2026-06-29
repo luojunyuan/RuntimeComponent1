@@ -73,6 +73,7 @@ import winrt.Microsoft.UI.Xaml.Controls;
 import winrt.Microsoft.UI.Xaml.Controls.AnimatedVisuals;
 import winrt.Microsoft.UI.Xaml.XamlTypeInfo;
 import winrt.Islands.UI.Xaml.Controls;
+import inc.win32;
 
 #undef GetCurrentTime
 
@@ -127,12 +128,11 @@ using namespace std::literals;
 using std::wstring_view;
 using winrt::com_ptr;
 
-#include "RuntimeClassHelpers.h"
-#include "event.h"
-#include "GlobalDependencyProperty.h"
-
-#include "MUXControlsTestHooks.h"
-#include "MUXControlsTestHooksLoggingMessageEventArgs.h"
-#include "TitleBar.h"
-#include "TitleBarTemplateSettings.h"
-#include "TitleBarAutomationPeer.h"
+import inc.RuntimeClassHelpers;
+import inc.event;
+import inc.GlobalDependencyProperty;
+import ixx.MUXControlsTestHooksLoggingMessageEventArgs;
+import ixx.MUXControlsTestHooks;
+import ixx.TitleBar;
+import ixx.TitleBarTemplateSettings;
+import ixx.TitleBarAutomationPeer;

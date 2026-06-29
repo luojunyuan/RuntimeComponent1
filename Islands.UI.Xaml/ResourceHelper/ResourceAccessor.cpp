@@ -2,9 +2,8 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 import std;
-import common;
-
-#include "ResourceAccessor.h"
+import inc.common;
+import ixx.ResourceAccessor;
 
 #define LOC_PREFIX L"Microsoft.UI.Xaml"
 #define LOC_PREFIX_WINUI L"Microsoft.UI.Xaml"

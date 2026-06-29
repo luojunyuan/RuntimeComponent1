@@ -3,7 +3,7 @@
 
 module;
 
-module common;
+module inc.common;
 
 import std;
 import winrt_base;

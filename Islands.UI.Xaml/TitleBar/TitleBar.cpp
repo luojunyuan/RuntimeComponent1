@@ -1,29 +1,112 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-#include "MuxcTraceLogging.h"
-
 import std;
-import common;
+import inc.common;
+import ixx.Utils;
+import ixx.ResourceAccessor;
+import ixx.TitleBar;
+import ixx.TitleBar.interop;
+import ixx.TitleBarTrace;
+import ixx.TitleBarWindowAdapter;
+import ixx.TitleBarTemplateSettings;
+import ixx.TitleBarAutomationPeer;
+import ixx.TypeLogging;
+import ixx.RuntimeProfiler;
 
-#include "Utils.h"
-#include "TitleBarTrace.h"
-#include "TitleBar.h"
-#include "TitleBarWindowAdapter.h"
-#include "TitleBarTemplateSettings.h"
-#include "TitleBarAutomationPeer.h"
-#include "ResourceAccessor.h"
-#include "TypeLogging.h"
-#include "RuntimeProfiler.h"
+namespace
+{
+    inline constexpr PCWSTR traceMsgMeth = L"%s[0x%p]()\n";
+    inline constexpr PCWSTR traceMsgMethStr = L"%s[0x%p](%s)\n";
+    inline constexpr PCWSTR traceMsgMethStrInt = L"%s[0x%p](%s, %d)\n";
+
+    std::wstring TraceMethodName(char const* functionName)
+    {
+        return StringUtil::Utf8ToUtf16(functionName);
+    }
+}
+
+#define TRACE_MSG_METH traceMsgMeth
+#define TRACE_MSG_METH_STR traceMsgMethStr
+#define TRACE_MSG_METH_STR_INT traceMsgMethStrInt
+#define METH_NAME TraceMethodName(__FUNCTION__).c_str()
+#define TITLEBAR_TRACE_INFO(sender, message, ...) TitleBarTrace::Info(sender, message, __VA_ARGS__)
+#define TITLEBAR_TRACE_VERBOSE(sender, message, ...) TitleBarTrace::Verbose(sender, message, __VA_ARGS__)
+#define TITLEBAR_TRACE_PERF(info) TitleBarTrace::Perf(info)
+
+#ifdef DBG
+#define TITLEBAR_TRACE_INFO_DBG(sender, message, ...) TitleBarTrace::Info(sender, message, __VA_ARGS__)
+#define TITLEBAR_TRACE_VERBOSE_DBG(sender, message, ...) TitleBarTrace::Verbose(sender, message, __VA_ARGS__)
+#define TITLEBAR_TRACE_PERF_DBG(info) TitleBarTrace::Perf(info)
+#else
+#define TITLEBAR_TRACE_INFO_DBG(sender, message, ...)
+#define TITLEBAR_TRACE_VERBOSE_DBG(sender, message, ...)
+#define TITLEBAR_TRACE_PERF_DBG(info)
+#endif
 
 bool TitleBarTrace::s_IsDebugOutputEnabled{ false };
 bool TitleBarTrace::s_IsVerboseDebugOutputEnabled{ false };
+
+namespace TitleBarImplementation
+{
+    void RegisterWindowAdapter(winrt::TitleBar const& titleBar, TitleBarWindowAdapter* adapter)
+    {
+        winrt::get_self<::TitleBar>(titleBar)->RegisterWindowAdapter(adapter);
+    }
+
+    void UnregisterWindowAdapter(winrt::TitleBar const& titleBar, TitleBarWindowAdapter* adapter)
+    {
+        winrt::get_self<::TitleBar>(titleBar)->UnregisterWindowAdapter(adapter);
+    }
+
+    void SetWindowActive(winrt::TitleBar const& titleBar, bool active)
+    {
+        winrt::get_self<::TitleBar>(titleBar)->SetWindowActive(active);
+    }
+
+    void SetCaptionInsets(winrt::TitleBar const& titleBar, double left, double right)
+    {
+        winrt::get_self<::TitleBar>(titleBar)->SetCaptionInsets(left, right);
+    }
+
+    std::int32_t HitTest(winrt::TitleBar const& titleBar, std::int32_t screenX, std::int32_t screenY, std::int32_t xamlRootScreenX, std::int32_t xamlRootScreenY)
+    {
+        return winrt::get_self<::TitleBar>(titleBar)->HitTest(screenX, screenY, xamlRootScreenX, xamlRootScreenY);
+    }
+
+    winrt::Rect GetTitleBarRootBounds(winrt::TitleBar const& titleBar)
+    {
+        return winrt::get_self<::TitleBar>(titleBar)->GetTitleBarRootBounds();
+    }
+
+    double RasterizationScale(winrt::TitleBar const& titleBar)
+    {
+        return winrt::get_self<::TitleBar>(titleBar)->RasterizationScale();
+    }
+
+    std::vector<winrt::Rect> GetPassthroughRects(winrt::TitleBar const& titleBar)
+    {
+        return winrt::get_self<::TitleBar>(titleBar)->GetPassthroughRects();
+    }
+
+    std::vector<winrt::Rect> GetIconRects(winrt::TitleBar const& titleBar)
+    {
+        return winrt::get_self<::TitleBar>(titleBar)->GetIconRects();
+    }
+}
 
 TitleBar::TitleBar()
 {
     TITLEBAR_TRACE_INFO(nullptr, TRACE_MSG_METH, METH_NAME, this);
 
-    __RP_Marker_ClassById(RuntimeProfiler::ProfId_TitleBar);
+    [] {
+#pragma warning(suppress : 28112)
+        static volatile LONG counter = -1;
+        if (0 == interlockedIncrement(&counter))
+        {
+            RuntimeProfiler::RegisterMethod(RuntimeProfiler::PG_Class, static_cast<UINT16>(RuntimeProfiler::ProfId_TitleBar), 9999, &counter);
+        }
+    }();
 
     SetValue(s_TemplateSettingsProperty, winrt::make<::TitleBarTemplateSettings>());
 
@@ -676,14 +759,14 @@ int32_t TitleBar::HitTest(int32_t screenX, int32_t screenY, int32_t xamlRootScre
     auto titleBounds = GetTitleBarRootBounds();
     if (!ContainsPoint(titleBounds, point))
     {
-        return HTNOWHERE;
+        return hitTestNowhere;
     }
 
     for (auto const& iconRect : GetIconRects())
     {
         if (ContainsPoint(iconRect, point))
         {
-            return HTSYSMENU;
+            return hitTestSysMenu;
         }
     }
 
@@ -697,7 +780,7 @@ int32_t TitleBar::HitTest(int32_t screenX, int32_t screenY, int32_t xamlRootScre
             {
                 if (IsElementOrDescendantOf(hitElement, element))
                 {
-                    return HTCLIENT;
+                    return hitTestClient;
                 }
             }
         }
@@ -710,11 +793,11 @@ int32_t TitleBar::HitTest(int32_t screenX, int32_t screenY, int32_t xamlRootScre
     {
         if (ContainsPoint(GetElementBounds(element), point))
         {
-            return HTCLIENT;
+            return hitTestClient;
         }
     }
 
-    return HTCAPTION;
+    return hitTestCaption;
 }
 
 void TitleBar::ApplyActivationStates()

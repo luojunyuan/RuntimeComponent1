@@ -1,10 +1,9 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 import std;
-import common;
-
-#include "MUXControlsTestHooks.h"
+import inc.common;
+import ixx.MUXControlsTestHooks;
 
 MUXControlsTestHooks* MUXControlsTestHooks::s_testHooks = nullptr;
 

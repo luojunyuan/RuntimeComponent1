@@ -1,7 +1,12 @@
 import std;
-import common;
+import inc.common;
+import ixx.InputNonClientPointerSource;
 
-#include "InputNonClientPointerSource.h"
+#ifdef WINRT_EXPORT
+#undef WINRT_EXPORT
+#endif
+#define WINRT_EXPORT
+
 #include "InputNonClientPointerSource.g.cpp"
 
 void InputNonClientPointerSource::SetRegionRects(

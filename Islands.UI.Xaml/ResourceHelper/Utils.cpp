@@ -1,27 +1,26 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-#include <Windows.h>
+#include <cstdarg>
 
 import std;
-import common;
+import inc.common;
+import inc.win32;
+import ixx.Utils;
 
-#include "Utils.h"
-
-using LPVOID = void*;
 using LPTSTR = wchar_t*;
 
 winrt::hstring StringUtil::FormatString(std::wstring_view formatString, ...)
 {
-    va_list pArgs;
+    std::va_list pArgs;
     va_start(pArgs, formatString);
 
-    LPVOID formattedString = nullptr;
+    void* formattedString = nullptr;
 
     // Format the string
-    FormatMessage(
-        FORMAT_MESSAGE_ALLOCATE_BUFFER |
-        FORMAT_MESSAGE_FROM_STRING,
+    formatMessage(
+        formatMessageAllocateBuffer |
+        formatMessageFromString,
         formatString.data(),
         0,
         0,
@@ -32,7 +31,7 @@ winrt::hstring StringUtil::FormatString(std::wstring_view formatString, ...)
     va_end(pArgs);
 
     winrt::hstring result((LPTSTR)formattedString);
-    LocalFree(formattedString);
+    localFree(formattedString);
 
     return result;
 }
@@ -42,11 +41,11 @@ std::wstring StringUtil::Utf8ToUtf16(const std::string_view& utf8Str)
     std::wstring converted;
     if (utf8Str.size() > 0)
     {
-        const int length = MultiByteToWideChar(CP_UTF8, 0, utf8Str.data(), (int)utf8Str.size(), nullptr, 0);
+        const int length = multiByteToWideChar(cpUtf8, 0, utf8Str.data(), (int)utf8Str.size(), nullptr, 0);
         if (length > 0)
         {
             converted.resize(length);
-            if (MultiByteToWideChar(CP_UTF8, 0, utf8Str.data(), (int)utf8Str.size(), converted.data(), (int)converted.size()) == 0)
+            if (multiByteToWideChar(cpUtf8, 0, utf8Str.data(), (int)utf8Str.size(), converted.data(), (int)converted.size()) == 0)
             {
                 winrt::throw_last_error();
             }
@@ -65,11 +64,11 @@ std::string StringUtil::Utf16ToUtf8(const std::wstring_view& utf16Str)
     std::string converted;
     if (utf16Str.size() > 0)
     {
-        const int length = WideCharToMultiByte(CP_UTF8, 0, utf16Str.data(), (int)utf16Str.size(), nullptr, 0, nullptr, nullptr);
+        const int length = wideCharToMultiByte(cpUtf8, 0, utf16Str.data(), (int)utf16Str.size(), nullptr, 0, nullptr, nullptr);
         if (length > 0)
         {
             converted.resize(length);
-            if (WideCharToMultiByte(CP_UTF8, 0, utf16Str.data(), (int)utf16Str.size(), converted.data(), (int)converted.size(), nullptr, nullptr) == 0)
+            if (wideCharToMultiByte(cpUtf8, 0, utf16Str.data(), (int)utf16Str.size(), converted.data(), (int)converted.size(), nullptr, nullptr) == 0)
             {
                 winrt::throw_last_error();
             }

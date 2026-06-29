@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="Globals">
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
@@ -14,13 +14,12 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="$(MSBuildThisFileDirectory)microsofttelemetry.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)TypeLogging.h" />
-    <!-- <ClInclude Include="$(MSBuildThisFileDirectory)TraceLogging.h" /> -->
-  </ItemGroup>
-  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)MicrosoftTelemetry.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MuxcTraceLogging.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)TypeLogging.ixx" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TypeLogging.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MuxcTraceLogging.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)RuntimeProfiler.ixx" />
     <ClCompile Include="$(MSBuildThisFileDirectory)RuntimeProfiler.cpp" />
   </ItemGroup>
 </Project>

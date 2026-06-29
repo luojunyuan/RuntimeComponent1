@@ -1,12 +1,23 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+
+#include <SDKDDKVer.h>
+#include <Windows.h>
+#include <TraceLoggingProvider.h>
 #include <strsafe.h>
-#include "RuntimeProfiler.h"
-#include "MuxcTraceLogging.h"
+
+#define TelemetryPrivacyDataTag(tag) TraceLoggingUInt64((tag), "PartA_PrivTags")
 
 import std;
 import CppWinRTModules;
+import inc.win32;
+import ixx.MicrosoftTelemetry;
+import ixx.MuxcTraceLogging;
+import ixx.RuntimeProfiler;
 
 // Version of binary, defined in dllmain.cpp from WinUIrc.ver in the WinUI repo.
 // extern const char *gFileVersion;
@@ -57,7 +68,7 @@ namespace RuntimeProfiler {
             static_assert(sizeof(LONG) == sizeof(UINT32), "Since we're using InterlockedIncrement, make sure that this is the same size independent of build flavors.");
 
             //  Zero-based index
-            const LONG WriteIndex = ::InterlockedIncrement(&m_cMethods) - 1;
+            const LONG WriteIndex = interlockedIncrement(&m_cMethods) - 1;
 
             if (WriteIndex < (LONG)(m_Counts.max_size()))
             {
@@ -74,7 +85,7 @@ namespace RuntimeProfiler {
                 //  RegisterMethod() to be called again, thus we set the
                 //  initial static value to -1, to be incremented to 0 on first
                 //  call and we increment again for an accurate count.
-                ::InterlockedIncrement(pCount);
+                interlockedIncrement(pCount);
             }
         }
 
@@ -98,7 +109,7 @@ namespace RuntimeProfiler {
             //  Conservatively accounting for 20 characters per entry depending
             //  on the length of the numbers.
             WCHAR       OutputBuffer[20 * TableSize];
-            size_t      cchDest = ARRAYSIZE(OutputBuffer);
+            size_t      cchDest = array_size(OutputBuffer);
 
             // min
             cMethods = (std::min)(cMethods, ArraySize);
@@ -129,20 +140,20 @@ namespace RuntimeProfiler {
                             cchDest,
                             &pszDest,
                             &cchDest,
-                            STRSAFE_NULL_ON_FAILURE,
+                            strsafeNullOnFailure,
                             L"%ls[%d|%d]:%d",
                             (bSeparator?L",":L""),
                             (int)m_Counts[ii].uTypeIndex,
                             (int)m_Counts[ii].uMethodIndex,
                             cHits);
 
-                    if (S_OK == hr)
+                    if (sOk == hr)
                     {
                         cMethodsLogged++;
                         bSeparator = true;
                     }
-                    else if ((STRSAFE_E_INSUFFICIENT_BUFFER == hr) ||
-                             (STRSAFE_E_INVALID_PARAMETER == hr))
+                    else if ((strsafeInsufficientBuffer == hr) ||
+                             (strsafeInvalidParameter == hr))
                     {
                         //  The only legit ways to get invalid parameter
                         //    here is ccDest == 0, so it's effectively an
@@ -169,7 +180,7 @@ namespace RuntimeProfiler {
                 TraceLoggingBoolean(bSuspend, "OnSuspend"),
                 TraceLoggingBoolean(bOverflow, "Overflow"),
                 TraceLoggingBoolean(bStringOverflow, "StringOverflow"),
-                TraceLoggingBoolean(TRUE, "UTCReplace_AppSessionGuid"),
+                TraceLoggingBoolean(win32True, "UTCReplace_AppSessionGuid"),
                 TelemetryPrivacyDataTag(PDT_ProductAndServicePerformance),
                 TraceLoggingKeyword(MICROSOFT_KEYWORD_MEASURES));
         }
@@ -206,7 +217,7 @@ namespace RuntimeProfiler {
         }
     }
 
-    VOID CALLBACK TPTimerCallback(PTP_CALLBACK_INSTANCE, PVOID, PTP_TIMER) noexcept
+    void __stdcall TPTimerCallback(PTP_CALLBACK_INSTANCE, PVOID, PTP_TIMER) noexcept
     {
         FireEvent(false);
     }
@@ -223,8 +234,8 @@ namespace RuntimeProfiler {
             //  Note:  We're called on a global destructor, so we are not
             //    calling WaitForThreadpoolTimerCallbacks() to prevent
             //    deadlocks.
-            SetThreadpoolTimer(g_pTimer, nullptr, 0, 0);
-            CloseThreadpoolTimer(g_pTimer);
+            setThreadpoolTimer(g_pTimer, nullptr, 0, 0);
+            closeThreadpoolTimer(g_pTimer);
 
             g_pTimer = nullptr;
         }
@@ -234,7 +245,7 @@ namespace RuntimeProfiler {
 
     void InitializeRuntimeProfiler()
     {
-        g_pTimer = ::CreateThreadpoolTimer(TPTimerCallback, nullptr, nullptr);
+        g_pTimer = createThreadpoolTimer(TPTimerCallback, nullptr, nullptr);
 
         if (nullptr != g_pTimer)
         {
@@ -250,7 +261,7 @@ namespace RuntimeProfiler {
 
             //  Setting the callback window length to 60 seconds since the
             //  timing of the event is not critical
-            SetThreadpoolTimer(g_pTimer, &ftdueTime, (DWORD)(std::chrono::milliseconds(EventFrequency).count()), 60 * 1000);
+            setThreadpoolTimer(g_pTimer, &ftdueTime, (DWORD)(std::chrono::milliseconds(EventFrequency).count()), 60 * 1000);
         }
 
         g_runtimeProfilerInitialized = g_pTimer != nullptr;
@@ -270,7 +281,7 @@ namespace RuntimeProfiler {
 } // namespace RuntimeProfiler
 
 //  This will be exported by WUX Extension library
-STDAPI_(void) SendTelemetryOnSuspend() noexcept
+extern "C" void __stdcall SendTelemetryOnSuspend() noexcept
 {
     RuntimeProfiler::FireEvent(true);
 }

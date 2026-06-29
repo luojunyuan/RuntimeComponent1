@@ -1,6 +1,4 @@
-#include <Windows.h>
-#include <roapi.h>
-#include <winstring.h>
+import winrt_smoke;
 
 #include <filesystem>
 #include <iostream>
@@ -10,8 +8,6 @@
 
 namespace
 {
-    using DllGetActivationFactoryFn = HRESULT(__stdcall*)(HSTRING, IActivationFactory**);
-
     struct hstring_handle
     {
         HSTRING value{};
@@ -19,7 +15,7 @@ namespace
         explicit hstring_handle(std::wstring_view text)
         {
             const auto hr = WindowsCreateString(text.data(), static_cast<UINT32>(text.size()), &value);
-            if (FAILED(hr))
+            if (failed(hr))
             {
                 throw std::runtime_error("WindowsCreateString failed");
             }
@@ -54,7 +50,7 @@ namespace
         hstring_handle name{ className };
         IActivationFactory* factory{};
         const auto hr = getFactory(name.value, &factory);
-        if (FAILED(hr) || factory == nullptr)
+        if (failed(hr) || factory == nullptr)
         {
             std::wcerr << L"Activation factory not found: " << className << L" hr=0x"
                        << std::hex << static_cast<unsigned int>(hr) << L"\n";
@@ -79,13 +75,14 @@ int wmain(int argc, wchar_t** argv)
     require_file(outputDir / L"Islands.UI.Xaml.Controls.winmd");
     require_file(outputDir / L"Islands.UI.Xaml.Controls.pri");
 
-    const auto initHr = RoInitialize(RO_INIT_SINGLETHREADED);
-    if (FAILED(initHr) && initHr != RPC_E_CHANGED_MODE)
+    const auto initHr = RoInitialize(roInitSingleThreaded);
+    if (failed(initHr) && initHr != rpcChangedMode)
     {
         std::wcerr << L"RoInitialize failed hr=0x" << std::hex << static_cast<unsigned int>(initHr) << L"\n";
         return 1;
     }
 
+    std::wcout << L"Loading " << dllPath << L"\n" << std::flush;
     const auto module = LoadLibraryW(dllPath.c_str());
     if (!module)
     {
@@ -114,12 +111,12 @@ int wmain(int argc, wchar_t** argv)
 
     for (const auto className : classNames)
     {
-        std::wcout << L"Checking " << className << L"\n";
+        std::wcout << L"Checking " << className << L"\n" << std::flush;
         require_factory(getFactory, className);
     }
 
     FreeLibrary(module);
-    if (SUCCEEDED(initHr))
+    if (succeeded(initHr))
     {
         RoUninitialize();
     }

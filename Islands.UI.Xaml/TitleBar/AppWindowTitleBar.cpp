@@ -1,7 +1,12 @@
 import std;
-import common;
+import inc.common;
+import ixx.AppWindowTitleBar;
 
-#include "AppWindowTitleBar.h"
+#ifdef WINRT_EXPORT
+#undef WINRT_EXPORT
+#endif
+#define WINRT_EXPORT
+
 #include "AppWindowTitleBar.g.cpp"
 
 bool AppWindowTitleBar::ExtendsContentIntoTitleBar()
