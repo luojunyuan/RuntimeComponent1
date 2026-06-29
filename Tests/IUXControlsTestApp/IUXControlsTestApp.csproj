@@ -26,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\dotnet\Islands.UI.Xaml.Projection\Islands.UI.Xaml.Projection.csproj">
+    <ProjectReference Include="..\..\dotnet\Islands.UI.Xaml.Controls.Projection\Islands.UI.Xaml.Controls.Projection.csproj">
       <SetConfiguration>Configuration=$(Configuration)</SetConfiguration>
       <SetPlatform>Platform=$(Platform)</SetPlatform>
     </ProjectReference>

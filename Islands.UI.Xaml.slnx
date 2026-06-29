@@ -11,7 +11,7 @@
     <Project Path="Islands.UI.Xaml/TitleBar/TitleBar.vcxitems" Id="b122b4a6-ba38-4738-984b-3dab2177d5e2" />
   </Folder>
   <Folder Name="/Projections/">
-    <Project Path="dotnet/Islands.UI.Xaml.Projection/Islands.UI.Xaml.Projection.csproj">
+    <Project Path="dotnet/Islands.UI.Xaml.Controls.Projection/Islands.UI.Xaml.Controls.Projection.csproj">
       <Platform Solution="*|ARM64" Project="ARM64" />
       <Platform Solution="*|x64" Project="x64" />
       <Platform Solution="*|x86" Project="x86" />

@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>net10.0-windows10.0.26100.0</TargetFramework>
     <TargetPlatformMinVersion>10.0.18362.0</TargetPlatformMinVersion>
-    <AssemblyName>Islands.UI.Xaml.Projection</AssemblyName>
+    <AssemblyName>Islands.UI.Xaml.Controls.Projection</AssemblyName>
     <RootNamespace>Islands.UI.Xaml</RootNamespace>
     <UseUwp>true</UseUwp>
     <Platforms>x86;x64;ARM64</Platforms>

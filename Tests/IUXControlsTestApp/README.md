@@ -7,7 +7,7 @@ This is intentionally not a direct copy of WinUI's `MUXControlsTestApp`:
 - it uses WinUI 2 through the `Microsoft.UI.Xaml` NuGet package;
 - it uses `CoreIsland` instead of WinUI 3 / Windows App SDK;
 - it references the local `Islands.UI.Xaml.Controls` native output through
-  `Islands.UI.Xaml.Projection`;
+  `Islands.UI.Xaml.Controls.Projection`;
 - it starts with a focused TitleBar page and is meant to grow with TestHooks,
   ScrollViewPresenter, and ScrollView.
 
