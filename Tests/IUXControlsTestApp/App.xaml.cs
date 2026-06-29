@@ -1,4 +1,4 @@
-using Windows.ApplicationModel.Activation;
+﻿using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -32,6 +32,6 @@ public sealed partial class App : CoreIsland.Application
 
     private static void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
     {
-        throw new InvalidOperationException($"Failed to load Page {e.SourcePageType.FullName}");
+        throw new InvalidOperationException($"Failed to load Page {e.SourcePageType.FullName}", e.Exception);
     }
 }
