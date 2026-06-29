@@ -1,0 +1,20 @@
+[package]
+name = "islands-ui-xaml-controls-projection"
+version = "0.1.0"
+edition = "2021"
+include = [
+    "Cargo.toml",
+    "README.md",
+    "build.rs",
+    "src/**",
+    "winmd/**",
+    "runtimes/**",
+]
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies]
+windows-collections = "0.3.2"
+windows-core = "0.62.2"
+windows-numerics = "0.3.1"
