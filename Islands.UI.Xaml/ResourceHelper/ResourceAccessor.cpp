@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 import std;
@@ -58,9 +58,24 @@ winrt::Windows::ApplicationModel::Resources::Core::ResourceContext ResourceAcces
 
 winrt::hstring ResourceAccessor::GetLocalizedStringResource(const wstring_view& resourceName)
 {
-    static auto mrt_lifted_resourceMap = GetResourceMap();
-    static auto mrt_lifted_resourceContext = GetResourceContext();
-    return mrt_lifted_resourceMap.GetValue(resourceName, mrt_lifted_resourceContext).ValueAsString();
+    try
+    {
+        static auto mrt_lifted_resourceMap = GetResourceMap();
+        static auto mrt_lifted_resourceContext = GetResourceContext();
+
+        if (mrt_lifted_resourceMap)
+        {
+            if (const auto resourceCandidate = mrt_lifted_resourceMap.GetValue(resourceName, mrt_lifted_resourceContext))
+            {
+                return resourceCandidate.ValueAsString();
+            }
+        }
+    }
+    catch (...)
+    {
+    }
+
+    return winrt::hstring{ resourceName };
 }
 
 winrt::LoadedImageSurface ResourceAccessor::GetImageSurface(const wstring_view& assetName, winrt::Size imageSize)

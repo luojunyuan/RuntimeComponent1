@@ -117,6 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="NavigationBackButtonName" xml:space="preserve">
+    <value>返回</value>
+    <comment>Automation name for the back button</comment>
+  </data>
+  <data name="NavigationBackButtonToolTip" xml:space="preserve">
+    <value>返回</value>
+    <comment>Tooltip caption for the back button</comment>
+  </data>
   <data name="NavigationButtonToggleName" xml:space="preserve">
     <value>切换导航</value>
     <comment>Automation name and tooltip caption for the hamburger button</comment>
