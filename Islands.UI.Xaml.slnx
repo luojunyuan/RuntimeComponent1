@@ -10,6 +10,13 @@
     <Project Path="Islands.UI.Xaml/TitleBar/TestUI/TitleBar_TestUI.shproj" Id="0c05e2f0-f21f-4e60-a5bd-b4f5eb655c1d" />
     <Project Path="Islands.UI.Xaml/TitleBar/TitleBar.vcxitems" Id="b122b4a6-ba38-4738-984b-3dab2177d5e2" />
   </Folder>
+  <Folder Name="/Projections/">
+    <Project Path="dotnet/Islands.UI.Xaml.Projection/Islands.UI.Xaml.Projection.csproj">
+      <Platform Solution="*|ARM64" Project="ARM64" />
+      <Platform Solution="*|x64" Project="x64" />
+      <Platform Solution="*|x86" Project="x86" />
+    </Project>
+  </Folder>
   <Folder Name="/Shared/">
     <Project Path="Islands.UI.Xaml/Collections/Collections.vcxitems" Id="395a71a1-4327-477b-85d4-af0851732ccb" />
     <Project Path="Islands.UI.Xaml/ResourceHelper/ResourceHelper.vcxitems" Id="45d41acc-2c3c-43d2-bc10-02aa73ffc7c7" />
@@ -17,6 +24,11 @@
     <Project Path="Islands.UI.Xaml/TestHooks/TestHooks.vcxitems" Id="848448d5-f717-4f88-8f99-311cd60587fa" />
   </Folder>
   <Folder Name="/Tests/">
+    <Project Path="Tests/IUXControlsTestApp/IUXControlsTestApp.csproj">
+      <Platform Solution="*|ARM64" Project="ARM64" />
+      <Platform Solution="*|x64" Project="x64" />
+      <Platform Solution="*|x86" Project="x86" />
+    </Project>
     <Project Path="Tests/SmokeTests/SmokeTests.vcxproj" Id="8a22e752-f1a3-4c28-bba4-6beec9d4f2f2">
       <BuildDependency Project="Islands.UI.Xaml/Islands.UI.Xaml.vcxproj" />
     </Project>
