@@ -57,7 +57,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <IslandsOutputDir>$(MSBuildThisFileDirectory)..\..\Islands.UI.Xaml\$(Platform)\$(Configuration)\Islands.UI.Xaml</IslandsOutputDir>
+    <ArtifactsPath Condition="'$(ArtifactsPath)' == ''">$(MSBuildThisFileDirectory)..\..\artifacts</ArtifactsPath>
+    <IslandsOutputDir>$(ArtifactsPath)\bin\Islands.UI.Xaml\$(Configuration)_$(Platform)\</IslandsOutputDir>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>

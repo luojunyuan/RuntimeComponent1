@@ -23,6 +23,9 @@
     <Project Path="Islands.UI.Xaml/Telemetry/Telemetry.vcxitems" Id="0db22ba9-6053-459b-baf5-e82ea1c78ab3" />
     <Project Path="Islands.UI.Xaml/TestHooks/TestHooks.vcxitems" Id="848448d5-f717-4f88-8f99-311cd60587fa" />
   </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path="Directory.Build.props" />
+  </Folder>
   <Folder Name="/Tests/">
     <Project Path="Tests/IUXControlsTestApp/IUXControlsTestApp.csproj">
       <Platform Solution="*|ARM64" Project="ARM64" />

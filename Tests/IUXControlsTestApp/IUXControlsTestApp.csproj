@@ -13,10 +13,11 @@
     <DisableRuntimeMarshalling>true</DisableRuntimeMarshalling>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <CoreIslandPackaging>false</CoreIslandPackaging>
+    <ArtifactsPath Condition="'$(ArtifactsPath)' == ''">$(MSBuildProjectDirectory)\..\..\artifacts</ArtifactsPath>
     <IslandsNativePlatform Condition="'$(Platform)' == 'x86'">Win32</IslandsNativePlatform>
     <IslandsNativePlatform Condition="'$(Platform)' == 'AnyCPU'">x64</IslandsNativePlatform>
     <IslandsNativePlatform Condition="'$(IslandsNativePlatform)' == ''">$(Platform)</IslandsNativePlatform>
-    <IslandsNativeOutputDir>$(MSBuildProjectDirectory)\..\..\Islands.UI.Xaml\$(IslandsNativePlatform)\$(Configuration)\Islands.UI.Xaml\</IslandsNativeOutputDir>
+    <IslandsNativeOutputDir>$(ArtifactsPath)\bin\Islands.UI.Xaml\$(Configuration)_$(IslandsNativePlatform)\</IslandsNativeOutputDir>
   </PropertyGroup>
 
   <ItemGroup>
