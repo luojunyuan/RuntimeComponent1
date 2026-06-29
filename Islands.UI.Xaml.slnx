@@ -16,11 +16,13 @@
     <Project Path="Islands.UI.Xaml/Telemetry/Telemetry.vcxitems" Id="0db22ba9-6053-459b-baf5-e82ea1c78ab3" />
     <Project Path="Islands.UI.Xaml/TestHooks/TestHooks.vcxitems" Id="848448d5-f717-4f88-8f99-311cd60587fa" />
   </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="Tests/SmokeTests/SmokeTests.vcxproj" Id="8a22e752-f1a3-4c28-bba4-6beec9d4f2f2">
+      <BuildDependency Project="Islands.UI.Xaml/Islands.UI.Xaml.vcxproj" />
+    </Project>
+  </Folder>
   <Project Path="CppWinRTModuleBuilder/CppWinRTModuleBuilder.vcxproj" Id="16e7b8c8-7b54-47e2-ae22-38e491ac5375" />
   <Project Path="Islands.UI.Xaml/Islands.UI.Xaml.vcxproj" Id="0d391c0c-4566-a4d8-e955-3ffd1dfe0fe1">
     <BuildDependency Project="CppWinRTModuleBuilder/CppWinRTModuleBuilder.vcxproj" />
-  </Project>
-  <Project Path="Tests/SmokeTests/SmokeTests.vcxproj" Id="8a22e752-f1a3-4c28-bba4-6beec9d4f2f2">
-    <BuildDependency Project="Islands.UI.Xaml/Islands.UI.Xaml.vcxproj" />
   </Project>
 </Solution>
