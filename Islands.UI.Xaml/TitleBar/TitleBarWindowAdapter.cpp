@@ -28,6 +28,32 @@ namespace
         return rect.right <= rect.left || rect.bottom <= rect.top;
     }
 
+    bool AreRectsEqual(winrt::Rect const& first, winrt::Rect const& second)
+    {
+        return first.X == second.X &&
+            first.Y == second.Y &&
+            first.Width == second.Width &&
+            first.Height == second.Height;
+    }
+
+    bool AreRegionRectsEqual(std::vector<winrt::Rect> const& first, std::vector<winrt::Rect> const& second)
+    {
+        if (first.size() != second.size())
+        {
+            return false;
+        }
+
+        for (size_t i = 0; i < first.size(); ++i)
+        {
+            if (!AreRectsEqual(first[i], second[i]))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     winrt::hstring GetWindowTitle(HWND hwnd)
     {
         if (!hwnd)
@@ -162,8 +188,15 @@ bool TitleBarWindowAdapter::ApplyTitleBarWindowRegion(int64_t titleBarWindowHand
     const HWND hwnd = reinterpret_cast<HWND>(titleBarWindowHandle);
     if (!hwnd)
     {
+        m_hasTitleBarWindowRegionTarget = false;
+        m_lastTitleBarWindowHandle = 0;
         return false;
     }
+
+    m_hasTitleBarWindowRegionTarget = true;
+    m_lastTitleBarWindowHandle = titleBarWindowHandle;
+    m_lastXamlRootScreenX = xamlRootScreenX;
+    m_lastXamlRootScreenY = xamlRootScreenY;
 
     if (!m_windowTitleBar || !m_windowTitleBar.ExtendsContentIntoTitleBar() || !m_titleBar)
     {
@@ -178,7 +211,9 @@ bool TitleBarWindowAdapter::ApplyTitleBarWindowRegion(int64_t titleBarWindowHand
         return false;
     }
 
+    m_isApplyingTitleBarWindowRegion = true;
     SyncNonClientRegions();
+    m_isApplyingTitleBarWindowRegion = false;
 
     RECT targetWindowRect{};
     if (!getWindowRect(hwnd, &targetWindowRect))
@@ -230,6 +265,16 @@ bool TitleBarWindowAdapter::ApplyTitleBarWindowRegion(int64_t titleBarWindowHand
     }
 
     return true;
+}
+
+winrt::event_token TitleBarWindowAdapter::NonClientRegionsChanged(winrt::TypedEventHandler<winrt::TitleBarWindowAdapter, winrt::IInspectable> const& value)
+{
+    return m_nonClientRegionsChangedEventSource.add(value);
+}
+
+void TitleBarWindowAdapter::NonClientRegionsChanged(winrt::event_token const& token)
+{
+    m_nonClientRegionsChangedEventSource.remove(token);
 }
 
 void TitleBarWindowAdapter::UnregisterTitleChanged()
@@ -321,6 +366,26 @@ void TitleBarWindowAdapter::ResetWindowTitle(winrt::hstring const& lastAppliedTi
     m_lastAppliedTitle = {};
 }
 
+void TitleBarWindowAdapter::NotifyNonClientRegionsChanged()
+{
+    m_nonClientRegionsChangedEventSource(*this, nullptr);
+
+    if (!m_isApplyingTitleBarWindowRegion)
+    {
+        ReapplyCachedTitleBarWindowRegion();
+    }
+}
+
+void TitleBarWindowAdapter::ReapplyCachedTitleBarWindowRegion()
+{
+    if (!m_hasTitleBarWindowRegionTarget || !m_lastTitleBarWindowHandle)
+    {
+        return;
+    }
+
+    ApplyTitleBarWindowRegion(m_lastTitleBarWindowHandle, m_lastXamlRootScreenX, m_lastXamlRootScreenY);
+}
+
 void TitleBarWindowAdapter::SyncNonClientRegions()
 {
     if (!m_nonClientPointerSource)
@@ -331,11 +396,37 @@ void TitleBarWindowAdapter::SyncNonClientRegions()
     auto sourceImpl = winrt::get_self<::InputNonClientPointerSource>(m_nonClientPointerSource);
     if (!m_titleBar)
     {
-        sourceImpl->ClearRegionRects(winrt::NonClientRegionKind::Passthrough);
-        sourceImpl->ClearRegionRects(winrt::NonClientRegionKind::Icon);
+        const bool changed =
+            !AreRectsEqual(m_titleBarRootBounds, {}) ||
+            !sourceImpl->RegionRects(winrt::NonClientRegionKind::Passthrough).empty() ||
+            !sourceImpl->RegionRects(winrt::NonClientRegionKind::Icon).empty();
+
+        if (changed)
+        {
+            m_titleBarRootBounds = {};
+            sourceImpl->ClearRegionRects(winrt::NonClientRegionKind::Passthrough);
+            sourceImpl->ClearRegionRects(winrt::NonClientRegionKind::Icon);
+            NotifyNonClientRegionsChanged();
+        }
+
         return;
     }
 
-    sourceImpl->SetRegionRectsInternal(winrt::NonClientRegionKind::Passthrough, TitleBarImplementation::GetPassthroughRects(m_titleBar));
-    sourceImpl->SetRegionRectsInternal(winrt::NonClientRegionKind::Icon, TitleBarImplementation::GetIconRects(m_titleBar));
+    auto titleBarRootBounds = TitleBarImplementation::GetTitleBarRootBounds(m_titleBar);
+    auto passthroughRects = TitleBarImplementation::GetPassthroughRects(m_titleBar);
+    auto iconRects = TitleBarImplementation::GetIconRects(m_titleBar);
+    const bool changed =
+        !AreRectsEqual(m_titleBarRootBounds, titleBarRootBounds) ||
+        !AreRegionRectsEqual(sourceImpl->RegionRects(winrt::NonClientRegionKind::Passthrough), passthroughRects) ||
+        !AreRegionRectsEqual(sourceImpl->RegionRects(winrt::NonClientRegionKind::Icon), iconRects);
+
+    if (!changed)
+    {
+        return;
+    }
+
+    m_titleBarRootBounds = titleBarRootBounds;
+    sourceImpl->SetRegionRectsInternal(winrt::NonClientRegionKind::Passthrough, std::move(passthroughRects));
+    sourceImpl->SetRegionRectsInternal(winrt::NonClientRegionKind::Icon, std::move(iconRects));
+    NotifyNonClientRegionsChanged();
 }

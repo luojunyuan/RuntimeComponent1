@@ -133,6 +133,8 @@ unsealed runtimeclass TitleBarWindowAdapter
     void SetCaptionInsets(Double left, Double right);
     Int32 HitTest(Int32 screenX, Int32 screenY, Int32 xamlRootScreenX, Int32 xamlRootScreenY);
     Boolean ApplyTitleBarWindowRegion(Int64 titleBarWindowHandle, Int32 xamlRootScreenX, Int32 xamlRootScreenY);
+
+    event Windows.Foundation.TypedEventHandler<TitleBarWindowAdapter, Object> NonClientRegionsChanged;
 }
 
 }
