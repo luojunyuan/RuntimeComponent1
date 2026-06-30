@@ -34,6 +34,11 @@ public:
 
     static com_ptr<MUXControlsTestHooks> GetGlobalTestHooks()
     {
+        if (!s_testHooks)
+        {
+            return {};
+        }
+
         return s_testHooks->get_strong();
     }
 

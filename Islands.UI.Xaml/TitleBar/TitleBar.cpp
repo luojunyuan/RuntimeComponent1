@@ -30,14 +30,35 @@ namespace
 #define TRACE_MSG_METH_STR traceMsgMethStr
 #define TRACE_MSG_METH_STR_INT traceMsgMethStrInt
 #define METH_NAME TraceMethodName(__FUNCTION__).c_str()
-#define TITLEBAR_TRACE_INFO(sender, message, ...) TitleBarTrace::Info(sender, message, __VA_ARGS__)
-#define TITLEBAR_TRACE_VERBOSE(sender, message, ...) TitleBarTrace::Verbose(sender, message, __VA_ARGS__)
-#define TITLEBAR_TRACE_PERF(info) TitleBarTrace::Perf(info)
+#define TITLEBAR_TRACE_INFO(sender, message, ...) \
+    do \
+    { \
+        if (TitleBarTrace::IsInfoEnabled()) \
+        { \
+            TitleBarTrace::Info(sender, message, __VA_ARGS__); \
+        } \
+    } while (false)
+#define TITLEBAR_TRACE_VERBOSE(sender, message, ...) \
+    do \
+    { \
+        if (TitleBarTrace::IsVerboseEnabled()) \
+        { \
+            TitleBarTrace::Verbose(sender, message, __VA_ARGS__); \
+        } \
+    } while (false)
+#define TITLEBAR_TRACE_PERF(info) \
+    do \
+    { \
+        if (TitleBarTrace::IsPerfEnabled()) \
+        { \
+            TitleBarTrace::Perf(info); \
+        } \
+    } while (false)
 
-#ifdef DBG
-#define TITLEBAR_TRACE_INFO_DBG(sender, message, ...) TitleBarTrace::Info(sender, message, __VA_ARGS__)
-#define TITLEBAR_TRACE_VERBOSE_DBG(sender, message, ...) TitleBarTrace::Verbose(sender, message, __VA_ARGS__)
-#define TITLEBAR_TRACE_PERF_DBG(info) TitleBarTrace::Perf(info)
+#if defined(DBG) || defined(_DEBUG)
+#define TITLEBAR_TRACE_INFO_DBG(sender, message, ...) TITLEBAR_TRACE_INFO(sender, message, __VA_ARGS__)
+#define TITLEBAR_TRACE_VERBOSE_DBG(sender, message, ...) TITLEBAR_TRACE_VERBOSE(sender, message, __VA_ARGS__)
+#define TITLEBAR_TRACE_PERF_DBG(info) TITLEBAR_TRACE_PERF(info)
 #else
 #define TITLEBAR_TRACE_INFO_DBG(sender, message, ...)
 #define TITLEBAR_TRACE_VERBOSE_DBG(sender, message, ...)

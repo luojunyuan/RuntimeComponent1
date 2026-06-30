@@ -45,8 +45,28 @@ public:
     static bool s_IsDebugOutputEnabled;
     static bool s_IsVerboseDebugOutputEnabled;
 
+    static bool IsInfoEnabled() noexcept
+    {
+        return IsTitleBarTracingEnabled() || s_IsDebugOutputEnabled || s_IsVerboseDebugOutputEnabled;
+    }
+
+    static bool IsVerboseEnabled() noexcept
+    {
+        return IsTitleBarVerboseTracingEnabled() || s_IsVerboseDebugOutputEnabled;
+    }
+
+    static bool IsPerfEnabled() noexcept
+    {
+        return IsTitleBarPerfTracingEnabled();
+    }
+
     static void Info(const winrt::IInspectable& sender, PCWSTR message, ...) noexcept
     {
+        if (!IsInfoEnabled())
+        {
+            return;
+        }
+
         va_list args;
         va_start(args, message);
         TraceMessage(false, IsTitleBarTracingEnabled(), s_IsDebugOutputEnabled || s_IsVerboseDebugOutputEnabled, sender, message, args);
@@ -55,6 +75,11 @@ public:
 
     static void Verbose(const winrt::IInspectable& sender, PCWSTR message, ...) noexcept
     {
+        if (!IsVerboseEnabled())
+        {
+            return;
+        }
+
         va_list args;
         va_start(args, message);
         TraceMessage(true, IsTitleBarVerboseTracingEnabled(), s_IsVerboseDebugOutputEnabled, sender, message, args);
@@ -63,7 +88,7 @@ public:
 
     static void Perf(PCWSTR info) noexcept
     {
-        if (!IsTitleBarPerfTracingEnabled())
+        if (!IsPerfEnabled())
         {
             return;
         }
