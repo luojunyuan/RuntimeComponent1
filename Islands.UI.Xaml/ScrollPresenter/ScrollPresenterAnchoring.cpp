@@ -11,7 +11,9 @@ import ixx.ScrollPresenter;
 import inc.DoubleUtil;
 import inc.FloatUtil;
 import ixx.ScrollingAnchorRequestedEventArgs;
+#ifdef DBG
 import ixx.ScrollPresenterTestHooks;
+#endif
 import std;
 #include "../Telemetry/ScrollTraceMacros.h"
 

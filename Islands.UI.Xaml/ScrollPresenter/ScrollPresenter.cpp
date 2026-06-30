@@ -21,7 +21,9 @@ import ixx.ScrollingZoomCompletedEventArgs;
 import ixx.ScrollingZoomOptions;
 import ixx.ScrollingZoomStartingEventArgs;
 import ixx.ScrollPresenterAutomationPeer;
+#ifdef DBG
 import ixx.ScrollPresenterTestHooks;
+#endif
 import ixx.Vector;
 import ixx.Utils;
 import inc.RegUtil;

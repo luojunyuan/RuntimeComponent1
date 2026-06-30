@@ -5,7 +5,9 @@ import ixx.RuntimeProfiler;
 import ixx.ScrollPresenter;
 import ixx.ScrollPresenterTypeLogging;
 import ixx.ScrollView;
+#ifdef DBG
 import ixx.ScrollViewTestHooks;
+#endif
 import ixx.TypeLogging;
 import std;
 

@@ -11,7 +11,9 @@ import ixx.ScrollView;
 import ixx.RuntimeProfiler;
 import inc.FocusHelper;
 import inc.RegUtil;
+#ifdef DBG
 import ixx.ScrollViewTestHooks;
+#endif
 import std;
 #include "../Telemetry/ScrollTraceMacros.h"
 
