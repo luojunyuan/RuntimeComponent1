@@ -115,7 +115,7 @@ struct IUnknownAccessor<winrt::com_ptr<T>>
         // com_ptr<T> is not necessarily an IUnknown so QI for it.
         if (value)
         {
-            return value.as<IUnknown>();
+            return value.template as<IUnknown>();
         }
 
         return nullptr;

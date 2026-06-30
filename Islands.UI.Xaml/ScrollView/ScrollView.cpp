@@ -1827,7 +1827,7 @@ void ScrollView::HideIndicatorsAfterDelay()
                 }
                 else
                 {
-                    auto timer = sender.as<winrt::DispatcherTimer>();
+                    auto timer = sender.template as<winrt::DispatcherTimer>();
                     timer.Stop();
                 }
             });

@@ -98,9 +98,8 @@
       <!-- C4189: tracing-only locals are sometimes compiled out by trace macros -->
       <!-- C4702: unreachable fallback returns after assert/throw-style control flow -->
       <!-- C4840: WinRT wrapper types intentionally flow through tracing/formatting varargs -->
-      <!-- C4864: .template as instantiation warning  -->
-      <!-- C4875: gsl::suppress deprecated syntax  -->
-      <DisableSpecificWarnings>4002;4100;4189;4702;4840;4864;4875;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <!-- C4875: generated DependencyPropertyCodeGen output still uses deprecated gsl::suppress syntax -->
+      <DisableSpecificWarnings>4002;4100;4189;4702;4840;4875;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <AdditionalOptions>%(AdditionalOptions) /bigobj /utf-8</AdditionalOptions>
       <PreprocessorDefinitions>_WINRT_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalUsingDirectories>$(WindowsSDK_WindowsMetadata);$(AdditionalUsingDirectories)</AdditionalUsingDirectories>
