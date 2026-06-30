@@ -5,13 +5,25 @@
     <Platform Name="x86" />
   </Configurations>
   <Folder Name="/Controls/" />
+  <Folder Name="/Controls/ScrollPresenter/">
+    <Project Path="Islands.UI.Xaml/ScrollPresenter/APITests/ScrollPresenter_APITests.shproj" Id="474b92f7-cd58-fed9-8569-9640529d1871" />
+    <Project Path="Islands.UI.Xaml/ScrollPresenter/InteractionTests/ScrollPresenter_InteractionTests.shproj" Id="8faad013-139c-8d2a-2285-45f717d9e64a" />
+    <Project Path="Islands.UI.Xaml/ScrollPresenter/TestUI/ScrollPresenter_TestUI.shproj" Id="0ec52fd5-42fe-3eb4-84e0-79ec9b5a014e" />
+    <Project Path="Islands.UI.Xaml/ScrollPresenter/ScrollPresenter.vcxitems" Id="359544aa-a8cd-715c-cc36-f770e6e81aa0" />
+  </Folder>
+  <Folder Name="/Controls/ScrollView/">
+    <Project Path="Islands.UI.Xaml/ScrollView/APITests/ScrollView_APITests.shproj" Id="374b93f8-dd19-5eda-c56a-1640529d187c" />
+    <Project Path="Islands.UI.Xaml/ScrollView/InteractionTests/ScrollView_InteractionTests.shproj" Id="bfaad015-232d-5d2b-b28f-5ef717d3e648" />
+    <Project Path="Islands.UI.Xaml/ScrollView/TestUI/ScrollView_TestUI.shproj" Id="20c52fd5-62fd-53b4-a4a0-995c9b5a014d" />
+    <Project Path="Islands.UI.Xaml/ScrollView/ScrollView.vcxitems" Id="755f5da9-087c-55a0-98d2-b884881c3ed0" />
+  </Folder>
   <Folder Name="/Controls/TitleBar/">
     <Project Path="Islands.UI.Xaml/TitleBar/InteractionTests/TitleBar_InteractionTests.shproj" Id="aec0baee-7a86-4539-9e07-a5363f7b9a8c" />
     <Project Path="Islands.UI.Xaml/TitleBar/TestUI/TitleBar_TestUI.shproj" Id="0c05e2f0-f21f-4e60-a5bd-b4f5eb655c1d" />
     <Project Path="Islands.UI.Xaml/TitleBar/TitleBar.vcxitems" Id="b122b4a6-ba38-4738-984b-3dab2177d5e2" />
   </Folder>
   <Folder Name="/Projections/">
-    <Project Path="dotnet/Islands.UI.Xaml.Controls.Projection/Islands.UI.Xaml.Controls.Projection.csproj">
+    <Project Path="Islands.UI.Xaml.Controls.Projection/Islands.UI.Xaml.Controls.Projection.csproj">
       <Platform Solution="*|ARM64" Project="ARM64" />
       <Platform Solution="*|x64" Project="x64" />
       <Platform Solution="*|x86" Project="x86" />

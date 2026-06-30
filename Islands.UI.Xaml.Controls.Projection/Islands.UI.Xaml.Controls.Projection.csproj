@@ -30,7 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Islands.UI.Xaml\Islands.UI.Xaml.vcxproj"
+    <ProjectReference Include="..\Islands.UI.Xaml\Islands.UI.Xaml.vcxproj"
                       PrivateAssets="all"
                       ReferenceOutputAssembly="false"
                       SkipGetTargetFrameworkProperties="true">
