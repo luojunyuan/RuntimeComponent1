@@ -22,13 +22,6 @@
     <Project Path="Islands.UI.Xaml/TitleBar/TestUI/TitleBar_TestUI.shproj" Id="0c05e2f0-f21f-4e60-a5bd-b4f5eb655c1d" />
     <Project Path="Islands.UI.Xaml/TitleBar/TitleBar.vcxitems" Id="b122b4a6-ba38-4738-984b-3dab2177d5e2" />
   </Folder>
-  <Folder Name="/Projections/">
-    <Project Path="Islands.UI.Xaml.Controls.Projection/Islands.UI.Xaml.Controls.Projection.csproj">
-      <Platform Solution="*|ARM64" Project="ARM64" />
-      <Platform Solution="*|x64" Project="x64" />
-      <Platform Solution="*|x86" Project="x86" />
-    </Project>
-  </Folder>
   <Folder Name="/Shared/">
     <Project Path="Islands.UI.Xaml/Collections/Collections.vcxitems" Id="395a71a1-4327-477b-85d4-af0851732ccb" />
     <Project Path="Islands.UI.Xaml/ResourceHelper/ResourceHelper.vcxitems" Id="45d41acc-2c3c-43d2-bc10-02aa73ffc7c7" />
@@ -49,6 +42,11 @@
     </Project>
   </Folder>
   <Project Path="CppWinRTModuleBuilder/CppWinRTModuleBuilder.vcxproj" Id="16e7b8c8-7b54-47e2-ae22-38e491ac5375" />
+  <Project Path="Islands.UI.Xaml.Controls.Projection/Islands.UI.Xaml.Controls.Projection.csproj">
+    <Platform Solution="*|ARM64" Project="ARM64" />
+    <Platform Solution="*|x64" Project="x64" />
+    <Platform Solution="*|x86" Project="x86" />
+  </Project>
   <Project Path="Islands.UI.Xaml/Islands.UI.Xaml.vcxproj" Id="0d391c0c-4566-a4d8-e955-3ffd1dfe0fe1">
     <BuildDependency Project="CppWinRTModuleBuilder/CppWinRTModuleBuilder.vcxproj" />
   </Project>
