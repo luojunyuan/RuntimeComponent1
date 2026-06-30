@@ -1,11 +1,13 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-#include "pch.h"
-#include "common.h"
-#include "TypeLogging.h"
-#include "ScrollPresenterTypeLogging.h"
-#include "OffsetsChangeWithAdditionalVelocity.h"
+import inc.common;
+import ixx.ScrollPresenterTrace;
+import ixx.TypeLogging;
+import ixx.ScrollPresenterTypeLogging;
+import ixx.OffsetsChangeWithAdditionalVelocity;
+import std;
+#include "../Telemetry/ScrollTraceMacros.h"
 
 OffsetsChangeWithAdditionalVelocity::OffsetsChangeWithAdditionalVelocity(
     winrt::float2 offsetsVelocity,

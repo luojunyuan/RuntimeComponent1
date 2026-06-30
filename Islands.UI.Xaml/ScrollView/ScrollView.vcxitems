@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="Globals">
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
@@ -8,7 +8,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory);$(MSBuildThisFileDirectory)..\Generated</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);SCROLLVIEW_INCLUDED</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -16,23 +16,35 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="$(MSBuildThisFileDirectory)..\Generated\ScrollView.properties.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)ScrollBarController.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)ScrollView.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\Generated\ScrollView.properties.cpp">
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WINRT_IMPORT_MODULE</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\Generated\ScrollView.properties.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ScrollBarController.cpp">
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WINRT_IMPORT_MODULE</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ScrollBarController.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ScrollView.cpp">
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WINRT_IMPORT_MODULE</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ScrollView.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ScrollViewBringIntoViewOperation.cpp">
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WINRT_IMPORT_MODULE</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ScrollViewBringIntoViewOperation.ixx" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ScrollViewLightup.cpp">
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WINRT_IMPORT_MODULE</PreprocessorDefinitions>
       <XamlLightup>true</XamlLightup>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)ScrollViewBringIntoViewOperation.cpp" />
-    <ClCompile Condition="'$(Configuration)'=='Debug'" Include="$(MSBuildThisFileDirectory)ScrollViewTestHooks.cpp" />
-    <ClCompile Condition="'$(Configuration)'=='Debug'" Include="$(MSBuildThisFileDirectory)ScrollViewTestHooksFactory.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ScrollBarController.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)ScrollView.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)ScrollViewBringIntoViewOperation.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)ScrollViewTrace.h" />
-    <ClInclude Condition="'$(Configuration)'=='Debug'" Include="$(MSBuildThisFileDirectory)ScrollViewTestHooks.h" />
-    <ClInclude Condition="'$(Configuration)'=='Debug'" Include="$(MSBuildThisFileDirectory)ScrollViewTestHooksFactory.h" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ScrollViewTrace.ixx" />
+    <ClCompile Condition="'$(Configuration)'=='Debug'" Include="$(MSBuildThisFileDirectory)ScrollViewTestHooks.cpp">
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WINRT_IMPORT_MODULE</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Condition="'$(Configuration)'=='Debug'" Include="$(MSBuildThisFileDirectory)ScrollViewTestHooks.ixx" />
+    <ClCompile Condition="'$(Configuration)'=='Debug'" Include="$(MSBuildThisFileDirectory)ScrollViewTestHooksFactory.cpp">
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WINRT_IMPORT_MODULE</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Condition="'$(Configuration)'=='Debug'" Include="$(MSBuildThisFileDirectory)ScrollViewTestHooksFactory.ixx" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="$(MSBuildThisFileDirectory)ScrollView.xaml">

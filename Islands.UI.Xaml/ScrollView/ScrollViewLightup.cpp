@@ -1,23 +1,20 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+import inc.common;
+import inc.FocusHelper;
+import inc.RegUtil;
+import ixx.RuntimeProfiler;
+import ixx.ScrollPresenter;
+import ixx.ScrollPresenterTypeLogging;
+import ixx.ScrollView;
+import ixx.ScrollViewTestHooks;
+import ixx.TypeLogging;
+import std;
+
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-#include "pch.h"    // This is a direct (non-PCH) compile
-#include "common.h"
-#include "TypeLogging.h"
-#include "ScrollPresenterTypeLogging.h"
-#include "ScrollPresenter.h"
-#include "ScrollView.h"
-#include "RuntimeProfiler.h"
-#include "FocusHelper.h"
-#include "RegUtil.h"
 #ifdef DBG
-#include "ScrollViewTestHooks.h"
 #endif
 
-
-// explicitly instantiate deletion of ScrollView::AutoHideScrollBarsState in this translation unit
-template void std::default_delete<ScrollView::AutoHideScrollBarsState>::operator()(ScrollView::AutoHideScrollBarsState*) const noexcept;
-template void std::default_delete<const ScrollView::AutoHideScrollBarsState>::operator()(const ScrollView::AutoHideScrollBarsState*) const noexcept;
 
 struct ScrollView::AutoHideScrollBarsState
 {
@@ -42,9 +39,9 @@ struct ScrollView::AutoHideScrollBarsState
     }
 };
     
-std::unique_ptr<ScrollView::AutoHideScrollBarsState> ScrollView::MakeAutoHideScrollBarsState()
+std::shared_ptr<ScrollView::AutoHideScrollBarsState> ScrollView::MakeAutoHideScrollBarsState()
 {
-    return std::make_unique<AutoHideScrollBarsState>();
+    return std::make_shared<AutoHideScrollBarsState>();
 }
 
 void ScrollView::OnAutoHideScrollBarsChanged(

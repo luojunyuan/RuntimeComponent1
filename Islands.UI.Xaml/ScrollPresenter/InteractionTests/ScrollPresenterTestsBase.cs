@@ -1,11 +1,11 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using Common;
 using System;
 using System.Collections.Generic;
-using Microsoft.UI.Xaml.Tests.MUXControls.InteractionTests.Common;
-using Microsoft.UI.Xaml.Tests.MUXControls.InteractionTests.Infra;
+using Windows.UI.Xaml.Tests.MUXControls.InteractionTests.Common;
+using Windows.UI.Xaml.Tests.MUXControls.InteractionTests.Infra;
 
 using WEX.TestExecution;
 using WEX.TestExecution.Markup;
@@ -16,7 +16,7 @@ using Microsoft.Windows.Apps.Test.Foundation;
 using Microsoft.Windows.Apps.Test.Foundation.Controls;
 using Microsoft.Windows.Apps.Test.Foundation.Waiters;
 
-namespace Microsoft.UI.Xaml.Tests.MUXControls.InteractionTests
+namespace Windows.UI.Xaml.Tests.MUXControls.InteractionTests
 {
     // Base class for ScrollPresenterTestsWithAutomationPeer and ScrollPresenterTestsWithInputHelper with common private debugging facilities.
     public class ScrollPresenterTestsBase

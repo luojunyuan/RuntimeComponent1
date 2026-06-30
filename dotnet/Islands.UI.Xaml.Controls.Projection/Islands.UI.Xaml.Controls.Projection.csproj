@@ -16,7 +16,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <CsWinRTIncludes>Islands.UI.Xaml.Controls</CsWinRTIncludes>
+    <CsWinRTIncludes>Islands.UI.Xaml.Controls;Islands.UI.Xaml.Controls.Primitives;Islands.UI.Xaml.Automation.Peers</CsWinRTIncludes>
   </PropertyGroup>
 
   <ItemGroup>

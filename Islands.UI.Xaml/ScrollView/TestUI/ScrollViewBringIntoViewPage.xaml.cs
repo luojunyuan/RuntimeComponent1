@@ -1,23 +1,23 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using System;
 using System.Collections.Generic;
-using Microsoft.UI.Composition;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Navigation;
+using Windows.UI.Composition;
+using Windows.UI.Xaml;
+using Islands.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
-using ScrollPresenter = Microsoft.UI.Xaml.Controls.Primitives.ScrollPresenter;
-using ScrollView = Microsoft.UI.Xaml.Controls.ScrollView;
-using ScrollingScrollAnimationStartingEventArgs = Microsoft.UI.Xaml.Controls.ScrollingScrollAnimationStartingEventArgs;
-using ScrollingZoomAnimationStartingEventArgs = Microsoft.UI.Xaml.Controls.ScrollingZoomAnimationStartingEventArgs;
-using ScrollingScrollCompletedEventArgs = Microsoft.UI.Xaml.Controls.ScrollingScrollCompletedEventArgs;
-using ScrollingZoomCompletedEventArgs = Microsoft.UI.Xaml.Controls.ScrollingZoomCompletedEventArgs;
-using ScrollingBringingIntoViewEventArgs = Microsoft.UI.Xaml.Controls.ScrollingBringingIntoViewEventArgs;
-using MUXControlsTestHooks = Microsoft.UI.Private.Controls.MUXControlsTestHooks;
-using MUXControlsTestHooksLoggingMessageEventArgs = Microsoft.UI.Private.Controls.MUXControlsTestHooksLoggingMessageEventArgs;
-using ScrollViewTestHooks = Microsoft.UI.Private.Controls.ScrollViewTestHooks;
+using ScrollPresenter = Islands.UI.Xaml.Controls.Primitives.ScrollPresenter;
+using ScrollView = Islands.UI.Xaml.Controls.ScrollView;
+using ScrollingScrollAnimationStartingEventArgs = Islands.UI.Xaml.Controls.ScrollingScrollAnimationStartingEventArgs;
+using ScrollingZoomAnimationStartingEventArgs = Islands.UI.Xaml.Controls.ScrollingZoomAnimationStartingEventArgs;
+using ScrollingScrollCompletedEventArgs = Islands.UI.Xaml.Controls.ScrollingScrollCompletedEventArgs;
+using ScrollingZoomCompletedEventArgs = Islands.UI.Xaml.Controls.ScrollingZoomCompletedEventArgs;
+using ScrollingBringingIntoViewEventArgs = Islands.UI.Xaml.Controls.ScrollingBringingIntoViewEventArgs;
+using MUXControlsTestHooks = Islands.UI.Xaml.Controls.Primitives.MUXControlsTestHooks;
+using MUXControlsTestHooksLoggingMessageEventArgs = Islands.UI.Xaml.Controls.Primitives.MUXControlsTestHooksLoggingMessageEventArgs;
+using ScrollViewTestHooks = Islands.UI.Xaml.Controls.Primitives.ScrollViewTestHooks;
 
 namespace MUXControlsTestApp
 {
@@ -150,7 +150,7 @@ namespace MUXControlsTestApp
             LogScrollViewInfo();
         }
 
-        private void ScrollView_GettingFocus(UIElement sender, Microsoft.UI.Xaml.Input.GettingFocusEventArgs args)
+        private void ScrollView_GettingFocus(UIElement sender, Windows.UI.Xaml.Input.GettingFocusEventArgs args)
         {
             FrameworkElement oldFE = args.OldFocusedElement as FrameworkElement;
             string oldFEName = (oldFE == null) ? "null" : oldFE.Name;
@@ -165,7 +165,7 @@ namespace MUXControlsTestApp
             AppendAsyncEventMessage("ScrollView.LostFocus");
         }
 
-        private void ScrollView_LosingFocus(UIElement sender, Microsoft.UI.Xaml.Input.LosingFocusEventArgs args)
+        private void ScrollView_LosingFocus(UIElement sender, Windows.UI.Xaml.Input.LosingFocusEventArgs args)
         {
             FrameworkElement oldFE = args.OldFocusedElement as FrameworkElement;
             string oldFEName = (oldFE == null) ? "null" : oldFE.Name;
@@ -553,7 +553,7 @@ namespace MUXControlsTestApp
 
                     lstAsyncEventMessage.Add(msgHead);
                 }
-                var ignored = this.DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal, AppendAsyncEventMessage);
+                var ignored = this.DispatcherQueue.TryEnqueue(Windows.System.DispatcherQueuePriority.Normal, AppendAsyncEventMessage);
 
             }
         }

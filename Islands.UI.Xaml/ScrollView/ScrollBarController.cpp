@@ -1,16 +1,18 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-#include "pch.h"
-#include "common.h"
-#include "ScrollingScrollOptions.h"
-#include "ScrollBarController.h"
-#include "ScrollView.h"
-#include "TypeLogging.h"
-#include "ScrollPresenterTypeLogging.h"
-#include "ScrollControllerScrollToRequestedEventArgs.h"
-#include "ScrollControllerScrollByRequestedEventArgs.h"
-#include "ScrollControllerAddScrollVelocityRequestedEventArgs.h"
+import inc.common;
+import ixx.ScrollViewTrace;
+import ixx.ScrollingScrollOptions;
+import ixx.ScrollBarController;
+import ixx.ScrollView;
+import ixx.TypeLogging;
+import ixx.ScrollPresenterTypeLogging;
+import ixx.ScrollControllerScrollToRequestedEventArgs;
+import ixx.ScrollControllerScrollByRequestedEventArgs;
+import ixx.ScrollControllerAddScrollVelocityRequestedEventArgs;
+import std;
+#include "../Telemetry/ScrollTraceMacros.h"
 
 ScrollBarController::ScrollBarController()
 {

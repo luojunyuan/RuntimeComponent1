@@ -1,14 +1,14 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using Windows.UI;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Shapes;
+using Windows.UI.Xaml;
+using Islands.UI.Xaml.Controls;
+using Islands.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Shapes;
 
-using ScrollPresenter = Microsoft.UI.Xaml.Controls.Primitives.ScrollPresenter;
+using ScrollPresenter = Islands.UI.Xaml.Controls.Primitives.ScrollPresenter;
 
 namespace MUXControlsTestApp
 {
@@ -21,20 +21,20 @@ namespace MUXControlsTestApp
             this.InitializeComponent();
         }
 
-        private void BtnCreateScrollPresenter_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+        private void BtnCreateScrollPresenter_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             scrollPresenter = new ScrollPresenter();
             scrollPresenter.Name = "dynamicScrollPresenter";
             scrollPresenter.Width = 300.0;
             scrollPresenter.Height = 400.0;
             scrollPresenter.Margin = new Thickness(1);
-            scrollPresenter.Background = new SolidColorBrush(Microsoft.UI.Colors.HotPink);
+            scrollPresenter.Background = new SolidColorBrush(Windows.UI.Colors.HotPink);
             scrollPresenter.VerticalAlignment = VerticalAlignment.Top;
 
             Rectangle rect = new Rectangle();
             rect.Width = 900.0;
             rect.Height = 1200.0;
-            rect.Fill = new SolidColorBrush(Microsoft.UI.Colors.DarkRed);
+            rect.Fill = new SolidColorBrush(Windows.UI.Colors.DarkRed);
             scrollPresenter.Content = rect;
 
             btnCreateScrollPresenter.IsEnabled = false;
@@ -42,7 +42,7 @@ namespace MUXControlsTestApp
             btnDeleteScrollPresenter.IsEnabled = true;
         }
 
-        private void BtnAddScrollPresenter_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+        private void BtnAddScrollPresenter_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             Grid.SetRow(scrollPresenter, 5);
             grid.Children.Add(scrollPresenter);
@@ -52,7 +52,7 @@ namespace MUXControlsTestApp
             btnRemoveScrollPresenter.IsEnabled = true;
         }
 
-        private void BtnRemoveScrollPresenter_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+        private void BtnRemoveScrollPresenter_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             grid.Children.Remove(scrollPresenter);
 
@@ -61,7 +61,7 @@ namespace MUXControlsTestApp
             btnDeleteScrollPresenter.IsEnabled = true;
         }
 
-        private void BtnDeleteScrollPresenter_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+        private void BtnDeleteScrollPresenter_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             if (scrollPresenter == null || grid.Children.Count == 6)
                 return;
@@ -74,7 +74,7 @@ namespace MUXControlsTestApp
             btnCreateScrollPresenter.IsEnabled = true;
         }
 
-        private void BtnGarbageCollect_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+        private void BtnGarbageCollect_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             System.GC.Collect();
             System.GC.WaitForPendingFinalizers();

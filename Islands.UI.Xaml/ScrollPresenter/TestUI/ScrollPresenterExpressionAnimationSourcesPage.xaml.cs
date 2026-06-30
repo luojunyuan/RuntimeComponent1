@@ -1,18 +1,18 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using System;
 using System.Collections.Generic;
 using System.Numerics;
 using Windows.UI;
-using Microsoft.UI.Composition;
+using Windows.UI.Composition;
 using Windows.UI.Core;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Hosting;
-using Microsoft.UI.Xaml.Navigation;
-using Microsoft.UI.Private.Controls;
-using Microsoft.UI.Dispatching;
+using Windows.UI.Xaml;
+using Islands.UI.Xaml.Controls;
+using Windows.UI.Xaml.Hosting;
+using Windows.UI.Xaml.Navigation;
+using Islands.UI.Xaml.Controls.Primitives;
+using Windows.System;
 
 namespace MUXControlsTestApp
 {
@@ -68,13 +68,13 @@ namespace MUXControlsTestApp
         private void ScrollPresenterExpressionAnimationSourcesPage_Loaded(object sender, RoutedEventArgs e)
         {
             this.fullLogs.Add("ScrollPresenterExpressionAnimationSourcesPage_Loaded");
-            var ignored = DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal, SetupScrollbars);
+            var ignored = DispatcherQueue.TryEnqueue(Windows.System.DispatcherQueuePriority.Normal, SetupScrollbars);
         }
 
         private void ScrollPresenter_SizeChanged(object sender, SizeChangedEventArgs e)
         {       
             this.fullLogs.Add("ScrollPresenter_SizeChanged PreviousSize=" + e.PreviousSize + ", NewSize=" + e.NewSize);
-            var ignored = DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal, UpdateScrollbars);
+            var ignored = DispatcherQueue.TryEnqueue(Windows.System.DispatcherQueuePriority.Normal, UpdateScrollbars);
 
             // One additional SetLayoutCompleted call is required to declare the layout final
             txtLayoutCompleted.Text = "No";
@@ -94,7 +94,7 @@ namespace MUXControlsTestApp
             hScrollIndicatorSpriteVisual = hScrollIndicatorVisual.Compositor.CreateSpriteVisual();
             vScrollIndicatorSpriteVisual = vScrollIndicatorVisual.Compositor.CreateSpriteVisual();
 
-            CompositionColorBrush brush = hScrollIndicatorVisual.Compositor.CreateColorBrush(Microsoft.UI.Colors.Red);
+            CompositionColorBrush brush = hScrollIndicatorVisual.Compositor.CreateColorBrush(Windows.UI.Colors.Red);
             hScrollIndicatorSpriteVisual.Brush = brush;
             vScrollIndicatorSpriteVisual.Brush = brush;
 

@@ -1,4 +1,4 @@
-﻿using Windows.UI.Xaml;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace IUXControlsTestApp;
@@ -6,6 +6,7 @@ namespace IUXControlsTestApp;
 public sealed partial class MainPage : Page
 {
     private bool _isTitleBarAttached;
+    private ScrollViewPage? _scrollViewPage;
 
     public MainPage()
     {
@@ -43,5 +44,24 @@ public sealed partial class MainPage : Page
 
         App.Window.SetTitleBar(WindowingTitleBar);
         _isTitleBarAttached = true;
+    }
+
+    private void TitleBarSampleButton_Click(object sender, RoutedEventArgs e)
+    {
+        TitleBarSampleHost.Visibility = Visibility.Visible;
+        ScrollViewSampleHost.Visibility = Visibility.Collapsed;
+    }
+
+    private void ScrollViewSampleButton_Click(object sender, RoutedEventArgs e)
+    {
+        _scrollViewPage ??= new ScrollViewPage();
+
+        if (ScrollViewSampleHost.Children.Count == 0)
+        {
+            ScrollViewSampleHost.Children.Add(_scrollViewPage);
+        }
+
+        TitleBarSampleHost.Visibility = Visibility.Collapsed;
+        ScrollViewSampleHost.Visibility = Visibility.Visible;
     }
 }

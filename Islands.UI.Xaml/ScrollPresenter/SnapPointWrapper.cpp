@@ -1,9 +1,10 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+import inc.common;
+import ixx.SnapPointWrapper;
+import std;
+
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-#include "pch.h"
-#include "common.h"
-#include "SnapPointWrapper.h"
 
 template<typename T>
 SnapPointWrapper<T>::SnapPointWrapper(T const& snapPoint)
@@ -39,9 +40,9 @@ int SnapPointWrapper<T>::CombinationCount() const
 template<typename T>
 bool SnapPointWrapper<T>::ResetIgnoredValue()
 {
-    if (!isnan(m_ignoredValue))
+    if (!std::isnan(m_ignoredValue))
     {
-        m_ignoredValue = NAN;
+        m_ignoredValue = std::numeric_limits<double>::quiet_NaN();
         return true;
     }
 
@@ -51,7 +52,7 @@ bool SnapPointWrapper<T>::ResetIgnoredValue()
 template<typename T>
 void SnapPointWrapper<T>::SetIgnoredValue(double ignoredValue)
 {
-    MUX_ASSERT(!isnan(ignoredValue));
+    MUX_ASSERT(!std::isnan(ignoredValue));
 
     m_ignoredValue = ignoredValue;
 }
@@ -118,8 +119,8 @@ void SnapPointWrapper<T>::DetermineActualApplicableZone(
     SnapPointBase* snapPoint = GetSnapPointFromWrapper(this);
     const SnapPointBase* previousSnapPoint = GetSnapPointFromWrapper(previousSnapPointWrapper);
     const SnapPointBase* nextSnapPoint = GetSnapPointFromWrapper(nextSnapPointWrapper);
-    const double previousIgnoredValue = previousSnapPointWrapper ? previousSnapPointWrapper->m_ignoredValue : NAN;
-    const double nextIgnoredValue = nextSnapPointWrapper ? nextSnapPointWrapper->m_ignoredValue : NAN;
+    const double previousIgnoredValue = previousSnapPointWrapper ? previousSnapPointWrapper->m_ignoredValue : std::numeric_limits<double>::quiet_NaN();
+    const double nextIgnoredValue = nextSnapPointWrapper ? nextSnapPointWrapper->m_ignoredValue : std::numeric_limits<double>::quiet_NaN();
 
     if (!forImpulseOnly)
     {

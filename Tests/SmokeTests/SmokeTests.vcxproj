@@ -58,7 +58,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <ArtifactsPath Condition="'$(ArtifactsPath)' == ''">$(MSBuildThisFileDirectory)..\..\artifacts</ArtifactsPath>
-    <IslandsOutputDir>$(ArtifactsPath)\bin\Islands.UI.Xaml\$(Configuration)_$(Platform)\</IslandsOutputDir>
+    <IslandsOutputDir>$(ArtifactsPath)\bin\Islands.UI.Xaml\$(Configuration)_$(Platform)</IslandsOutputDir>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>

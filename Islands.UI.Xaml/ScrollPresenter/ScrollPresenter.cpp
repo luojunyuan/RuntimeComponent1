@@ -1,25 +1,34 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-#include "pch.h"
-#include "common.h"
-#include "TypeLogging.h"
-#include "ScrollPresenterTypeLogging.h"
-#include "ResourceAccessor.h"
-#include "RuntimeProfiler.h"
-#include "InteractionTrackerOwner.h"
-#include "ScrollPresenter.h"
-#include "ScrollingScrollOptions.h"
-#include "ScrollingZoomOptions.h"
-#include "ScrollPresenterAutomationPeer.h"
-#ifdef DBG
-#include "ScrollPresenterTestHooks.h"
-#endif
-#include "Vector.h"
-#include "RegUtil.h"
-#include "MuxcTraceLogging.h"
-
 // Change to 'true' to turn on debugging outputs in Output window
+import inc.common;
+import ixx.ScrollPresenterTrace;
+import ixx.TypeLogging;
+import ixx.ScrollPresenterTypeLogging;
+import ixx.ResourceAccessor;
+import ixx.RuntimeProfiler;
+import ixx.BringIntoViewOffsetsChange;
+import ixx.InteractionTrackerOwner;
+import ixx.ScrollPresenter;
+import ixx.ScrollingBringingIntoViewEventArgs;
+import ixx.ScrollingScrollAnimationStartingEventArgs;
+import ixx.ScrollingScrollCompletedEventArgs;
+import ixx.ScrollingScrollOptions;
+import ixx.ScrollingScrollStartingEventArgs;
+import ixx.ScrollingZoomAnimationStartingEventArgs;
+import ixx.ScrollingZoomCompletedEventArgs;
+import ixx.ScrollingZoomOptions;
+import ixx.ScrollingZoomStartingEventArgs;
+import ixx.ScrollPresenterAutomationPeer;
+import ixx.ScrollPresenterTestHooks;
+import ixx.Vector;
+import ixx.Utils;
+import inc.RegUtil;
+import ixx.MuxcTraceLogging;
+import std;
+#include "../Telemetry/ScrollTraceMacros.h"
+
 bool ScrollPresenterTrace::s_IsDebugOutputEnabled{ false };
 bool ScrollPresenterTrace::s_IsVerboseDebugOutputEnabled{ false };
 
@@ -242,17 +251,17 @@ double ScrollPresenter::ScrollableHeight() const
 
 double ScrollPresenter::AnticipatedZoomedHorizontalOffset() const
 {
-    return isnan(m_anticipatedZoomedHorizontalOffset) ? m_zoomedHorizontalOffset : m_anticipatedZoomedHorizontalOffset;
+    return std::isnan(m_anticipatedZoomedHorizontalOffset) ? m_zoomedHorizontalOffset : m_anticipatedZoomedHorizontalOffset;
 }
 
 double ScrollPresenter::AnticipatedZoomedVerticalOffset() const
 {
-    return isnan(m_anticipatedZoomedVerticalOffset) ? m_zoomedVerticalOffset : m_anticipatedZoomedVerticalOffset;
+    return std::isnan(m_anticipatedZoomedVerticalOffset) ? m_zoomedVerticalOffset : m_anticipatedZoomedVerticalOffset;
 }
 
 float ScrollPresenter::AnticipatedZoomFactor() const
 {
-    return isnan(m_anticipatedZoomFactor) ? m_zoomFactor : m_anticipatedZoomFactor;
+    return std::isnan(m_anticipatedZoomFactor) ? m_zoomFactor : m_anticipatedZoomFactor;
 }
 
 double ScrollPresenter::AnticipatedScrollableWidth() const
@@ -723,7 +732,7 @@ winrt::Size ScrollPresenter::ArrangeOverride(winrt::Size const& finalSize)
             {
                 return contentAsFE &&
                     contentAsFE.HorizontalAlignment() == winrt::HorizontalAlignment::Stretch &&
-                    isnan(contentAsFE.Width()) &&
+                    std::isnan(contentAsFE.Width()) &&
                     contentArrangeSize.Width < viewport.Width;
             }();
 
@@ -731,7 +740,7 @@ winrt::Size ScrollPresenter::ArrangeOverride(winrt::Size const& finalSize)
             {
                 return contentAsFE &&
                     contentAsFE.VerticalAlignment() == winrt::VerticalAlignment::Stretch &&
-                    isnan(contentAsFE.Height()) &&
+                    std::isnan(contentAsFE.Height()) &&
                     contentArrangeSize.Height < viewport.Height;
             }();
 
@@ -786,7 +795,7 @@ winrt::Size ScrollPresenter::ArrangeOverride(winrt::Size const& finalSize)
                 wasContentArrangeWidthStretched,
                 wasContentArrangeHeightStretched);
 
-            if (!isnan(preArrangeViewportToElementAnchorPointsDistance.Width) || !isnan(preArrangeViewportToElementAnchorPointsDistance.Height))
+            if (!std::isnan(preArrangeViewportToElementAnchorPointsDistance.Width) || !std::isnan(preArrangeViewportToElementAnchorPointsDistance.Height))
             {
                 // Using the new viewport sizes to handle the cases where an adjustment needs to be performed because of a ScrollPresenter size change.
                 const winrt::Size postArrangeViewportToElementAnchorPointsDistance = ComputeViewportToElementAnchorPointsDistance(
@@ -795,8 +804,8 @@ winrt::Size ScrollPresenter::ArrangeOverride(winrt::Size const& finalSize)
                     false /*isForPreArrange*/);
 
                 if (isAnchoringElementHorizontally &&
-                    !isnan(preArrangeViewportToElementAnchorPointsDistance.Width) &&
-                    !isnan(postArrangeViewportToElementAnchorPointsDistance.Width) &&
+                    !std::isnan(preArrangeViewportToElementAnchorPointsDistance.Width) &&
+                    !std::isnan(postArrangeViewportToElementAnchorPointsDistance.Width) &&
                     preArrangeViewportToElementAnchorPointsDistance.Width != postArrangeViewportToElementAnchorPointsDistance.Width)
                 {
                     // Perform horizontal offset adjustment due to element anchoring
@@ -806,8 +815,8 @@ winrt::Size ScrollPresenter::ArrangeOverride(winrt::Size const& finalSize)
                 }
 
                 if (isAnchoringElementVertically &&
-                    !isnan(preArrangeViewportToElementAnchorPointsDistance.Height) &&
-                    !isnan(postArrangeViewportToElementAnchorPointsDistance.Height) &&
+                    !std::isnan(preArrangeViewportToElementAnchorPointsDistance.Height) &&
+                    !std::isnan(postArrangeViewportToElementAnchorPointsDistance.Height) &&
                     preArrangeViewportToElementAnchorPointsDistance.Height != postArrangeViewportToElementAnchorPointsDistance.Height)
                 {
                     // Perform vertical offset adjustment due to element anchoring
@@ -1377,7 +1386,7 @@ winrt::float2 ScrollPresenter::ComputeEndOfInertiaPosition()
 
 // Returns zoomed vectors corresponding to InteractionTracker.MinPosition and InteractionTracker.MaxPosition
 // Determines the min and max positions of the ScrollPresenter.Content based on its size and alignment, and the ScrollPresenter size.
-void ScrollPresenter::ComputeMinMaxPositions(float zoomFactor, _Out_opt_ winrt::float2* minPosition, _Out_opt_ winrt::float2* maxPosition)
+void ScrollPresenter::ComputeMinMaxPositions(float zoomFactor, winrt::float2* minPosition, winrt::float2* maxPosition)
 {
     MUX_ASSERT(minPosition || maxPosition);
 
@@ -1519,7 +1528,7 @@ void ScrollPresenter::ComputeMinMaxPositions(float zoomFactor, _Out_opt_ winrt::
 
 #ifdef DBG
         // Allow ScrollPresenterTestHooks to override the returned value.
-        if (!isnan(m_minPositionOverrideDbg.x) && !isnan(m_minPositionOverrideDbg.y))
+        if (!std::isnan(m_minPositionOverrideDbg.x) && !std::isnan(m_minPositionOverrideDbg.y))
         {
             *minPosition = m_minPositionOverrideDbg;
         }
@@ -1539,7 +1548,7 @@ void ScrollPresenter::ComputeMinMaxPositions(float zoomFactor, _Out_opt_ winrt::
 
 #ifdef DBG
         // Allow ScrollPresenterTestHooks to override the returned value.
-        if (!isnan(m_maxPositionOverrideDbg.x) && !isnan(m_maxPositionOverrideDbg.y))
+        if (!std::isnan(m_maxPositionOverrideDbg.x) && !std::isnan(m_maxPositionOverrideDbg.y))
         {
             *maxPosition = m_maxPositionOverrideDbg;
         }
@@ -1590,11 +1599,11 @@ void ScrollPresenter::ComputeBringIntoViewTargetOffsetsFromRequestEventArgs(
     const winrt::UIElement& content,
     const winrt::ScrollingSnapPointsMode& snapPointsMode,
     const winrt::BringIntoViewRequestedEventArgs& requestEventArgs,
-    _Out_ double* targetZoomedHorizontalOffset,
-    _Out_ double* targetZoomedVerticalOffset,
-    _Out_ double* appliedOffsetX,
-    _Out_ double* appliedOffsetY,
-    _Out_ winrt::Rect* targetRect)
+    double* targetZoomedHorizontalOffset,
+    double* targetZoomedVerticalOffset,
+    double* appliedOffsetX,
+    double* appliedOffsetY,
+    winrt::Rect* targetRect)
 {
     SCROLLPRESENTER_TRACE_INFO_DBG(*this, L"%s[0x%p](H/V AlignmentRatio:%lf,%lf, H/V Offset:%f,%f, ElementRect:%s, Element:0x%p)\n",
         METH_NAME, this,
@@ -1629,8 +1638,8 @@ void ScrollPresenter::ComputeBringIntoViewUpdatedTargetOffsets(
     double verticalAlignmentRatio,
     double horizontalOffset,
     double verticalOffset,
-    _Out_ double* targetZoomedHorizontalOffset,
-    _Out_ double* targetZoomedVerticalOffset)
+    double* targetZoomedHorizontalOffset,
+    double* targetZoomedVerticalOffset)
 {
     SCROLLPRESENTER_TRACE_INFO_DBG(*this, L"%s[0x%p](H/V AlignmentRatio:%lf,%lf, H/V Offset:%f,%f, ElementRect:%s, Element:0x%p)\n",
         METH_NAME, this,
@@ -1663,11 +1672,11 @@ void ScrollPresenter::ComputeBringIntoViewTargetOffsets(
     double verticalAlignmentRatio,
     double horizontalOffset,
     double verticalOffset,
-    _Out_ double* targetZoomedHorizontalOffset,
-    _Out_ double* targetZoomedVerticalOffset,
-    _Out_opt_ double* appliedOffsetX,
-    _Out_opt_ double* appliedOffsetY,
-    _Out_opt_ winrt::Rect* targetRect)
+    double* targetZoomedHorizontalOffset,
+    double* targetZoomedVerticalOffset,
+    double* appliedOffsetX,
+    double* appliedOffsetY,
+    winrt::Rect* targetRect)
 {
     MUX_ASSERT(content);
     MUX_ASSERT(element);
@@ -1697,7 +1706,7 @@ void ScrollPresenter::ComputeBringIntoViewTargetOffsets(
     double targetY = transformedRect.Y;
     double targetHeight = transformedRect.Height;
 
-    if (!isnan(horizontalAlignmentRatio))
+    if (!std::isnan(horizontalAlignmentRatio))
     {
         // Account for the horizontal alignment ratio
         MUX_ASSERT(horizontalAlignmentRatio >= 0.0 && horizontalAlignmentRatio <= 1.0);
@@ -1706,7 +1715,7 @@ void ScrollPresenter::ComputeBringIntoViewTargetOffsets(
         targetWidth = m_viewportWidth / m_zoomFactor;
     }
 
-    if (!isnan(verticalAlignmentRatio))
+    if (!std::isnan(verticalAlignmentRatio))
     {
         // Account for the vertical alignment ratio
         MUX_ASSERT(verticalAlignmentRatio >= 0.0 && verticalAlignmentRatio <= 1.0);
@@ -2968,17 +2977,17 @@ double ScrollPresenter::GetComputedMaxWidth(
     double minWidth = content.MinWidth();
     double maxWidth = content.MaxWidth();
 
-    if (!isnan(width))
+    if (!std::isnan(width))
     {
         width = std::max(0.0, width + marginWidth);
         computedMaxWidth = width;
     }
-    if (!isnan(minWidth))
+    if (!std::isnan(minWidth))
     {
         minWidth = std::max(0.0, minWidth + marginWidth);
         computedMaxWidth = std::max(computedMaxWidth, minWidth);
     }
-    if (!isnan(maxWidth))
+    if (!std::isnan(maxWidth))
     {
         maxWidth = std::max(0.0, maxWidth + marginWidth);
         computedMaxWidth = std::min(computedMaxWidth, maxWidth);
@@ -3000,17 +3009,17 @@ double ScrollPresenter::GetComputedMaxHeight(
     double minHeight = content.MinHeight();
     double maxHeight = content.MaxHeight();
 
-    if (!isnan(height))
+    if (!std::isnan(height))
     {
         height = std::max(0.0, height + marginHeight);
         computedMaxHeight = height;
     }
-    if (!isnan(minHeight))
+    if (!std::isnan(minHeight))
     {
         minHeight = std::max(0.0, minHeight + marginHeight);
         computedMaxHeight = std::max(computedMaxHeight, minHeight);
     }
-    if (!isnan(maxHeight))
+    if (!std::isnan(maxHeight))
     {
         maxHeight = std::max(0.0, maxHeight + marginHeight);
         computedMaxHeight = std::min(computedMaxHeight, maxHeight);
@@ -3259,7 +3268,7 @@ winrt::CompositionAnimation ScrollPresenter::GetPositionAnimation(
     int64_t unitDuration = s_offsetsChangeMsPerUnit;
     const bool isHorizontalScrollControllerRequest = static_cast<char>(operationTrigger) & static_cast<char>(InteractionTrackerAsyncOperationTrigger::HorizontalScrollControllerRequest);
     const bool isVerticalScrollControllerRequest = static_cast<char>(operationTrigger) & static_cast<char>(InteractionTrackerAsyncOperationTrigger::VerticalScrollControllerRequest);
-    const int64_t distance = static_cast<int64_t>(sqrt(pow(zoomedHorizontalOffset - m_zoomedHorizontalOffset, 2.0) + pow(zoomedVerticalOffset - m_zoomedVerticalOffset, 2.0)));
+    const int64_t distance = static_cast<int64_t>(std::sqrt(std::pow(zoomedHorizontalOffset - m_zoomedHorizontalOffset, 2.0) + std::pow(zoomedVerticalOffset - m_zoomedVerticalOffset, 2.0)));
     const winrt::Compositor compositor = winrt::ElementCompositionPreview::GetElementVisual(*this).Compositor();
     winrt::Vector3KeyFrameAnimation positionAnimation = compositor.CreateVector3KeyFrameAnimation();
 #ifdef DBG
@@ -3725,14 +3734,14 @@ winrt::ScrollingAnimationMode ScrollPresenter::GetComputedAnimationMode(
 bool ScrollPresenter::IsZoomFactorBoundaryValid(
     double value)
 {
-    return !isnan(value) && isfinite(value);
+    return !std::isnan(value) && std::isfinite(value);
 }
 
 void ScrollPresenter::ValidateZoomFactoryBoundary(double value)
 {
     if (!IsZoomFactorBoundaryValid(value))
     {
-        throw winrt::hresult_error(E_INVALIDARG);
+        throw winrt::hresult_error(eInvalidArg);
     }
 }
 
@@ -3754,14 +3763,14 @@ wstring_view ScrollPresenter::GetVisualTargetedPropertyName(ScrollPresenterDimen
 bool ScrollPresenter::IsAnchorRatioValid(
     double value)
 {
-    return isnan(value) || (isfinite(value) && value >= 0.0 && value <= 1.0);
+    return std::isnan(value) || (std::isfinite(value) && value >= 0.0 && value <= 1.0);
 }
 
 void ScrollPresenter::ValidateAnchorRatio(double value)
 {
     if (!IsAnchorRatioValid(value))
     {
-        throw winrt::hresult_error(E_INVALIDARG);
+        throw winrt::hresult_error(eInvalidArg);
     }
 }
 
@@ -4640,7 +4649,7 @@ void ScrollPresenter::OnPointerPressed(
         // Swallowing Access Denied error because of InteractionTracker bug 17434718 which has been
         // causing crashes at least in RS3, RS4 and RS5.
         // TODO - Stop eating the error in future OS versions that include a fix for 17434718 if any.
-        if (e.to_abi() != E_ACCESSDENIED)
+        if (e.to_abi() != eAccessDenied)
         {
             throw;
         }
@@ -4684,7 +4693,7 @@ void ScrollPresenter::OnScrollControllerPanningInfoPanRequested(
             // Swallowing Access Denied error because of InteractionTracker bug 17434718 which has been
             // causing crashes at least in RS3, RS4 and RS5.
             // TODO - Stop eating the error in future OS versions that include a fix for 17434718 if any.
-            if (e.to_abi() == E_ACCESSDENIED)
+            if (e.to_abi() == eAccessDenied)
             {
                 // Do not set the Handled flag. The request is simply ignored.
                 return;
@@ -5399,15 +5408,15 @@ void ScrollPresenter::UpdateUnzoomedExtentAndViewport(
     SCROLLPRESENTER_TRACE_VERBOSE_DBG(*this, TRACE_MSG_METH_STR_DBL_DBL, METH_NAME, this, L"old/new viewportWidth", oldViewportWidth, viewportWidth);
     SCROLLPRESENTER_TRACE_VERBOSE_DBG(*this, TRACE_MSG_METH_STR_DBL_DBL, METH_NAME, this, L"old/new viewportHeight", oldViewportHeight, viewportHeight);
 
-    MUX_ASSERT(!isinf(unzoomedExtentWidth));
-    MUX_ASSERT(!isnan(unzoomedExtentWidth));
-    MUX_ASSERT(!isinf(unzoomedExtentHeight));
-    MUX_ASSERT(!isnan(unzoomedExtentHeight));
+    MUX_ASSERT(!std::isinf(unzoomedExtentWidth));
+    MUX_ASSERT(!std::isnan(unzoomedExtentWidth));
+    MUX_ASSERT(!std::isinf(unzoomedExtentHeight));
+    MUX_ASSERT(!std::isnan(unzoomedExtentHeight));
 
-    MUX_ASSERT(!isinf(viewportWidth));
-    MUX_ASSERT(!isnan(viewportWidth));
-    MUX_ASSERT(!isinf(viewportHeight));
-    MUX_ASSERT(!isnan(viewportHeight));
+    MUX_ASSERT(!std::isinf(viewportWidth));
+    MUX_ASSERT(!std::isnan(viewportWidth));
+    MUX_ASSERT(!std::isinf(viewportHeight));
+    MUX_ASSERT(!std::isnan(viewportHeight));
 
     MUX_ASSERT(unzoomedExtentWidth >= 0.0);
     MUX_ASSERT(unzoomedExtentHeight >= 0.0);
@@ -5755,7 +5764,7 @@ void ScrollPresenter::ChangeOffsetsPrivate(
     winrt::BringIntoViewRequestedEventArgs const& bringIntoViewRequestedEventArgs,
     InteractionTrackerAsyncOperationTrigger operationTrigger,
     int32_t existingViewChangeCorrelationId,
-    _Out_opt_ int32_t* viewChangeCorrelationId)
+    int32_t* viewChangeCorrelationId)
 {
     SCROLLPRESENTER_TRACE_VERBOSE(*this, TRACE_MSG_METH_DBL_DBL_STR, METH_NAME, this,
         zoomedHorizontalOffset,
@@ -5941,7 +5950,7 @@ void ScrollPresenter::ChangeOffsetsWithAdditionalVelocityPrivate(
     winrt::float2 anticipatedOffsetsChange,
     winrt::IReference<winrt::float2> inertiaDecayRate,
     InteractionTrackerAsyncOperationTrigger operationTrigger,
-    _Out_opt_ int32_t* viewChangeCorrelationId)
+    int32_t* viewChangeCorrelationId)
 {
     SCROLLPRESENTER_TRACE_INFO(*this, TRACE_MSG_METH_STR_STR_STR, METH_NAME, this,
         TypeLogging::Float2ToString(offsetsVelocity).c_str(),
@@ -6008,7 +6017,7 @@ void ScrollPresenter::ChangeZoomFactorPrivate(
     winrt::IReference<winrt::float2> centerPoint,
     ScrollPresenterViewKind zoomFactorKind,
     winrt::ScrollingZoomOptions const& options,
-    _Out_opt_ int32_t* viewChangeCorrelationId)
+    int32_t* viewChangeCorrelationId)
 {
     SCROLLPRESENTER_TRACE_INFO(*this, TRACE_MSG_METH_STR_FLT, METH_NAME, this,
         TypeLogging::NullableFloat2ToString(centerPoint).c_str(),
@@ -6134,7 +6143,7 @@ void ScrollPresenter::ChangeZoomFactorWithAdditionalVelocityPrivate(
     winrt::IReference<winrt::float2> centerPoint,
     winrt::IReference<float> inertiaDecayRate,
     InteractionTrackerAsyncOperationTrigger operationTrigger,
-    _Out_opt_ int32_t* viewChangeCorrelationId)
+    int32_t* viewChangeCorrelationId)
 {
     SCROLLPRESENTER_TRACE_VERBOSE(*this, TRACE_MSG_METH_FLT_FLT, METH_NAME, this,
         zoomFactorVelocity,
@@ -7269,7 +7278,7 @@ void ScrollPresenter::HookCompositionTargetRendering()
     {
         SCROLLPRESENTER_TRACE_VERBOSE(nullptr, TRACE_MSG_METH, METH_NAME, this);
 
-        winrt::Microsoft::UI::Xaml::Media::CompositionTarget compositionTarget{ nullptr };
+        winrt::Windows::UI::Xaml::Media::CompositionTarget compositionTarget{ nullptr };
         m_renderingRevoker = compositionTarget.Rendering(winrt::auto_revoke, { this, &ScrollPresenter::OnCompositionTargetRendering });
     }
 }
@@ -7725,7 +7734,7 @@ bool ScrollPresenter::RaiseBringingIntoView(
     double targetZoomedVerticalOffset,
     const winrt::BringIntoViewRequestedEventArgs& requestEventArgs,
     int32_t offsetsChangeCorrelationId,
-    _Inout_ winrt::ScrollingSnapPointsMode* snapPointsMode)
+    winrt::ScrollingSnapPointsMode* snapPointsMode)
 {
     if (m_bringingIntoViewEventSource)
     {

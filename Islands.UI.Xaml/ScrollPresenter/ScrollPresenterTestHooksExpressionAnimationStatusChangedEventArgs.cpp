@@ -1,12 +1,17 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+import ixx.ScrollPresenterTestHooksExpressionAnimationStatusChangedEventArgs;
+
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-#include "pch.h"
-#include "common.h"
-#include "ScrollPresenterTestHooksExpressionAnimationStatusChangedEventArgs.h"
+import std;
+import winrt_base;
+import winrt.Islands.UI.Xaml.Controls.Primitives;
+
+#define WINRT_IMPORT_MODULE
+#undef WINRT_IMPORT_MODULE
 
 ScrollPresenterTestHooksExpressionAnimationStatusChangedEventArgs::ScrollPresenterTestHooksExpressionAnimationStatusChangedEventArgs(
-    bool isExpressionAnimationStarted, wstring_view const& propertyName)
+    bool isExpressionAnimationStarted, std::wstring_view const& propertyName)
 {
     m_isExpressionAnimationStarted = isExpressionAnimationStarted;
     m_propertyName = propertyName.data();

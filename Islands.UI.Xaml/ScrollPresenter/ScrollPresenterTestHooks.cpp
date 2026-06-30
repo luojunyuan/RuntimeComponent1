@@ -1,10 +1,17 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+import inc.common;
+import ixx.ScrollPresenterTestHooksFactory;
+import ixx.ScrollingScrollCompletedEventArgs;
+import ixx.ScrollingZoomCompletedEventArgs;
+import ixx.ScrollPresenter;
+import ixx.ScrollPresenterTestHooksAnchorEvaluatedEventArgs;
+import ixx.ScrollPresenterTestHooksExpressionAnimationStatusChangedEventArgs;
+import ixx.ScrollPresenterTestHooksInteractionSourcesChangedEventArgs;
+import ixx.Vector;
+import std;
+
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-#include "pch.h"
-#include "common.h"
-#include "ScrollPresenterTestHooksFactory.h"
-#include "Vector.h"
 
 com_ptr<ScrollPresenterTestHooks> ScrollPresenterTestHooks::s_testHooks{};
 
@@ -297,7 +304,7 @@ void ScrollPresenterTestHooks::AnchorEvaluated(winrt::event_token const& token)
 
 void ScrollPresenterTestHooks::NotifyInteractionSourcesChanged(
     const winrt::ScrollPresenter& sender,
-    const winrt::Microsoft::UI::Composition::Interactions::CompositionInteractionSourceCollection& interactionSources)
+    const winrt::Windows::UI::Composition::Interactions::CompositionInteractionSourceCollection& interactionSources)
 {
     auto hooks = EnsureGlobalTestHooks();
     if (hooks->m_interactionSourcesChangedEventSource)

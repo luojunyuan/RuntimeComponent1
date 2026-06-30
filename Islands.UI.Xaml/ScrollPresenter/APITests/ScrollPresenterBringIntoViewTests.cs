@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using Common;
@@ -6,18 +6,18 @@ using MUXControlsTestApp.Utilities;
 using System.Threading;
 using Windows.Foundation;
 using Windows.UI;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Shapes;
-using Microsoft.UI.Private.Controls;
+using Windows.UI.Xaml;
+using Islands.UI.Xaml.Controls;
+using Islands.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Shapes;
+using Islands.UI.Xaml.Controls.Primitives;
 
 using WEX.TestExecution;
 using WEX.TestExecution.Markup;
 using WEX.Logging.Interop;
 
-namespace Microsoft.UI.Xaml.Tests.MUXControls.ApiTests
+namespace Windows.UI.Xaml.Tests.MUXControls.ApiTests
 {
     partial class ScrollPresenterTests : ApiTestBase
     {
@@ -986,9 +986,9 @@ namespace Microsoft.UI.Xaml.Tests.MUXControls.ApiTests
             Border border = new Border();
             border.Name = "border";
             border.BorderThickness = new Thickness(3);
-            border.BorderBrush = new SolidColorBrush(Microsoft.UI.Colors.Chartreuse);
+            border.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Chartreuse);
             border.Margin = new Thickness(15);
-            border.Background = new SolidColorBrush(Microsoft.UI.Colors.Beige);
+            border.Background = new SolidColorBrush(Windows.UI.Colors.Beige);
             border.Child = stackPanel;
 
             Verify.IsNotNull(scrollPresenter);
@@ -1005,7 +1005,7 @@ namespace Microsoft.UI.Xaml.Tests.MUXControls.ApiTests
                 scrollPresenter.Width = c_defaultBringIntoViewUIScrollPresenterNonConstrainedSize;
                 scrollPresenter.Height = c_defaultBringIntoViewUIScrollPresenterConstrainedSize;
             }
-            scrollPresenter.Background = new SolidColorBrush(Microsoft.UI.Colors.AliceBlue);
+            scrollPresenter.Background = new SolidColorBrush(Windows.UI.Colors.AliceBlue);
             scrollPresenter.Content = border;
 
             InsertStackPanelChild(stackPanel, 0 /*operationCount*/, 0 /*newIndex*/, c_defaultBringIntoViewUIStackPanelChildrenCount /*newCount*/);
@@ -1058,9 +1058,9 @@ namespace Microsoft.UI.Xaml.Tests.MUXControls.ApiTests
             Border border = new Border();
             border.Name = "border";
             border.BorderThickness = new Thickness(3);
-            border.BorderBrush = new SolidColorBrush(Microsoft.UI.Colors.Chartreuse);
+            border.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Chartreuse);
             border.Margin = new Thickness(15);
-            border.Background = new SolidColorBrush(Microsoft.UI.Colors.Beige);
+            border.Background = new SolidColorBrush(Windows.UI.Colors.Beige);
             border.Child = stackPanel;
 
             Verify.IsNotNull(scrollViewer);
@@ -1079,7 +1079,7 @@ namespace Microsoft.UI.Xaml.Tests.MUXControls.ApiTests
                 scrollViewer.Width = c_defaultBringIntoViewUIScrollPresenterNonConstrainedSize;
                 scrollViewer.Height = c_defaultBringIntoViewUIScrollPresenterConstrainedSize;
             }
-            scrollViewer.Background = new SolidColorBrush(Microsoft.UI.Colors.AliceBlue);
+            scrollViewer.Background = new SolidColorBrush(Windows.UI.Colors.AliceBlue);
             scrollViewer.Content = border;
 
             InsertStackPanelChild(stackPanel, 0 /*operationCount*/, 0 /*newIndex*/, c_defaultBringIntoViewUIStackPanelChildrenCount /*newCount*/);
@@ -1125,9 +1125,9 @@ namespace Microsoft.UI.Xaml.Tests.MUXControls.ApiTests
             Border border = new Border();
             border.Name = "outerBorder";
             border.BorderThickness = new Thickness(3);
-            border.BorderBrush = new SolidColorBrush(Microsoft.UI.Colors.Chartreuse);
+            border.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Chartreuse);
             border.Margin = new Thickness(15);
-            border.Background = new SolidColorBrush(Microsoft.UI.Colors.Beige);
+            border.Background = new SolidColorBrush(Windows.UI.Colors.Beige);
             border.Child = stackPanel;
 
             Verify.IsNotNull(outerScrollPresenter);
@@ -1144,7 +1144,7 @@ namespace Microsoft.UI.Xaml.Tests.MUXControls.ApiTests
                 outerScrollPresenter.Width = c_defaultBringIntoViewUIScrollPresenterNonConstrainedSize;
                 outerScrollPresenter.Height = c_defaultBringIntoViewUIScrollPresenterConstrainedSize;
             }
-            outerScrollPresenter.Background = new SolidColorBrush(Microsoft.UI.Colors.AliceBlue);
+            outerScrollPresenter.Background = new SolidColorBrush(Windows.UI.Colors.AliceBlue);
             outerScrollPresenter.Content = border;
 
             InsertStackPanelChild(stackPanel, 0 /*operationCount*/, 0 /*newIndex*/, c_defaultBringIntoViewUIStackPanelChildrenCount / 2 /*newCount*/, "outer" /*namePrefix*/);
@@ -1207,9 +1207,9 @@ namespace Microsoft.UI.Xaml.Tests.MUXControls.ApiTests
             Border border = new Border();
             border.Name = "outerBorder";
             border.BorderThickness = new Thickness(3);
-            border.BorderBrush = new SolidColorBrush(Microsoft.UI.Colors.Chartreuse);
+            border.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Chartreuse);
             border.Margin = new Thickness(15);
-            border.Background = new SolidColorBrush(Microsoft.UI.Colors.Beige);
+            border.Background = new SolidColorBrush(Windows.UI.Colors.Beige);
             border.Child = stackPanel;
 
             Verify.IsNotNull(outerScrollViewer);
@@ -1228,7 +1228,7 @@ namespace Microsoft.UI.Xaml.Tests.MUXControls.ApiTests
                 outerScrollViewer.Width = c_defaultBringIntoViewUIScrollPresenterNonConstrainedSize;
                 outerScrollViewer.Height = c_defaultBringIntoViewUIScrollPresenterConstrainedSize;
             }
-            outerScrollViewer.Background = new SolidColorBrush(Microsoft.UI.Colors.AliceBlue);
+            outerScrollViewer.Background = new SolidColorBrush(Windows.UI.Colors.AliceBlue);
             outerScrollViewer.Content = border;
 
             InsertStackPanelChild(stackPanel, 0 /*operationCount*/, 0 /*newIndex*/, c_defaultBringIntoViewUIStackPanelChildrenCount / 2 /*newCount*/, "outer" /*namePrefix*/);

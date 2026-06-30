@@ -1,25 +1,25 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using System.Collections.Generic;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Navigation;
+using Windows.UI.Xaml;
+using Islands.UI.Xaml.Controls;
+using Islands.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Navigation;
 
-using ScrollPresenter = Microsoft.UI.Xaml.Controls.Primitives.ScrollPresenter;
-using ScrollingInteractionState = Microsoft.UI.Xaml.Controls.ScrollingInteractionState;
-using ScrollingAnimationMode = Microsoft.UI.Xaml.Controls.ScrollingAnimationMode;
-using ScrollingSnapPointsMode = Microsoft.UI.Xaml.Controls.ScrollingSnapPointsMode;
-using ScrollingScrollOptions = Microsoft.UI.Xaml.Controls.ScrollingScrollOptions;
-using ScrollingZoomOptions = Microsoft.UI.Xaml.Controls.ScrollingZoomOptions;
-using ScrollingScrollCompletedEventArgs = Microsoft.UI.Xaml.Controls.ScrollingScrollCompletedEventArgs;
-using ScrollingZoomCompletedEventArgs = Microsoft.UI.Xaml.Controls.ScrollingZoomCompletedEventArgs;
+using ScrollPresenter = Islands.UI.Xaml.Controls.Primitives.ScrollPresenter;
+using ScrollingInteractionState = Islands.UI.Xaml.Controls.ScrollingInteractionState;
+using ScrollingAnimationMode = Islands.UI.Xaml.Controls.ScrollingAnimationMode;
+using ScrollingSnapPointsMode = Islands.UI.Xaml.Controls.ScrollingSnapPointsMode;
+using ScrollingScrollOptions = Islands.UI.Xaml.Controls.ScrollingScrollOptions;
+using ScrollingZoomOptions = Islands.UI.Xaml.Controls.ScrollingZoomOptions;
+using ScrollingScrollCompletedEventArgs = Islands.UI.Xaml.Controls.ScrollingScrollCompletedEventArgs;
+using ScrollingZoomCompletedEventArgs = Islands.UI.Xaml.Controls.ScrollingZoomCompletedEventArgs;
 
-using ScrollPresenterTestHooks = Microsoft.UI.Private.Controls.ScrollPresenterTestHooks;
-using ScrollPresenterViewChangeResult = Microsoft.UI.Private.Controls.ScrollPresenterViewChangeResult;
-using MUXControlsTestHooks = Microsoft.UI.Private.Controls.MUXControlsTestHooks;
-using MUXControlsTestHooksLoggingMessageEventArgs = Microsoft.UI.Private.Controls.MUXControlsTestHooksLoggingMessageEventArgs;
+using ScrollPresenterTestHooks = Islands.UI.Xaml.Controls.Primitives.ScrollPresenterTestHooks;
+using ScrollPresenterViewChangeResult = Islands.UI.Xaml.Controls.Primitives.ScrollPresenterViewChangeResult;
+using MUXControlsTestHooks = Islands.UI.Xaml.Controls.Primitives.MUXControlsTestHooks;
+using MUXControlsTestHooksLoggingMessageEventArgs = Islands.UI.Xaml.Controls.Primitives.MUXControlsTestHooksLoggingMessageEventArgs;
 
 namespace MUXControlsTestApp
 {

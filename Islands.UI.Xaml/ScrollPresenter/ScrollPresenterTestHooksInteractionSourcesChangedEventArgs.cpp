@@ -1,19 +1,24 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+import ixx.ScrollPresenterTestHooksInteractionSourcesChangedEventArgs;
+
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-#include "pch.h"
-#include "common.h"
-#include "ScrollPresenterTestHooksInteractionSourcesChangedEventArgs.h"
+import winrt_base;
+import winrt.Islands.UI.Xaml.Controls.Primitives;
+import winrt.Windows.UI.Composition.Interactions;
+
+#define WINRT_IMPORT_MODULE
+#undef WINRT_IMPORT_MODULE
 
 ScrollPresenterTestHooksInteractionSourcesChangedEventArgs::ScrollPresenterTestHooksInteractionSourcesChangedEventArgs(
-    const winrt::Microsoft::UI::Composition::Interactions::CompositionInteractionSourceCollection& interactionSources)
+    const winrt::Windows::UI::Composition::Interactions::CompositionInteractionSourceCollection& interactionSources)
 {
     m_interactionSources = interactionSources;
 }
 
 #pragma region IScrollPresenterTestHooksInteractionSourcesChangedEventArgs
 
-winrt::Microsoft::UI::Composition::Interactions::CompositionInteractionSourceCollection ScrollPresenterTestHooksInteractionSourcesChangedEventArgs::InteractionSources()
+winrt::Windows::UI::Composition::Interactions::CompositionInteractionSourceCollection ScrollPresenterTestHooksInteractionSourcesChangedEventArgs::InteractionSources()
 {
     return m_interactionSources;
 }

@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using System;
@@ -6,13 +6,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Numerics;
 using Windows.UI;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Shapes;
-using Microsoft.UI.Xaml.Navigation;
-using Microsoft.UI.Private.Controls;
+using Windows.UI.Xaml;
+using Islands.UI.Xaml.Controls;
+using Islands.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Shapes;
+using Windows.UI.Xaml.Navigation;
+using Islands.UI.Xaml.Controls.Primitives;
 
 namespace MUXControlsTestApp
 {
@@ -43,7 +43,7 @@ namespace MUXControlsTestApp
 
         private void ScrollPresenterScrollSnapPointsPage_Loaded(object sender, RoutedEventArgs e)
         {
-            SolidColorBrush brush = new SolidColorBrush(Microsoft.UI.Colors.Red);
+            SolidColorBrush brush = new SolidColorBrush(Windows.UI.Colors.Red);
             for (int j = 0; j < snapPointColumns; j++)
             {
                 Grid innerGrid = new Grid();
@@ -292,7 +292,7 @@ namespace MUXControlsTestApp
                             pointRectangle.Width = snapPointColumnWidth;
                             pointRectangle.Height = 1;
                             pointRectangle.Margin = new Thickness(0, value, 0, 0);
-                            pointRectangle.Fill = new SolidColorBrush(Microsoft.UI.Colors.Black);
+                            pointRectangle.Fill = new SolidColorBrush(Windows.UI.Colors.Black);
                             pointRectangle.VerticalAlignment = VerticalAlignment.Top;
                             snapPointColumn.Children.Add(pointRectangle);
                         }
@@ -340,283 +340,283 @@ namespace MUXControlsTestApp
             switch (colorIndex)
             {
                 case 0:
-                    return Microsoft.UI.Colors.YellowGreen;
+                    return Windows.UI.Colors.YellowGreen;
                 case 1:
-                    return Microsoft.UI.Colors.AliceBlue;
+                    return Windows.UI.Colors.AliceBlue;
                 case 2:
-                    return Microsoft.UI.Colors.AntiqueWhite;
+                    return Windows.UI.Colors.AntiqueWhite;
                 case 3:
-                    return Microsoft.UI.Colors.Aqua;
+                    return Windows.UI.Colors.Aqua;
                 case 4:
-                    return Microsoft.UI.Colors.Aquamarine;
+                    return Windows.UI.Colors.Aquamarine;
                 case 5:
-                    return Microsoft.UI.Colors.Azure;
+                    return Windows.UI.Colors.Azure;
                 case 6:
-                    return Microsoft.UI.Colors.Beige;
+                    return Windows.UI.Colors.Beige;
                 case 7:
-                    return Microsoft.UI.Colors.Bisque;
+                    return Windows.UI.Colors.Bisque;
                 case 8:
-                    return Microsoft.UI.Colors.BlanchedAlmond;
+                    return Windows.UI.Colors.BlanchedAlmond;
                 case 9:
-                    return Microsoft.UI.Colors.Blue;
+                    return Windows.UI.Colors.Blue;
                 case 10:
-                    return Microsoft.UI.Colors.BlueViolet;
+                    return Windows.UI.Colors.BlueViolet;
                 case 11:
-                    return Microsoft.UI.Colors.Brown;
+                    return Windows.UI.Colors.Brown;
                 case 12:
-                    return Microsoft.UI.Colors.BurlyWood;
+                    return Windows.UI.Colors.BurlyWood;
                 case 13:
-                    return Microsoft.UI.Colors.CadetBlue;
+                    return Windows.UI.Colors.CadetBlue;
                 case 14:
-                    return Microsoft.UI.Colors.Chartreuse;
+                    return Windows.UI.Colors.Chartreuse;
                 case 15:
-                    return Microsoft.UI.Colors.Chocolate;
+                    return Windows.UI.Colors.Chocolate;
                 case 16:
-                    return Microsoft.UI.Colors.Coral;
+                    return Windows.UI.Colors.Coral;
                 case 17:
-                    return Microsoft.UI.Colors.CornflowerBlue;
+                    return Windows.UI.Colors.CornflowerBlue;
                 case 18:
-                    return Microsoft.UI.Colors.Cornsilk;
+                    return Windows.UI.Colors.Cornsilk;
                 case 19:
-                    return Microsoft.UI.Colors.Crimson;
+                    return Windows.UI.Colors.Crimson;
                 case 20:
-                    return Microsoft.UI.Colors.Cyan;
+                    return Windows.UI.Colors.Cyan;
                 case 21:
-                    return Microsoft.UI.Colors.DarkBlue;
+                    return Windows.UI.Colors.DarkBlue;
                 case 22:
-                    return Microsoft.UI.Colors.DarkCyan;
+                    return Windows.UI.Colors.DarkCyan;
                 case 23:
-                    return Microsoft.UI.Colors.DarkGoldenrod;
+                    return Windows.UI.Colors.DarkGoldenrod;
                 case 24:
-                    return Microsoft.UI.Colors.DarkGray;
+                    return Windows.UI.Colors.DarkGray;
                 case 25:
-                    return Microsoft.UI.Colors.DarkGreen;
+                    return Windows.UI.Colors.DarkGreen;
                 case 26:
-                    return Microsoft.UI.Colors.DarkKhaki;
+                    return Windows.UI.Colors.DarkKhaki;
                 case 27:
-                    return Microsoft.UI.Colors.DarkMagenta;
+                    return Windows.UI.Colors.DarkMagenta;
                 case 28:
-                    return Microsoft.UI.Colors.DarkOliveGreen;
+                    return Windows.UI.Colors.DarkOliveGreen;
                 case 29:
-                    return Microsoft.UI.Colors.DarkOrange;
+                    return Windows.UI.Colors.DarkOrange;
                 case 30:
-                    return Microsoft.UI.Colors.DarkOrchid;
+                    return Windows.UI.Colors.DarkOrchid;
                 case 31:
-                    return Microsoft.UI.Colors.DarkRed;
+                    return Windows.UI.Colors.DarkRed;
                 case 32:
-                    return Microsoft.UI.Colors.DarkSalmon;
+                    return Windows.UI.Colors.DarkSalmon;
                 case 33:
-                    return Microsoft.UI.Colors.DarkSeaGreen;
+                    return Windows.UI.Colors.DarkSeaGreen;
                 case 34:
-                    return Microsoft.UI.Colors.DarkSlateBlue;
+                    return Windows.UI.Colors.DarkSlateBlue;
                 case 35:
-                    return Microsoft.UI.Colors.DarkSlateGray;
+                    return Windows.UI.Colors.DarkSlateGray;
                 case 36:
-                    return Microsoft.UI.Colors.DarkTurquoise;
+                    return Windows.UI.Colors.DarkTurquoise;
                 case 37:
-                    return Microsoft.UI.Colors.DarkViolet;
+                    return Windows.UI.Colors.DarkViolet;
                 case 38:
-                    return Microsoft.UI.Colors.DeepPink;
+                    return Windows.UI.Colors.DeepPink;
                 case 39:
-                    return Microsoft.UI.Colors.DeepSkyBlue;
+                    return Windows.UI.Colors.DeepSkyBlue;
                 case 40:
-                    return Microsoft.UI.Colors.DimGray;
+                    return Windows.UI.Colors.DimGray;
                 case 41:
-                    return Microsoft.UI.Colors.DodgerBlue;
+                    return Windows.UI.Colors.DodgerBlue;
                 case 42:
-                    return Microsoft.UI.Colors.Firebrick;
+                    return Windows.UI.Colors.Firebrick;
                 case 43:
-                    return Microsoft.UI.Colors.FloralWhite;
+                    return Windows.UI.Colors.FloralWhite;
                 case 44:
-                    return Microsoft.UI.Colors.ForestGreen;
+                    return Windows.UI.Colors.ForestGreen;
                 case 45:
-                    return Microsoft.UI.Colors.Fuchsia;
+                    return Windows.UI.Colors.Fuchsia;
                 case 46:
-                    return Microsoft.UI.Colors.Gainsboro;
+                    return Windows.UI.Colors.Gainsboro;
                 case 47:
-                    return Microsoft.UI.Colors.GhostWhite;
+                    return Windows.UI.Colors.GhostWhite;
                 case 48:
-                    return Microsoft.UI.Colors.Gold;
+                    return Windows.UI.Colors.Gold;
                 case 49:
-                    return Microsoft.UI.Colors.Goldenrod;
+                    return Windows.UI.Colors.Goldenrod;
                 case 50:
-                    return Microsoft.UI.Colors.Gray;
+                    return Windows.UI.Colors.Gray;
                 case 51:
-                    return Microsoft.UI.Colors.Green;
+                    return Windows.UI.Colors.Green;
                 case 52:
-                    return Microsoft.UI.Colors.GreenYellow;
+                    return Windows.UI.Colors.GreenYellow;
                 case 53:
-                    return Microsoft.UI.Colors.Honeydew;
+                    return Windows.UI.Colors.Honeydew;
                 case 54:
-                    return Microsoft.UI.Colors.HotPink;
+                    return Windows.UI.Colors.HotPink;
                 case 55:
-                    return Microsoft.UI.Colors.IndianRed;
+                    return Windows.UI.Colors.IndianRed;
                 case 56:
-                    return Microsoft.UI.Colors.Indigo;
+                    return Windows.UI.Colors.Indigo;
                 case 57:
-                    return Microsoft.UI.Colors.Ivory;
+                    return Windows.UI.Colors.Ivory;
                 case 58:
-                    return Microsoft.UI.Colors.Khaki;
+                    return Windows.UI.Colors.Khaki;
                 case 59:
-                    return Microsoft.UI.Colors.Lavender;
+                    return Windows.UI.Colors.Lavender;
                 case 60:
-                    return Microsoft.UI.Colors.LavenderBlush;
+                    return Windows.UI.Colors.LavenderBlush;
                 case 61:
-                    return Microsoft.UI.Colors.LawnGreen;
+                    return Windows.UI.Colors.LawnGreen;
                 case 62:
-                    return Microsoft.UI.Colors.LemonChiffon;
+                    return Windows.UI.Colors.LemonChiffon;
                 case 63:
-                    return Microsoft.UI.Colors.LightBlue;
+                    return Windows.UI.Colors.LightBlue;
                 case 64:
-                    return Microsoft.UI.Colors.LightCoral;
+                    return Windows.UI.Colors.LightCoral;
                 case 65:
-                    return Microsoft.UI.Colors.LightCyan;
+                    return Windows.UI.Colors.LightCyan;
                 case 66:
-                    return Microsoft.UI.Colors.LightGoldenrodYellow;
+                    return Windows.UI.Colors.LightGoldenrodYellow;
                 case 67:
-                    return Microsoft.UI.Colors.LightGray;
+                    return Windows.UI.Colors.LightGray;
                 case 68:
-                    return Microsoft.UI.Colors.LightGreen;
+                    return Windows.UI.Colors.LightGreen;
                 case 69:
-                    return Microsoft.UI.Colors.LightPink;
+                    return Windows.UI.Colors.LightPink;
                 case 70:
-                    return Microsoft.UI.Colors.LightSalmon;
+                    return Windows.UI.Colors.LightSalmon;
                 case 71:
-                    return Microsoft.UI.Colors.LightSeaGreen;
+                    return Windows.UI.Colors.LightSeaGreen;
                 case 72:
-                    return Microsoft.UI.Colors.LightSkyBlue;
+                    return Windows.UI.Colors.LightSkyBlue;
                 case 73:
-                    return Microsoft.UI.Colors.LightSlateGray;
+                    return Windows.UI.Colors.LightSlateGray;
                 case 74:
-                    return Microsoft.UI.Colors.LightSteelBlue;
+                    return Windows.UI.Colors.LightSteelBlue;
                 case 75:
-                    return Microsoft.UI.Colors.LightYellow;
+                    return Windows.UI.Colors.LightYellow;
                 case 76:
-                    return Microsoft.UI.Colors.Lime;
+                    return Windows.UI.Colors.Lime;
                 case 77:
-                    return Microsoft.UI.Colors.LimeGreen;
+                    return Windows.UI.Colors.LimeGreen;
                 case 78:
-                    return Microsoft.UI.Colors.Linen;
+                    return Windows.UI.Colors.Linen;
                 case 79:
-                    return Microsoft.UI.Colors.Magenta;
+                    return Windows.UI.Colors.Magenta;
                 case 80:
-                    return Microsoft.UI.Colors.Maroon;
+                    return Windows.UI.Colors.Maroon;
                 case 81:
-                    return Microsoft.UI.Colors.MediumAquamarine;
+                    return Windows.UI.Colors.MediumAquamarine;
                 case 82:
-                    return Microsoft.UI.Colors.MediumBlue;
+                    return Windows.UI.Colors.MediumBlue;
                 case 83:
-                    return Microsoft.UI.Colors.MediumOrchid;
+                    return Windows.UI.Colors.MediumOrchid;
                 case 84:
-                    return Microsoft.UI.Colors.MediumPurple;
+                    return Windows.UI.Colors.MediumPurple;
                 case 85:
-                    return Microsoft.UI.Colors.MediumSeaGreen;
+                    return Windows.UI.Colors.MediumSeaGreen;
                 case 86:
-                    return Microsoft.UI.Colors.MediumSlateBlue;
+                    return Windows.UI.Colors.MediumSlateBlue;
                 case 87:
-                    return Microsoft.UI.Colors.MediumSpringGreen;
+                    return Windows.UI.Colors.MediumSpringGreen;
                 case 88:
-                    return Microsoft.UI.Colors.MediumTurquoise;
+                    return Windows.UI.Colors.MediumTurquoise;
                 case 89:
-                    return Microsoft.UI.Colors.MediumVioletRed;
+                    return Windows.UI.Colors.MediumVioletRed;
                 case 90:
-                    return Microsoft.UI.Colors.MidnightBlue;
+                    return Windows.UI.Colors.MidnightBlue;
                 case 91:
-                    return Microsoft.UI.Colors.MintCream;
+                    return Windows.UI.Colors.MintCream;
                 case 92:
-                    return Microsoft.UI.Colors.MistyRose;
+                    return Windows.UI.Colors.MistyRose;
                 case 93:
-                    return Microsoft.UI.Colors.Moccasin;
+                    return Windows.UI.Colors.Moccasin;
                 case 94:
-                    return Microsoft.UI.Colors.NavajoWhite;
+                    return Windows.UI.Colors.NavajoWhite;
                 case 95:
-                    return Microsoft.UI.Colors.Navy;
+                    return Windows.UI.Colors.Navy;
                 case 96:
-                    return Microsoft.UI.Colors.OldLace;
+                    return Windows.UI.Colors.OldLace;
                 case 97:
-                    return Microsoft.UI.Colors.Olive;
+                    return Windows.UI.Colors.Olive;
                 case 98:
-                    return Microsoft.UI.Colors.OliveDrab;
+                    return Windows.UI.Colors.OliveDrab;
                 case 99:
-                    return Microsoft.UI.Colors.Orange;
+                    return Windows.UI.Colors.Orange;
                 case 100:
-                    return Microsoft.UI.Colors.OrangeRed;
+                    return Windows.UI.Colors.OrangeRed;
                 case 101:
-                    return Microsoft.UI.Colors.Orchid;
+                    return Windows.UI.Colors.Orchid;
                 case 102:
-                    return Microsoft.UI.Colors.PaleGoldenrod;
+                    return Windows.UI.Colors.PaleGoldenrod;
                 case 103:
-                    return Microsoft.UI.Colors.PaleGreen;
+                    return Windows.UI.Colors.PaleGreen;
                 case 104:
-                    return Microsoft.UI.Colors.PaleTurquoise;
+                    return Windows.UI.Colors.PaleTurquoise;
                 case 105:
-                    return Microsoft.UI.Colors.PaleVioletRed;
+                    return Windows.UI.Colors.PaleVioletRed;
                 case 106:
-                    return Microsoft.UI.Colors.PapayaWhip;
+                    return Windows.UI.Colors.PapayaWhip;
                 case 107:
-                    return Microsoft.UI.Colors.PeachPuff;
+                    return Windows.UI.Colors.PeachPuff;
                 case 108:
-                    return Microsoft.UI.Colors.Peru;
+                    return Windows.UI.Colors.Peru;
                 case 109:
-                    return Microsoft.UI.Colors.Pink;
+                    return Windows.UI.Colors.Pink;
                 case 110:
-                    return Microsoft.UI.Colors.Plum;
+                    return Windows.UI.Colors.Plum;
                 case 111:
-                    return Microsoft.UI.Colors.PowderBlue;
+                    return Windows.UI.Colors.PowderBlue;
                 case 112:
-                    return Microsoft.UI.Colors.Purple;
+                    return Windows.UI.Colors.Purple;
                 case 113:
-                    return Microsoft.UI.Colors.Red;
+                    return Windows.UI.Colors.Red;
                 case 114:
-                    return Microsoft.UI.Colors.RosyBrown;
+                    return Windows.UI.Colors.RosyBrown;
                 case 115:
-                    return Microsoft.UI.Colors.RoyalBlue;
+                    return Windows.UI.Colors.RoyalBlue;
                 case 116:
-                    return Microsoft.UI.Colors.SaddleBrown;
+                    return Windows.UI.Colors.SaddleBrown;
                 case 117:
-                    return Microsoft.UI.Colors.Salmon;
+                    return Windows.UI.Colors.Salmon;
                 case 118:
-                    return Microsoft.UI.Colors.SandyBrown;
+                    return Windows.UI.Colors.SandyBrown;
                 case 119:
-                    return Microsoft.UI.Colors.SeaGreen;
+                    return Windows.UI.Colors.SeaGreen;
                 case 120:
-                    return Microsoft.UI.Colors.SeaShell;
+                    return Windows.UI.Colors.SeaShell;
                 case 121:
-                    return Microsoft.UI.Colors.Sienna;
+                    return Windows.UI.Colors.Sienna;
                 case 122:
-                    return Microsoft.UI.Colors.Silver;
+                    return Windows.UI.Colors.Silver;
                 case 123:
-                    return Microsoft.UI.Colors.SkyBlue;
+                    return Windows.UI.Colors.SkyBlue;
                 case 124:
-                    return Microsoft.UI.Colors.SlateBlue;
+                    return Windows.UI.Colors.SlateBlue;
                 case 125:
-                    return Microsoft.UI.Colors.SlateGray;
+                    return Windows.UI.Colors.SlateGray;
                 case 126:
-                    return Microsoft.UI.Colors.Snow;
+                    return Windows.UI.Colors.Snow;
                 case 127:
-                    return Microsoft.UI.Colors.SpringGreen;
+                    return Windows.UI.Colors.SpringGreen;
                 case 128:
-                    return Microsoft.UI.Colors.Tan;
+                    return Windows.UI.Colors.Tan;
                 case 129:
-                    return Microsoft.UI.Colors.Teal;
+                    return Windows.UI.Colors.Teal;
                 case 130:
-                    return Microsoft.UI.Colors.Thistle;
+                    return Windows.UI.Colors.Thistle;
                 case 131:
-                    return Microsoft.UI.Colors.Tomato;
+                    return Windows.UI.Colors.Tomato;
                 case 132:
-                    return Microsoft.UI.Colors.Turquoise;
+                    return Windows.UI.Colors.Turquoise;
                 case 133:
-                    return Microsoft.UI.Colors.Violet;
+                    return Windows.UI.Colors.Violet;
                 case 134:
-                    return Microsoft.UI.Colors.Wheat;
+                    return Windows.UI.Colors.Wheat;
                 case 135:
-                    return Microsoft.UI.Colors.WhiteSmoke;
+                    return Windows.UI.Colors.WhiteSmoke;
                 case 136:
-                    return Microsoft.UI.Colors.Yellow;
+                    return Windows.UI.Colors.Yellow;
                 case 137:
-                    return Microsoft.UI.Colors.YellowGreen;
+                    return Windows.UI.Colors.YellowGreen;
                 default:
-                    return Microsoft.UI.Colors.Black;
+                    return Windows.UI.Colors.Black;
             }
         }
 

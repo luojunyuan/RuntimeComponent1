@@ -1,11 +1,13 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-#include "pch.h"
-#include "common.h"
-#include "TypeLogging.h"
-#include "ScrollPresenter.h"
-#include "DoubleUtil.h"
+import inc.common;
+import ixx.ScrollPresenterTrace;
+import ixx.TypeLogging;
+import ixx.ScrollPresenter;
+import inc.DoubleUtil;
+import std;
+#include "../Telemetry/ScrollTraceMacros.h"
 
 bool ScrollPresenter::IsHorizontallyScrollable()
 {
@@ -109,10 +111,10 @@ void ScrollPresenter::RegisterAnchorCandidate(winrt::UIElement const& element)
 
     if (!element)
     {
-        throw winrt::hresult_error(E_INVALIDARG);
+        throw winrt::hresult_error(eInvalidArg);
     }
 
-    if (!isnan(HorizontalAnchorRatio()) || !isnan(VerticalAnchorRatio()))
+    if (!std::isnan(HorizontalAnchorRatio()) || !std::isnan(VerticalAnchorRatio()))
     {
 #ifdef DBG
         // We should not be registering the same element twice. Even through it is functionally ok,
@@ -140,7 +142,7 @@ void ScrollPresenter::UnregisterAnchorCandidate(winrt::UIElement const& element)
 
     if (!element)
     {
-        throw winrt::hresult_error(E_INVALIDARG);
+        throw winrt::hresult_error(eInvalidArg);
     }
 
     const winrt::UIElement anchorCandidate = element;

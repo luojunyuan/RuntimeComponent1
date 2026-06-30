@@ -1,16 +1,16 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using Common;
-using Microsoft.UI.Private.Controls;
+using Islands.UI.Xaml.Controls.Primitives;
 using MUXControlsTestApp.Utilities;
 using System;
 using System.Threading;
 using Windows.Foundation;
 using Windows.UI.ViewManagement;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Shapes;
-using Microsoft.UI.Xaml.Media;
+using Islands.UI.Xaml.Controls;
+using Windows.UI.Xaml.Shapes;
+using Windows.UI.Xaml.Media;
 
 using System.Runtime.InteropServices;
 using System.Diagnostics;
@@ -19,20 +19,20 @@ using WEX.TestExecution;
 using WEX.TestExecution.Markup;
 using WEX.Logging.Interop;
 
-using ScrollView = Microsoft.UI.Xaml.Controls.ScrollView;
-using ScrollBarVisibility = Microsoft.UI.Xaml.Controls.ScrollingScrollBarVisibility;
-using ScrollPresenter = Microsoft.UI.Xaml.Controls.Primitives.ScrollPresenter;
-using ScrollingContentOrientation = Microsoft.UI.Xaml.Controls.ScrollingContentOrientation;
-using ScrollingScrollMode = Microsoft.UI.Xaml.Controls.ScrollingScrollMode;
-using ScrollingInputKinds = Microsoft.UI.Xaml.Controls.ScrollingInputKinds;
-using ScrollingChainMode = Microsoft.UI.Xaml.Controls.ScrollingChainMode;
-using ScrollingRailMode = Microsoft.UI.Xaml.Controls.ScrollingRailMode;
-using ScrollingZoomMode = Microsoft.UI.Xaml.Controls.ScrollingZoomMode;
-using ScrollingAnchorRequestedEventArgs = Microsoft.UI.Xaml.Controls.ScrollingAnchorRequestedEventArgs;
-using MUXControlsTestHooksLoggingMessageEventArgs = Microsoft.UI.Private.Controls.MUXControlsTestHooksLoggingMessageEventArgs;
-using ScrollViewTestHooks = Microsoft.UI.Private.Controls.ScrollViewTestHooks;
+using ScrollView = Islands.UI.Xaml.Controls.ScrollView;
+using ScrollBarVisibility = Islands.UI.Xaml.Controls.ScrollingScrollBarVisibility;
+using ScrollPresenter = Islands.UI.Xaml.Controls.Primitives.ScrollPresenter;
+using ScrollingContentOrientation = Islands.UI.Xaml.Controls.ScrollingContentOrientation;
+using ScrollingScrollMode = Islands.UI.Xaml.Controls.ScrollingScrollMode;
+using ScrollingInputKinds = Islands.UI.Xaml.Controls.ScrollingInputKinds;
+using ScrollingChainMode = Islands.UI.Xaml.Controls.ScrollingChainMode;
+using ScrollingRailMode = Islands.UI.Xaml.Controls.ScrollingRailMode;
+using ScrollingZoomMode = Islands.UI.Xaml.Controls.ScrollingZoomMode;
+using ScrollingAnchorRequestedEventArgs = Islands.UI.Xaml.Controls.ScrollingAnchorRequestedEventArgs;
+using MUXControlsTestHooksLoggingMessageEventArgs = Islands.UI.Xaml.Controls.Primitives.MUXControlsTestHooksLoggingMessageEventArgs;
+using ScrollViewTestHooks = Islands.UI.Xaml.Controls.Primitives.ScrollViewTestHooks;
 
-namespace Microsoft.UI.Xaml.Tests.MUXControls.ApiTests
+namespace Windows.UI.Xaml.Tests.MUXControls.ApiTests
 {
     [TestClass]
     public class ScrollViewTests : ApiTestBase

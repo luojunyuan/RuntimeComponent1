@@ -1,10 +1,21 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-#include "pch.h"
-#include "common.h"
-#include "ScrollPresenterTrace.h"
-#include "ScrollingBringingIntoViewEventArgs.h"
+import inc.common;
+import ixx.ScrollPresenterTrace;
+import ixx.ScrollingBringingIntoViewEventArgs;
+import std;
+#include "../Telemetry/ScrollTraceMacros.h"
+
+ScrollingBringingIntoViewEventArgs::ScrollingBringingIntoViewEventArgs()
+{
+    SCROLLPRESENTER_TRACE_VERBOSE(nullptr, TRACE_MSG_METH, METH_NAME, this);
+}
+
+ScrollingBringingIntoViewEventArgs::~ScrollingBringingIntoViewEventArgs()
+{
+    SCROLLPRESENTER_TRACE_VERBOSE(nullptr, TRACE_MSG_METH, METH_NAME, this);
+}
 
 winrt::ScrollingSnapPointsMode ScrollingBringingIntoViewEventArgs::SnapPointsMode()
 {

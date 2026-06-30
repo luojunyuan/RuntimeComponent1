@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using System;
@@ -6,14 +6,14 @@ using System.Collections.Generic;
 using System.Numerics;
 using Windows.Foundation;
 using Windows.UI;
-using Microsoft.UI.Composition;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-using Microsoft.UI.Private.Controls;
-using Microsoft.UI.Dispatching;
+using Windows.UI.Composition;
+using Windows.UI.Xaml;
+using Islands.UI.Xaml.Controls;
+using Islands.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Navigation;
+using Islands.UI.Xaml.Controls.Primitives;
+using Windows.System;
 
 namespace MUXControlsTestApp
 {
@@ -26,9 +26,9 @@ namespace MUXControlsTestApp
         private List<QueuedOperation> lstTriggeredOperations = new List<QueuedOperation>();
         private Border currentAnchor = null;
         private UIElement anchorElement = null;
-        private SolidColorBrush chartreuseBrush = new SolidColorBrush(Microsoft.UI.Colors.Chartreuse);
-        private SolidColorBrush blanchedAlmondBrush = new SolidColorBrush(Microsoft.UI.Colors.BlanchedAlmond);
-        private SolidColorBrush orangeBrush = new SolidColorBrush(Microsoft.UI.Colors.Orange);
+        private SolidColorBrush chartreuseBrush = new SolidColorBrush(Windows.UI.Colors.Chartreuse);
+        private SolidColorBrush blanchedAlmondBrush = new SolidColorBrush(Windows.UI.Colors.BlanchedAlmond);
+        private SolidColorBrush orangeBrush = new SolidColorBrush(Windows.UI.Colors.Orange);
         private int operationCount = 0;
         private double lastScrollPresenterOffset = 0.0;
 
@@ -886,7 +886,7 @@ namespace MUXControlsTestApp
 
                 if (currentAnchor != null)
                 {
-                    currentAnchor.BorderBrush = new SolidColorBrush(Microsoft.UI.Colors.Chartreuse);
+                    currentAnchor.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Chartreuse);
                     currentAnchor = null;
                 }
                 cnsAnchorPoint.Visibility = Visibility.Collapsed;
@@ -1061,7 +1061,7 @@ namespace MUXControlsTestApp
             {
                 lstAsyncEventMessage.Add(asyncEventMessage);
 
-                var ignored = this.DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal, AppendAsyncEventMessage);
+                var ignored = this.DispatcherQueue.TryEnqueue(Windows.System.DispatcherQueuePriority.Normal, AppendAsyncEventMessage);
             }
         }
 

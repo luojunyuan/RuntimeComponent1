@@ -1,13 +1,13 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using System;
 using System.Numerics;
 using Windows.Foundation;
-using Microsoft.UI.Input;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Input;
+using Windows.UI.Input;
+using Windows.UI.Xaml;
+using Islands.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 
 namespace MUXControlsTestApp
 {
@@ -35,7 +35,7 @@ namespace MUXControlsTestApp
 
         private void ScrollPresenter_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            if (e.Pointer.PointerDeviceType == Microsoft.UI.Input.PointerDeviceType.Mouse &&
+            if (e.Pointer.PointerDeviceType == Windows.UI.Input.PointerDeviceType.Mouse &&
                 e.KeyModifiers == Windows.System.VirtualKeyModifiers.None)
             {
                 if (_isMiddleButtonPressed || _isInConstantVelocityPan)
@@ -100,7 +100,7 @@ namespace MUXControlsTestApp
 
         private void ScrollPresenter_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
-            if (e.Pointer.PointerDeviceType == Microsoft.UI.Input.PointerDeviceType.Mouse)
+            if (e.Pointer.PointerDeviceType == Windows.UI.Input.PointerDeviceType.Mouse)
             {
                 PointerPointProperties ppp = e.GetCurrentPoint(null).Properties;
                 Point position = e.GetCurrentPoint(scrollPresenter).Position;
@@ -137,7 +137,7 @@ namespace MUXControlsTestApp
 
         private void ScrollPresenter_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
-            if (e.Pointer.PointerDeviceType == Microsoft.UI.Input.PointerDeviceType.Mouse)
+            if (e.Pointer.PointerDeviceType == Windows.UI.Input.PointerDeviceType.Mouse)
             {
                 Point position = e.GetCurrentPoint(scrollPresenter).Position;
 
@@ -178,7 +178,7 @@ namespace MUXControlsTestApp
         private void ScrollPresenter_PointerCanceled(object sender, PointerRoutedEventArgs e)
         {
             LogEvent("Pointer canceled - id " + e.Pointer.PointerId);
-            if (e.Pointer.PointerDeviceType == Microsoft.UI.Input.PointerDeviceType.Mouse)
+            if (e.Pointer.PointerDeviceType == Windows.UI.Input.PointerDeviceType.Mouse)
             {
                 if (_isInMousePan)
                 {
@@ -222,7 +222,7 @@ namespace MUXControlsTestApp
             LogEvent("Constant velocity pan stopped");
         }
 
-        private void BtnClearEvents_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+        private void BtnClearEvents_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             lstEvents.Items.Clear();
         }

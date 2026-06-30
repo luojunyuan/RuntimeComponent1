@@ -1,9 +1,14 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+import inc.common;
+import ixx.InteractionTrackerAsyncOperation;
+import ixx.ScrollPresenterTypeLogging;
+import ixx.Utils;
+import ixx.ViewChange;
+import ixx.ViewChangeBase;
+import std;
+
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-#include "pch.h"
-#include "ScrollPresenterTypeLogging.h"
-#include "Utils.h"
 
 namespace TypeLogging
 {

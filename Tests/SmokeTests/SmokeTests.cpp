@@ -106,6 +106,23 @@ int wmain(int argc, wchar_t** argv)
         L"Islands.UI.Xaml.Controls.TitleBarAutomationPeer",
         L"Islands.UI.Xaml.Controls.TitleBarTemplateSettings",
         L"Islands.UI.Xaml.Controls.TitleBarWindowAdapter",
+        L"Islands.UI.Xaml.Automation.Peers.ScrollPresenterAutomationPeer",
+        L"Islands.UI.Xaml.Controls.ScrollView",
+        L"Islands.UI.Xaml.Controls.ScrollingScrollOptions",
+        L"Islands.UI.Xaml.Controls.ScrollingZoomOptions",
+        L"Islands.UI.Xaml.Controls.Primitives.RepeatedScrollSnapPoint",
+        L"Islands.UI.Xaml.Controls.Primitives.RepeatedZoomSnapPoint",
+        L"Islands.UI.Xaml.Controls.Primitives.ScrollControllerAddScrollVelocityRequestedEventArgs",
+        L"Islands.UI.Xaml.Controls.Primitives.ScrollControllerPanRequestedEventArgs",
+        L"Islands.UI.Xaml.Controls.Primitives.ScrollControllerScrollByRequestedEventArgs",
+        L"Islands.UI.Xaml.Controls.Primitives.ScrollControllerScrollToRequestedEventArgs",
+        L"Islands.UI.Xaml.Controls.Primitives.ScrollPresenter",
+        L"Islands.UI.Xaml.Controls.Primitives.ScrollSnapPoint",
+        L"Islands.UI.Xaml.Controls.Primitives.ZoomSnapPoint",
+#ifdef _DEBUG
+        L"Islands.UI.Xaml.Controls.Primitives.ScrollPresenterTestHooks",
+        L"Islands.UI.Xaml.Controls.Primitives.ScrollViewTestHooks",
+#endif
         L"Islands.UI.Xaml.Controls.XamlMetaDataProvider",
     };
 

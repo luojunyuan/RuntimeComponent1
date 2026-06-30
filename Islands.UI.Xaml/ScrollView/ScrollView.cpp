@@ -1,20 +1,20 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-#include "pch.h"
-#include "common.h"
-#include "TypeLogging.h"
-#include "ScrollPresenterTypeLogging.h"
-#include "ScrollPresenter.h"
-#include "ScrollView.h"
-#include "RuntimeProfiler.h"
-#include "FocusHelper.h"
-#include "RegUtil.h"
-#ifdef DBG
-#include "ScrollViewTestHooks.h"
-#endif
-
 // Change to 'true' to turn on debugging outputs in Output window
+import inc.common;
+import ixx.ScrollViewTrace;
+import ixx.TypeLogging;
+import ixx.ScrollPresenterTypeLogging;
+import ixx.ScrollPresenter;
+import ixx.ScrollView;
+import ixx.RuntimeProfiler;
+import inc.FocusHelper;
+import inc.RegUtil;
+import ixx.ScrollViewTestHooks;
+import std;
+#include "../Telemetry/ScrollTraceMacros.h"
+
 bool ScrollViewTrace::s_IsDebugOutputEnabled{ false };
 bool ScrollViewTrace::s_IsVerboseDebugOutputEnabled{ false };
 
@@ -27,7 +27,7 @@ ScrollView::ScrollView()
     __RP_Marker_ClassById(RuntimeProfiler::ProfId_ScrollView);
 
     EnsureProperties();
-    SetDefaultStyleKey(this);
+    SetDefaultStyleKey();
     HookUISettingsEvent();
     HookScrollViewEvents();
 }
@@ -42,6 +42,16 @@ ScrollView::~ScrollView()
     UnhookScrollPresenterEvents(true /*isForDestructor*/);
     UnhookScrollViewEvents();
     ResetHideIndicatorsTimer();
+}
+
+void ScrollView::SetDefaultStyleKey()
+{
+    DefaultStyleKey(winrt::box_value(GetRuntimeClassName()));
+
+    if (const auto control5 = this->try_as<winrt::IControl5>())
+    {
+        control5.DefaultStyleResourceUri(winrt::Uri{ L"ms-appx:///Islands.UI.Xaml.Controls/Themes/generic.xaml" });
+    }
 }
 
 #pragma region IScrollView
@@ -204,9 +214,9 @@ void ScrollView::RegisterAnchorCandidate(winrt::UIElement const& element)
             scrollPresenterAsAnchorProvider.RegisterAnchorCandidate(element);
             return;
         }
-        throw winrt::hresult_error(E_INVALID_OPERATION, s_IScrollAnchorProviderNotImpl);
+        throw winrt::hresult_error(eInvalidOperation, s_IScrollAnchorProviderNotImpl);
     }
-    throw winrt::hresult_error(E_INVALID_OPERATION, s_noScrollPresenterPart);
+    throw winrt::hresult_error(eInvalidOperation, s_noScrollPresenterPart);
 }
 
 void ScrollView::UnregisterAnchorCandidate(winrt::UIElement const& element)
@@ -220,9 +230,9 @@ void ScrollView::UnregisterAnchorCandidate(winrt::UIElement const& element)
             scrollPresenterAsAnchorProvider.UnregisterAnchorCandidate(element);
             return;
         }
-        throw winrt::hresult_error(E_INVALID_OPERATION, s_IScrollAnchorProviderNotImpl);
+        throw winrt::hresult_error(eInvalidOperation, s_IScrollAnchorProviderNotImpl);
     }
-    throw winrt::hresult_error(E_INVALID_OPERATION, s_noScrollPresenterPart);
+    throw winrt::hresult_error(eInvalidOperation, s_noScrollPresenterPart);
 }
 
 
@@ -812,6 +822,28 @@ void ScrollView::OnPropertyChanged(const winrt::DependencyPropertyChangedEventAr
             false /*scrollControllersAutoHidingChanged*/,
             true  /*updateScrollControllersAutoHiding*/);
     }
+
+    const bool scrollPresenterPropertyChange =
+        dependencyProperty == s_ContentProperty ||
+        dependencyProperty == s_ContentOrientationProperty ||
+        dependencyProperty == s_HorizontalScrollChainModeProperty ||
+        dependencyProperty == s_HorizontalScrollModeProperty ||
+        dependencyProperty == s_HorizontalScrollRailModeProperty ||
+        dependencyProperty == s_VerticalScrollChainModeProperty ||
+        dependencyProperty == s_VerticalScrollModeProperty ||
+        dependencyProperty == s_VerticalScrollRailModeProperty ||
+        dependencyProperty == s_ZoomChainModeProperty ||
+        dependencyProperty == s_ZoomModeProperty ||
+        dependencyProperty == s_IgnoredInputKindsProperty ||
+        dependencyProperty == s_MinZoomFactorProperty ||
+        dependencyProperty == s_MaxZoomFactorProperty ||
+        dependencyProperty == s_HorizontalAnchorRatioProperty ||
+        dependencyProperty == s_VerticalAnchorRatioProperty;
+
+    if (scrollPresenterPropertyChange)
+    {
+        UpdateScrollPresenterProperties();
+    }
 }
 
 void ScrollView::OnScrollControllerCanScrollChanged(
@@ -1175,7 +1207,7 @@ void ScrollView::HookCompositionTargetRendering()
 {
     if (!m_renderingToken)
     {
-        winrt::Microsoft::UI::Xaml::Media::CompositionTarget compositionTarget{ nullptr };
+        winrt::Windows::UI::Xaml::Media::CompositionTarget compositionTarget{ nullptr };
         m_renderingToken = compositionTarget.Rendering(winrt::auto_revoke, { this, &ScrollView::OnCompositionTargetRendering });
     }
 }
@@ -1307,13 +1339,8 @@ void ScrollView::HookScrollPresenterEvents()
         m_scrollPresenterBringingIntoViewToken = scrollPresenter.BringingIntoView({ this, &ScrollView::OnScrollPresenterBringingIntoView });
         m_scrollPresenterAnchorRequestedToken = scrollPresenter.AnchorRequested({ this, &ScrollView::OnScrollPresenterAnchorRequested });
 
-        const winrt::IScrollPresenter2 scrollPresenter2 = scrollPresenter.try_as<winrt::IScrollPresenter2>();
-
-        if (scrollPresenter2)
-        {
-            m_scrollPresenterScrollStartingToken = scrollPresenter2.ScrollStarting({ this, &ScrollView::OnScrollPresenterScrollStarting });
-            m_scrollPresenterZoomStartingToken = scrollPresenter2.ZoomStarting({ this, &ScrollView::OnScrollPresenterZoomStarting });
-        }
+        m_scrollPresenterScrollStartingToken = scrollPresenter.ScrollStarting({ this, &ScrollView::OnScrollPresenterScrollStarting });
+        m_scrollPresenterZoomStartingToken = scrollPresenter.ZoomStarting({ this, &ScrollView::OnScrollPresenterZoomStarting });
 
         const winrt::DependencyObject scrollPresenterAsDO = scrollPresenter.try_as<winrt::DependencyObject>();
 
@@ -1364,24 +1391,14 @@ void ScrollView::UnhookScrollPresenterEvents(bool isForDestructor)
 
         if (m_scrollPresenterScrollStartingToken.value != 0)
         {
-            const winrt::IScrollPresenter2 scrollPresenter2 = scrollPresenter.try_as<winrt::IScrollPresenter2>();
-
-            if (scrollPresenter2)
-            {
-                scrollPresenter2.ScrollStarting(m_scrollPresenterScrollStartingToken);
-            }
+            scrollPresenter.ScrollStarting(m_scrollPresenterScrollStartingToken);
 
             m_scrollPresenterScrollStartingToken.value = 0;
         }
 
         if (m_scrollPresenterZoomStartingToken.value != 0)
         {
-            const winrt::IScrollPresenter2 scrollPresenter2 = scrollPresenter.try_as<winrt::IScrollPresenter2>();
-
-            if (scrollPresenter2)
-            {
-                scrollPresenter2.ZoomStarting(m_scrollPresenterZoomStartingToken);
-            }
+            scrollPresenter.ZoomStarting(m_scrollPresenterZoomStartingToken);
 
             m_scrollPresenterZoomStartingToken.value = 0;
         }
@@ -1585,6 +1602,31 @@ void ScrollView::UpdateScrollPresenter(const winrt::ScrollPresenter& scrollPrese
     {
         m_scrollPresenter.set(scrollPresenter);
         HookScrollPresenterEvents();
+        UpdateScrollPresenterProperties();
+    }
+}
+
+void ScrollView::UpdateScrollPresenterProperties()
+{
+    if (auto scrollPresenter = m_scrollPresenter.get().try_as<winrt::ScrollPresenter>())
+    {
+        scrollPresenter.Background(Background());
+        scrollPresenter.Content(Content());
+        scrollPresenter.Margin(Padding());
+        scrollPresenter.ContentOrientation(ContentOrientation());
+        scrollPresenter.HorizontalScrollChainMode(HorizontalScrollChainMode());
+        scrollPresenter.HorizontalScrollMode(HorizontalScrollMode());
+        scrollPresenter.HorizontalScrollRailMode(HorizontalScrollRailMode());
+        scrollPresenter.VerticalScrollChainMode(VerticalScrollChainMode());
+        scrollPresenter.VerticalScrollMode(VerticalScrollMode());
+        scrollPresenter.VerticalScrollRailMode(VerticalScrollRailMode());
+        scrollPresenter.ZoomChainMode(ZoomChainMode());
+        scrollPresenter.ZoomMode(ZoomMode());
+        scrollPresenter.IgnoredInputKinds(IgnoredInputKinds());
+        scrollPresenter.MinZoomFactor(MinZoomFactor());
+        scrollPresenter.MaxZoomFactor(MaxZoomFactor());
+        scrollPresenter.HorizontalAnchorRatio(HorizontalAnchorRatio());
+        scrollPresenter.VerticalAnchorRatio(VerticalAnchorRatio());
     }
 }
 

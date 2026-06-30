@@ -1,7 +1,9 @@
-﻿namespace MU_PRIVATE_CONTROLS_NAMESPACE
+import "ScrollPresenter.idl";
+import "ScrollPresenterPrimitives.idl";
+
+namespace Islands.UI.Xaml.Controls.Primitives
 {
 
-[MUX_INTERNAL]
 [webhosthidden]
 enum ScrollPresenterViewChangeResult
 {
@@ -10,23 +12,20 @@ enum ScrollPresenterViewChangeResult
     Ignored = 2,
 };
 
-[MUX_INTERNAL]
 [webhosthidden]
 runtimeclass ScrollPresenterTestHooksAnchorEvaluatedEventArgs
 {
     Double ViewportAnchorPointHorizontalOffset { get; };
     Double ViewportAnchorPointVerticalOffset { get; };
-    Microsoft.UI.Xaml.UIElement AnchorElement { get; };
+    Windows.UI.Xaml.UIElement AnchorElement { get; };
 }
 
-[MUX_INTERNAL]
 [webhosthidden]
 runtimeclass ScrollPresenterTestHooksInteractionSourcesChangedEventArgs
 {
-    Microsoft.UI.Composition.Interactions.CompositionInteractionSourceCollection InteractionSources { get; };
+    Windows.UI.Composition.Interactions.CompositionInteractionSourceCollection InteractionSources { get; };
 }
 
-[MUX_INTERNAL]
 [webhosthidden]
 runtimeclass ScrollPresenterTestHooksExpressionAnimationStatusChangedEventArgs
 {
@@ -34,7 +33,6 @@ runtimeclass ScrollPresenterTestHooksExpressionAnimationStatusChangedEventArgs
     String PropertyName{ get; };
 }
 
-[MUX_INTERNAL]
 [default_interface]
 [webhosthidden]
 runtimeclass ScrollPresenterTestHooks
@@ -47,40 +45,40 @@ runtimeclass ScrollPresenterTestHooks
     static void SetOffsetsChangeVelocityParameters(Int32 millisecondsPerUnit, Int32 minMilliseconds, Int32 maxMilliseconds);
     static void GetZoomFactorChangeVelocityParameters(out Int32 millisecondsPerUnit, out Int32 minMilliseconds, out Int32 maxMilliseconds);
     static void SetZoomFactorChangeVelocityParameters(Int32 millisecondsPerUnit, Int32 minMilliseconds, Int32 maxMilliseconds);
-    static void GetContentLayoutOffsetX(MU_XCP_NAMESPACE.ScrollPresenter scrollPresenter, out Single contentLayoutOffsetX);
-    static void SetContentLayoutOffsetX(MU_XCP_NAMESPACE.ScrollPresenter scrollPresenter, Single contentLayoutOffsetX);
-    static void GetContentLayoutOffsetY(MU_XCP_NAMESPACE.ScrollPresenter scrollPresenter, out Single contentLayoutOffsetY);
-    static void SetContentLayoutOffsetY(MU_XCP_NAMESPACE.ScrollPresenter scrollPresenter, Single contentLayoutOffsetY);
-    static String GetTransformExpressionAnimationExpression(MU_XCP_NAMESPACE.ScrollPresenter scrollPresenter);
-    static void SetTransformExpressionAnimationExpression(MU_XCP_NAMESPACE.ScrollPresenter scrollPresenter, String transformExpressionAnimationExpression);
-    static String GetMinPositionExpressionAnimationExpression(MU_XCP_NAMESPACE.ScrollPresenter scrollPresenter);
-    static void SetMinPositionExpressionAnimationExpression(MU_XCP_NAMESPACE.ScrollPresenter scrollPresenter, String minPositionExpressionAnimationExpression);
-    static String GetMaxPositionExpressionAnimationExpression(MU_XCP_NAMESPACE.ScrollPresenter scrollPresenter);
-    static void SetMaxPositionExpressionAnimationExpression(MU_XCP_NAMESPACE.ScrollPresenter scrollPresenter, String maxPositionExpressionAnimationExpression);
-    static Windows.Foundation.Numerics.Vector2 GetArrangeRenderSizesDelta(MU_XCP_NAMESPACE.ScrollPresenter scrollPresenter);
-    static Windows.Foundation.Numerics.Vector2 GetPosition(MU_XCP_NAMESPACE.ScrollPresenter scrollPresenter);
-    static Windows.Foundation.Numerics.Vector2 GetMinPosition(MU_XCP_NAMESPACE.ScrollPresenter scrollPresenter);
-    static void SetMinPosition(MU_XCP_NAMESPACE.ScrollPresenter scrollPresenter, Windows.Foundation.Numerics.Vector2 minPosition);
-    static Windows.Foundation.Numerics.Vector2 GetMaxPosition(MU_XCP_NAMESPACE.ScrollPresenter scrollPresenter);
-    static void SetMaxPosition(MU_XCP_NAMESPACE.ScrollPresenter scrollPresenter, Windows.Foundation.Numerics.Vector2 maxPosition);
-    static ScrollPresenterViewChangeResult GetScrollCompletedResult(MU_XC_NAMESPACE.ScrollingScrollCompletedEventArgs scrollCompletedEventArgs);
-    static ScrollPresenterViewChangeResult GetZoomCompletedResult(MU_XC_NAMESPACE.ScrollingZoomCompletedEventArgs zoomCompletedEventArgs);
-    static Windows.Foundation.Collections.IVector<MU_XCP_NAMESPACE.ScrollSnapPointBase> GetConsolidatedHorizontalScrollSnapPoints(MU_XCP_NAMESPACE.ScrollPresenter scrollPresenter);
-    static Windows.Foundation.Collections.IVector<MU_XCP_NAMESPACE.ScrollSnapPointBase> GetConsolidatedVerticalScrollSnapPoints(MU_XCP_NAMESPACE.ScrollPresenter scrollPresenter);
-    static Windows.Foundation.Collections.IVector<MU_XCP_NAMESPACE.ZoomSnapPointBase> GetConsolidatedZoomSnapPoints(MU_XCP_NAMESPACE.ScrollPresenter scrollPresenter);
-    static Windows.Foundation.Numerics.Vector2 GetHorizontalSnapPointActualApplicableZone(MU_XCP_NAMESPACE.ScrollPresenter scrollPresenter, MU_XCP_NAMESPACE.ScrollSnapPointBase scrollSnapPoint);
-    static Windows.Foundation.Numerics.Vector2 GetVerticalSnapPointActualApplicableZone(MU_XCP_NAMESPACE.ScrollPresenter scrollPresenter, MU_XCP_NAMESPACE.ScrollSnapPointBase scrollSnapPoint);
-    static Windows.Foundation.Numerics.Vector2 GetZoomSnapPointActualApplicableZone(MU_XCP_NAMESPACE.ScrollPresenter scrollPresenter, MU_XCP_NAMESPACE.ZoomSnapPointBase zoomSnapPoint);
-    static Int32 GetHorizontalSnapPointCombinationCount(MU_XCP_NAMESPACE.ScrollPresenter scrollPresenter, MU_XCP_NAMESPACE.ScrollSnapPointBase scrollSnapPoint);
-    static Int32 GetVerticalSnapPointCombinationCount(MU_XCP_NAMESPACE.ScrollPresenter scrollPresenter, MU_XCP_NAMESPACE.ScrollSnapPointBase scrollSnapPoint);
-    static Int32 GetZoomSnapPointCombinationCount(MU_XCP_NAMESPACE.ScrollPresenter scrollPresenter, MU_XCP_NAMESPACE.ZoomSnapPointBase zoomSnapPoint);
-    static Windows.UI.Color GetSnapPointVisualizationColor(MU_XCP_NAMESPACE.SnapPointBase snapPoint);
-    static void SetSnapPointVisualizationColor(MU_XCP_NAMESPACE.SnapPointBase snapPoint, Windows.UI.Color color);
-    static event Windows.Foundation.TypedEventHandler<MU_XCP_NAMESPACE.ScrollPresenter, ScrollPresenterTestHooksAnchorEvaluatedEventArgs> AnchorEvaluated;
-    static event Windows.Foundation.TypedEventHandler<MU_XCP_NAMESPACE.ScrollPresenter, ScrollPresenterTestHooksInteractionSourcesChangedEventArgs> InteractionSourcesChanged;
-    static event Windows.Foundation.TypedEventHandler<MU_XCP_NAMESPACE.ScrollPresenter, ScrollPresenterTestHooksExpressionAnimationStatusChangedEventArgs> ExpressionAnimationStatusChanged;
-    static event Windows.Foundation.TypedEventHandler<MU_XCP_NAMESPACE.ScrollPresenter, Object> ContentLayoutOffsetXChanged;
-    static event Windows.Foundation.TypedEventHandler<MU_XCP_NAMESPACE.ScrollPresenter, Object> ContentLayoutOffsetYChanged;
+    static void GetContentLayoutOffsetX(Islands.UI.Xaml.Controls.Primitives.ScrollPresenter scrollPresenter, out Single contentLayoutOffsetX);
+    static void SetContentLayoutOffsetX(Islands.UI.Xaml.Controls.Primitives.ScrollPresenter scrollPresenter, Single contentLayoutOffsetX);
+    static void GetContentLayoutOffsetY(Islands.UI.Xaml.Controls.Primitives.ScrollPresenter scrollPresenter, out Single contentLayoutOffsetY);
+    static void SetContentLayoutOffsetY(Islands.UI.Xaml.Controls.Primitives.ScrollPresenter scrollPresenter, Single contentLayoutOffsetY);
+    static String GetTransformExpressionAnimationExpression(Islands.UI.Xaml.Controls.Primitives.ScrollPresenter scrollPresenter);
+    static void SetTransformExpressionAnimationExpression(Islands.UI.Xaml.Controls.Primitives.ScrollPresenter scrollPresenter, String transformExpressionAnimationExpression);
+    static String GetMinPositionExpressionAnimationExpression(Islands.UI.Xaml.Controls.Primitives.ScrollPresenter scrollPresenter);
+    static void SetMinPositionExpressionAnimationExpression(Islands.UI.Xaml.Controls.Primitives.ScrollPresenter scrollPresenter, String minPositionExpressionAnimationExpression);
+    static String GetMaxPositionExpressionAnimationExpression(Islands.UI.Xaml.Controls.Primitives.ScrollPresenter scrollPresenter);
+    static void SetMaxPositionExpressionAnimationExpression(Islands.UI.Xaml.Controls.Primitives.ScrollPresenter scrollPresenter, String maxPositionExpressionAnimationExpression);
+    static Windows.Foundation.Numerics.Vector2 GetArrangeRenderSizesDelta(Islands.UI.Xaml.Controls.Primitives.ScrollPresenter scrollPresenter);
+    static Windows.Foundation.Numerics.Vector2 GetPosition(Islands.UI.Xaml.Controls.Primitives.ScrollPresenter scrollPresenter);
+    static Windows.Foundation.Numerics.Vector2 GetMinPosition(Islands.UI.Xaml.Controls.Primitives.ScrollPresenter scrollPresenter);
+    static void SetMinPosition(Islands.UI.Xaml.Controls.Primitives.ScrollPresenter scrollPresenter, Windows.Foundation.Numerics.Vector2 minPosition);
+    static Windows.Foundation.Numerics.Vector2 GetMaxPosition(Islands.UI.Xaml.Controls.Primitives.ScrollPresenter scrollPresenter);
+    static void SetMaxPosition(Islands.UI.Xaml.Controls.Primitives.ScrollPresenter scrollPresenter, Windows.Foundation.Numerics.Vector2 maxPosition);
+    static ScrollPresenterViewChangeResult GetScrollCompletedResult(Islands.UI.Xaml.Controls.ScrollingScrollCompletedEventArgs scrollCompletedEventArgs);
+    static ScrollPresenterViewChangeResult GetZoomCompletedResult(Islands.UI.Xaml.Controls.ScrollingZoomCompletedEventArgs zoomCompletedEventArgs);
+    static Windows.Foundation.Collections.IVector<Islands.UI.Xaml.Controls.Primitives.ScrollSnapPointBase> GetConsolidatedHorizontalScrollSnapPoints(Islands.UI.Xaml.Controls.Primitives.ScrollPresenter scrollPresenter);
+    static Windows.Foundation.Collections.IVector<Islands.UI.Xaml.Controls.Primitives.ScrollSnapPointBase> GetConsolidatedVerticalScrollSnapPoints(Islands.UI.Xaml.Controls.Primitives.ScrollPresenter scrollPresenter);
+    static Windows.Foundation.Collections.IVector<Islands.UI.Xaml.Controls.Primitives.ZoomSnapPointBase> GetConsolidatedZoomSnapPoints(Islands.UI.Xaml.Controls.Primitives.ScrollPresenter scrollPresenter);
+    static Windows.Foundation.Numerics.Vector2 GetHorizontalSnapPointActualApplicableZone(Islands.UI.Xaml.Controls.Primitives.ScrollPresenter scrollPresenter, Islands.UI.Xaml.Controls.Primitives.ScrollSnapPointBase scrollSnapPoint);
+    static Windows.Foundation.Numerics.Vector2 GetVerticalSnapPointActualApplicableZone(Islands.UI.Xaml.Controls.Primitives.ScrollPresenter scrollPresenter, Islands.UI.Xaml.Controls.Primitives.ScrollSnapPointBase scrollSnapPoint);
+    static Windows.Foundation.Numerics.Vector2 GetZoomSnapPointActualApplicableZone(Islands.UI.Xaml.Controls.Primitives.ScrollPresenter scrollPresenter, Islands.UI.Xaml.Controls.Primitives.ZoomSnapPointBase zoomSnapPoint);
+    static Int32 GetHorizontalSnapPointCombinationCount(Islands.UI.Xaml.Controls.Primitives.ScrollPresenter scrollPresenter, Islands.UI.Xaml.Controls.Primitives.ScrollSnapPointBase scrollSnapPoint);
+    static Int32 GetVerticalSnapPointCombinationCount(Islands.UI.Xaml.Controls.Primitives.ScrollPresenter scrollPresenter, Islands.UI.Xaml.Controls.Primitives.ScrollSnapPointBase scrollSnapPoint);
+    static Int32 GetZoomSnapPointCombinationCount(Islands.UI.Xaml.Controls.Primitives.ScrollPresenter scrollPresenter, Islands.UI.Xaml.Controls.Primitives.ZoomSnapPointBase zoomSnapPoint);
+    static Windows.UI.Color GetSnapPointVisualizationColor(Islands.UI.Xaml.Controls.Primitives.SnapPointBase snapPoint);
+    static void SetSnapPointVisualizationColor(Islands.UI.Xaml.Controls.Primitives.SnapPointBase snapPoint, Windows.UI.Color color);
+    static event Windows.Foundation.TypedEventHandler<Islands.UI.Xaml.Controls.Primitives.ScrollPresenter, ScrollPresenterTestHooksAnchorEvaluatedEventArgs> AnchorEvaluated;
+    static event Windows.Foundation.TypedEventHandler<Islands.UI.Xaml.Controls.Primitives.ScrollPresenter, ScrollPresenterTestHooksInteractionSourcesChangedEventArgs> InteractionSourcesChanged;
+    static event Windows.Foundation.TypedEventHandler<Islands.UI.Xaml.Controls.Primitives.ScrollPresenter, ScrollPresenterTestHooksExpressionAnimationStatusChangedEventArgs> ExpressionAnimationStatusChanged;
+    static event Windows.Foundation.TypedEventHandler<Islands.UI.Xaml.Controls.Primitives.ScrollPresenter, Object> ContentLayoutOffsetXChanged;
+    static event Windows.Foundation.TypedEventHandler<Islands.UI.Xaml.Controls.Primitives.ScrollPresenter, Object> ContentLayoutOffsetYChanged;
 }
 
 }

@@ -73,6 +73,8 @@ import winrt.Microsoft.UI.Xaml.Controls;
 import winrt.Microsoft.UI.Xaml.Controls.AnimatedVisuals;
 import winrt.Microsoft.UI.Xaml.XamlTypeInfo;
 import winrt.Islands.UI.Xaml.Controls;
+import winrt.Islands.UI.Xaml.Controls.Primitives;
+import winrt.Islands.UI.Xaml.Automation.Peers;
 import inc.win32;
 
 #undef GetCurrentTime
@@ -82,6 +84,18 @@ import inc.win32;
 #endif
 
 namespace winrt::Islands::UI::Xaml::Controls
+{
+    namespace implementation {}
+    namespace factory_implementation {}
+}
+
+namespace winrt::Islands::UI::Xaml::Controls::Primitives
+{
+    namespace implementation {}
+    namespace factory_implementation {}
+}
+
+namespace winrt::Islands::UI::Xaml::Automation::Peers
 {
     namespace implementation {}
     namespace factory_implementation {}
@@ -122,6 +136,9 @@ namespace winrt
     using TitleBarAutomationPeer = ::winrt::Islands::UI::Xaml::Controls::TitleBarAutomationPeer;
     using TitleBarTemplateSettings = ::winrt::Islands::UI::Xaml::Controls::TitleBarTemplateSettings;
     using TitleBarWindowAdapter = ::winrt::Islands::UI::Xaml::Controls::TitleBarWindowAdapter;
+    using ScrollPresenterAutomationPeer = ::winrt::Islands::UI::Xaml::Automation::Peers::ScrollPresenterAutomationPeer;
+    using ScrollPresenter = ::winrt::Islands::UI::Xaml::Controls::Primitives::ScrollPresenter;
+    using ScrollView = ::winrt::Islands::UI::Xaml::Controls::ScrollView;
 }
 
 using namespace std::literals;
@@ -136,3 +153,6 @@ import ixx.MUXControlsTestHooks;
 import ixx.TitleBar;
 import ixx.TitleBarTemplateSettings;
 import ixx.TitleBarAutomationPeer;
+import ixx.ScrollPresenter;
+import ixx.ScrollPresenterAutomationPeer;
+import ixx.ScrollView;

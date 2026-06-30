@@ -78,6 +78,8 @@
     <Import Project="Telemetry\Telemetry.vcxitems" Label="Shared" />
     <Import Project="TestHooks\TestHooks.vcxitems" Label="Shared" />
     <Import Project="TitleBar\TitleBar.vcxitems" Label="Shared" />
+    <Import Project="ScrollPresenter\ScrollPresenter.vcxitems" Label="Shared" />
+    <Import Project="ScrollView\ScrollView.vcxitems" Label="Shared" />
     <Import Project="Build\ControlsResources.targets" Label="Shared" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets">
@@ -99,14 +101,16 @@
       <AdditionalOptions>%(AdditionalOptions) /bigobj /utf-8</AdditionalOptions>
       <PreprocessorDefinitions>_WINRT_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalUsingDirectories>$(WindowsSDK_WindowsMetadata);$(AdditionalUsingDirectories)</AdditionalUsingDirectories>
-      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory);$(MSBuildProjectDirectory)\inc;$(MSBuildProjectDirectory)\TitleBar;$(MSBuildProjectDirectory)\Generated;$(GeneratedFilesDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory);$(MSBuildProjectDirectory)\inc;$(MSBuildProjectDirectory)\TitleBar;$(MSBuildProjectDirectory)\ScrollPresenter;$(MSBuildProjectDirectory)\ScrollView;$(MSBuildProjectDirectory)\Generated;$(GeneratedFilesDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\ScrollPresenter;$(MSBuildProjectDirectory)\ScrollView;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </Midl>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateWindowsMetadata>true</GenerateWindowsMetadata>
       <ModuleDefinitionFile>Islands.UI.Xaml.def</ModuleDefinitionFile>
-      <!-- TitleBarWindowAdapter uses Win32 region APIs to apply non-client hit-test regions. -->
-      <AdditionalDependencies>gdi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>advapi32.lib;user32.lib;gdi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
@@ -138,9 +142,14 @@
     <ClCompile Include="inc\common_base.ixx" />
     <ClCompile Include="inc\common.ixx" />
     <ClCompile Include="inc\CppWinRTHelpers.ixx" />
+    <ClCompile Include="inc\DoubleUtil.ixx" />
     <ClCompile Include="inc\ErrorHandling.ixx" />
     <ClCompile Include="inc\event.ixx" />
+    <ClCompile Include="inc\FloatUtil.ixx" />
+    <ClCompile Include="inc\FocusHelper.ixx" />
     <ClCompile Include="inc\GlobalDependencyProperty.ixx" />
+    <ClCompile Include="inc\RegUtil.cpp" />
+    <ClCompile Include="inc\RegUtil.ixx" />
     <ClCompile Include="inc\RoutedEventHelpers.ixx" />
     <ClCompile Include="inc\RuntimeClassHelpers.ixx" />
     <ClCompile Include="inc\RuntimeClassHelpers.cpp" />

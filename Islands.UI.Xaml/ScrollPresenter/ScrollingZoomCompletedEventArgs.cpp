@@ -1,9 +1,21 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-#include "pch.h"
-#include "common.h"
-#include "ScrollingZoomCompletedEventArgs.h"
+import inc.common;
+import ixx.ScrollPresenterTrace;
+import ixx.ScrollingZoomCompletedEventArgs;
+import std;
+#include "../Telemetry/ScrollTraceMacros.h"
+
+ScrollingZoomCompletedEventArgs::ScrollingZoomCompletedEventArgs()
+{
+    SCROLLPRESENTER_TRACE_VERBOSE(nullptr, TRACE_MSG_METH, METH_NAME, this);
+}
+
+ScrollingZoomCompletedEventArgs::~ScrollingZoomCompletedEventArgs()
+{
+    SCROLLPRESENTER_TRACE_VERBOSE(nullptr, TRACE_MSG_METH, METH_NAME, this);
+}
 
 int32_t ScrollingZoomCompletedEventArgs::CorrelationId()
 {

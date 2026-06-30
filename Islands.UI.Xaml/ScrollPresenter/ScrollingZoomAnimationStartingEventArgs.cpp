@@ -1,11 +1,22 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-#include "pch.h"
-#include "common.h"
-#include "ResourceAccessor.h"
-#include "ScrollPresenterTrace.h"
-#include "ScrollingZoomAnimationStartingEventArgs.h"
+import inc.common;
+import ixx.ScrollPresenterTrace;
+import ixx.ResourceAccessor;
+import ixx.ScrollingZoomAnimationStartingEventArgs;
+import std;
+#include "../Telemetry/ScrollTraceMacros.h"
+
+ScrollingZoomAnimationStartingEventArgs::ScrollingZoomAnimationStartingEventArgs()
+{
+    SCROLLPRESENTER_TRACE_VERBOSE(nullptr, TRACE_MSG_METH, METH_NAME, this);
+}
+
+ScrollingZoomAnimationStartingEventArgs::~ScrollingZoomAnimationStartingEventArgs()
+{
+    SCROLLPRESENTER_TRACE_VERBOSE(nullptr, TRACE_MSG_METH, METH_NAME, this);
+}
 
 winrt::float2 ScrollingZoomAnimationStartingEventArgs::CenterPoint()
 {

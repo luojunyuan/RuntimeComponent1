@@ -1,7 +1,31 @@
-﻿namespace MU_XC_NAMESPACE
+namespace Islands.UI.Xaml.Controls
 {
 
-[MUX_PUBLIC_V5]
+interface IRepeaterScrollingSurface;
+
+[webhosthidden]
+delegate void ConfigurationChangedEventHandler(IRepeaterScrollingSurface sender);
+
+[webhosthidden]
+delegate void PostArrangeEventHandler(IRepeaterScrollingSurface sender);
+
+[webhosthidden]
+delegate void ViewportChangedEventHandler(IRepeaterScrollingSurface sender, Boolean isFinal);
+
+[webhosthidden]
+interface IRepeaterScrollingSurface
+{
+    Boolean IsHorizontallyScrollable { get; };
+    Boolean IsVerticallyScrollable { get; };
+    Windows.UI.Xaml.UIElement AnchorElement { get; };
+    event ConfigurationChangedEventHandler ConfigurationChanged;
+    event PostArrangeEventHandler PostArrange;
+    event ViewportChangedEventHandler ViewportChanged;
+    void RegisterAnchorCandidate(Windows.UI.Xaml.UIElement element);
+    void UnregisterAnchorCandidate(Windows.UI.Xaml.UIElement element);
+    Windows.Foundation.Rect GetRelativeViewport(Windows.UI.Xaml.UIElement child);
+}
+
 [webhosthidden]
 enum ScrollingContentOrientation
 {
@@ -11,7 +35,6 @@ enum ScrollingContentOrientation
     Both = 3,
 };
 
-[MUX_PUBLIC_V5]
 [webhosthidden]
 enum ScrollingInteractionState
 {
@@ -21,7 +44,6 @@ enum ScrollingInteractionState
     Animation = 3,
 };
 
-[MUX_PUBLIC_V5]
 [webhosthidden]
 enum ScrollingScrollMode
 {
@@ -30,7 +52,6 @@ enum ScrollingScrollMode
     Auto = 2,
 };
 
-[MUX_PUBLIC_V5]
 [webhosthidden]
 enum ScrollingZoomMode
 {
@@ -38,7 +59,6 @@ enum ScrollingZoomMode
     Disabled = 1,
 };
 
-[MUX_PUBLIC_V5]
 [webhosthidden]
 enum ScrollingChainMode
 {
@@ -47,7 +67,6 @@ enum ScrollingChainMode
     Never = 2,
 };
 
-[MUX_PUBLIC_V5]
 [webhosthidden]
 enum ScrollingRailMode
 {
@@ -55,7 +74,6 @@ enum ScrollingRailMode
     Disabled = 1,
 };
 
-[MUX_PUBLIC_V5]
 [webhosthidden]
 [flags]
 enum ScrollingInputKinds
@@ -69,7 +87,6 @@ enum ScrollingInputKinds
     All = 255,
 };
 
-[MUX_PUBLIC_V5]
 [webhosthidden]
 enum ScrollingAnimationMode
 { 
@@ -78,7 +95,6 @@ enum ScrollingAnimationMode
    Auto = 2,
 };
 
-[MUX_PUBLIC_V5]
 [webhosthidden]
 enum ScrollingSnapPointsMode
 {
@@ -86,7 +102,6 @@ enum ScrollingSnapPointsMode
     Ignore = 1,
 };
 
-[MUX_PUBLIC_V5]
 [webhosthidden]
 [marshaling_behavior(agile)]
 [threading(both)]
@@ -99,7 +114,6 @@ unsealed runtimeclass ScrollingScrollOptions
     ScrollingSnapPointsMode SnapPointsMode { get; set; };
 }
 
-[MUX_PUBLIC_V5]
 [webhosthidden]
 [marshaling_behavior(agile)]
 [threading(both)]
@@ -112,62 +126,55 @@ unsealed runtimeclass ScrollingZoomOptions
     ScrollingSnapPointsMode SnapPointsMode { get; set; };
 }
 
-[MUX_PUBLIC_V5]
 [webhosthidden]
 runtimeclass ScrollingScrollAnimationStartingEventArgs
 {
-    Microsoft.UI.Composition.CompositionAnimation Animation { get; set; };
+    Windows.UI.Composition.CompositionAnimation Animation { get; set; };
     Windows.Foundation.Numerics.Vector2 StartPosition { get; };
     Windows.Foundation.Numerics.Vector2 EndPosition { get; };
     Int32 CorrelationId { get; };
 }
 
-[MUX_PUBLIC_V5]
 [webhosthidden]
 runtimeclass ScrollingZoomAnimationStartingEventArgs
 {
     Windows.Foundation.Numerics.Vector2 CenterPoint { get; };
     Single StartZoomFactor { get; };
     Single EndZoomFactor { get; };
-    Microsoft.UI.Composition.CompositionAnimation Animation { get; set; };
+    Windows.UI.Composition.CompositionAnimation Animation { get; set; };
     Int32 CorrelationId { get; };
 }
 
-[MUX_PUBLIC_V5]
 [webhosthidden]
 runtimeclass ScrollingScrollCompletedEventArgs
 {
     Int32 CorrelationId { get; };
 }
 
-[MUX_PUBLIC_V5]
 [webhosthidden]
 runtimeclass ScrollingZoomCompletedEventArgs
 {
     Int32 CorrelationId { get; };
 }
 
-[MUX_PUBLIC_V5]
 [webhosthidden]
 runtimeclass ScrollingBringingIntoViewEventArgs
 {
     ScrollingSnapPointsMode SnapPointsMode { get; set; };
-    Microsoft.UI.Xaml.BringIntoViewRequestedEventArgs RequestEventArgs { get; };
+    Windows.UI.Xaml.BringIntoViewRequestedEventArgs RequestEventArgs { get; };
     Double TargetHorizontalOffset { get; };
     Double TargetVerticalOffset { get; };
     Int32 CorrelationId { get; };
     Boolean Cancel { get; set; };
 }
 
-[MUX_PUBLIC_V5]
 [webhosthidden]
 runtimeclass ScrollingAnchorRequestedEventArgs
 {
-    Windows.Foundation.Collections.IVector<Microsoft.UI.Xaml.UIElement> AnchorCandidates { get; };
-    Microsoft.UI.Xaml.UIElement AnchorElement { get; set; };
+    Windows.Foundation.Collections.IVector<Windows.UI.Xaml.UIElement> AnchorCandidates { get; };
+    Windows.UI.Xaml.UIElement AnchorElement { get; set; };
 }
 
-[MUX_PREVIEW]
 [webhosthidden]
 runtimeclass ScrollingScrollStartingEventArgs
 {
@@ -177,7 +184,6 @@ runtimeclass ScrollingScrollStartingEventArgs
     Single ZoomFactor{ get; };
 }
 
-[MUX_PREVIEW]
 [webhosthidden]
 runtimeclass ScrollingZoomStartingEventArgs
 {

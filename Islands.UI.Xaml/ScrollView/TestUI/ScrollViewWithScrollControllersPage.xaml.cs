@@ -1,13 +1,13 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using System;
 using System.Collections.Generic;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Navigation;
-using Microsoft.UI.Dispatching;
-using Microsoft.UI.Private.Controls;
+using Windows.UI.Xaml;
+using Islands.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
+using Windows.System;
+using Islands.UI.Xaml.Controls.Primitives;
 
 namespace MUXControlsTestApp
 {
@@ -597,7 +597,7 @@ namespace MUXControlsTestApp
             {
                 lstAsyncEventMessage.Add(asyncEventMessage);
 
-                var ignored = this.DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal,
+                var ignored = this.DispatcherQueue.TryEnqueue(Windows.System.DispatcherQueuePriority.Normal,
                                                               AppendAsyncEventMessage);
             }
         }

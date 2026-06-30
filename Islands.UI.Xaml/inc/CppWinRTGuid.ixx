@@ -1,4 +1,3 @@
-#pragma once
 
 #ifndef GUID_DEFINED
 #define GUID_DEFINED

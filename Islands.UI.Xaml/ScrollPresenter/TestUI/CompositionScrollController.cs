@@ -1,18 +1,18 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using System;
 using System.Collections.Generic;
 using System.Numerics;
 using Windows.Foundation;
-using Microsoft.UI.Composition;
-using Microsoft.UI.Input;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Hosting;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Dispatching;
+using Windows.UI.Composition;
+using Windows.UI.Input;
+using Windows.UI.Xaml;
+using Islands.UI.Xaml.Controls;
+using Islands.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Hosting;
+using Windows.UI.Xaml.Input;
+using Windows.System;
 
 namespace MUXControlsTestApp.Utilities
 {
@@ -293,7 +293,7 @@ namespace MUXControlsTestApp.Utilities
                         RaiseLogMessage("CompositionScrollControllerPanningInfo: UpdatePanningFrameworkElementLength for PanOrientation=Horizontal, setting Width=" + newWidth);
 
                         panningFrameworkElement.Width = newWidth;
-                        var ignored = dispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, UpdatePanningElementOffsetMultiplier);
+                        var ignored = dispatcherQueue.TryEnqueue(Windows.System.DispatcherQueuePriority.Low, UpdatePanningElementOffsetMultiplier);
                         return true;
                     }
                 }
@@ -313,7 +313,7 @@ namespace MUXControlsTestApp.Utilities
                         RaiseLogMessage("CompositionScrollControllerPanningInfo: UpdatePanningFrameworkElementLength for PanOrientation=Vertical, setting Height=" + newHeight);
 
                         panningFrameworkElement.Height = newHeight;
-                        var ignored = dispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, UpdatePanningElementOffsetMultiplier);
+                        var ignored = dispatcherQueue.TryEnqueue(Windows.System.DispatcherQueuePriority.Low, UpdatePanningElementOffsetMultiplier);
                         return true;
                     }
                 }
@@ -1063,7 +1063,7 @@ namespace MUXControlsTestApp.Utilities
             return -1;
         }
 
-        private void PanningFrameworkElement_PointerPressed(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+        private void PanningFrameworkElement_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             Point pt = e.GetCurrentPoint(sender as UIElement).Position;
             RaiseLogMessage("CompositionScrollController: PanningFrameworkElement_PointerPressed for Orientation=" + Orientation + ", position=" + pt);
@@ -1073,12 +1073,12 @@ namespace MUXControlsTestApp.Utilities
 
             switch (e.Pointer.PointerDeviceType)
             {
-                case Microsoft.UI.Input.PointerDeviceType.Touch:
-                case Microsoft.UI.Input.PointerDeviceType.Pen:
+                case Windows.UI.Input.PointerDeviceType.Touch:
+                case Windows.UI.Input.PointerDeviceType.Pen:
                     // Attempt an UI-thread-independent pan.
                     panningInfo.RaisePanRequested(e.GetCurrentPoint(null));
                     break;
-                case Microsoft.UI.Input.PointerDeviceType.Mouse:
+                case Windows.UI.Input.PointerDeviceType.Mouse:
                     if (!IsScrollingWithMouse)
                     {
                         // Starting a mouse-driven thumb drag.

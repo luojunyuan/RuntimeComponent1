@@ -1,11 +1,14 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-#include "pch.h"
-#include "common.h"
-#include "TypeLogging.h"
-#include "ScrollPresenterTypeLogging.h"
-#include "SnapPoint.h"
+import inc.common;
+import ixx.ScrollPresenterTrace;
+import ixx.TypeLogging;
+import ixx.ScrollPresenterTypeLogging;
+import ixx.SnapPoint;
+import ixx.Utils;
+import std;
+#include "../Telemetry/ScrollTraceMacros.h"
 
 winrt::hstring SnapPointBase::GetTargetExpression(winrt::hstring const& target) const
 {
@@ -320,20 +323,20 @@ double ScrollSnapPoint::ActualValue() const
 double ScrollSnapPoint::DetermineMinActualApplicableZone(
     const SnapPointBase* previousSnapPoint) const
 {
-    // If we are not passed a previousSnapPoint it means we are the first in the list, see if we expand to negative Infinity or stay put.
+    // If we are not passed a previousSnapPoint it means we are the first in the list, see if we expand to negative std::numeric_limits<double>::infinity() or stay put.
     if (!previousSnapPoint)
     {
 #ifdef ApplicableRangeType
         if (applicableRangeType != winrt::SnapPointApplicableRangeType::Optional)
         {
-            return -INFINITY;
+            return -std::numeric_limits<double>::infinity();
         }
         else
         {
             return ActualValue() - m_specifiedApplicableRange;
         }
 #else
-        return -INFINITY;
+        return -std::numeric_limits<double>::infinity();
 #endif
     }
     // If we are passed a previousSnapPoint then we need to account for its influence on us.
@@ -365,13 +368,13 @@ double ScrollSnapPoint::DetermineMinActualImpulseApplicableZone(
 {
     if (!previousSnapPoint)
     {
-        return -INFINITY;
+        return -std::numeric_limits<double>::infinity();
     }
     else
     {
         const double previousMaxInfluence = previousSnapPoint->ImpulseInfluence(ActualValue(), previousIgnoredValue);
 
-        if (isnan(currentIgnoredValue))
+        if (std::isnan(currentIgnoredValue))
         {
             return previousMaxInfluence;
         }
@@ -385,20 +388,20 @@ double ScrollSnapPoint::DetermineMinActualImpulseApplicableZone(
 double ScrollSnapPoint::DetermineMaxActualApplicableZone(
     const SnapPointBase* nextSnapPoint) const
 {
-    // If we are not passed a nextSnapPoint it means we are the last in the list, see if we expand to Infinity or stay put.
+    // If we are not passed a nextSnapPoint it means we are the last in the list, see if we expand to std::numeric_limits<double>::infinity() or stay put.
     if (!nextSnapPoint)
     {
 #ifdef ApplicableRangeType
         if (m_applicableRangeType != winrt::SnapPointApplicableRangeType::Optional)
         {
-            return INFINITY;
+            return std::numeric_limits<double>::infinity();
         }
         else
         {
             return ActualValue() + m_specifiedApplicableRange;
         }
 #else
-        return INFINITY;
+        return std::numeric_limits<double>::infinity();
 #endif
     }
     // If we are passed a nextSnapPoint then we need to account for its influence on us.
@@ -430,13 +433,13 @@ double ScrollSnapPoint::DetermineMaxActualImpulseApplicableZone(
 {
     if (!nextSnapPoint)
     {
-        return INFINITY;
+        return std::numeric_limits<double>::infinity();
     }
     else
     {
         const double nextMinInfluence = nextSnapPoint->ImpulseInfluence(ActualValue(), nextIgnoredValue);
 
-        if (isnan(currentIgnoredValue))
+        if (std::isnan(currentIgnoredValue))
         {
             return nextMinInfluence;
         }
@@ -480,7 +483,7 @@ double ScrollSnapPoint::ImpulseInfluence(double edgeOfMidpoint, double ignoredVa
     const double actualValue = ActualValue();
     const double midPoint = (actualValue + edgeOfMidpoint) / 2.0;
 
-    if (isnan(ignoredValue))
+    if (std::isnan(ignoredValue))
     {
         return midPoint;
     }
@@ -508,14 +511,14 @@ void ScrollSnapPoint::Combine(
         //TODO: The m_specifiedApplicableRange field is never expected to change after creation. A correction will be needed here.
         m_specifiedApplicableRange = std::max(snapPointAsIrregular.ApplicableRange(), m_specifiedApplicableRange);
 #else
-        MUX_ASSERT(m_specifiedApplicableRange == INFINITY);
+        MUX_ASSERT(m_specifiedApplicableRange == std::numeric_limits<double>::infinity());
 #endif
         combinationCount++;
     }
     else
     {
         // TODO: Provide custom error message
-        throw winrt::hresult_error(E_INVALIDARG);
+        throw winrt::hresult_error(eInvalidArg);
     }
 }
 
@@ -801,7 +804,7 @@ std::tuple<double, double> RepeatedScrollSnapPoint::DetermineActualApplicableZon
     if (nextSnapPoint && *static_cast<SnapPointBase*>(this) == (nextSnapPoint))
     {
         // TODO: Provide custom error message
-        throw winrt::hresult_error(E_INVALIDARG);
+        throw winrt::hresult_error(eInvalidArg);
     }
 
     return actualApplicableZoneReturned;
@@ -888,7 +891,7 @@ double RepeatedScrollSnapPoint::DetermineMinActualImpulseApplicableZone(
             return currentIgnoredValue;
         }
 
-        if (!isnan(previousIgnoredValue))
+        if (!std::isnan(previousIgnoredValue))
         {
             return previousSnapPoint->ImpulseInfluence(ActualStart(), previousIgnoredValue);
         }
@@ -922,7 +925,7 @@ double RepeatedScrollSnapPoint::DetermineMaxActualImpulseApplicableZone(
             return currentIgnoredValue;
         }
 
-        if (!isnan(nextIgnoredValue))
+        if (!std::isnan(nextIgnoredValue))
         {
             return nextSnapPoint->ImpulseInfluence(ActualEnd(), nextIgnoredValue);
         }
@@ -985,7 +988,7 @@ double RepeatedScrollSnapPoint::Influence(double edgeOfMidpoint) const
     {
         // Snap points are not allowed within the bounds (Start thru End) of repeated snap points
         // TODO: Provide custom error message
-        throw winrt::hresult_error(E_INVALIDARG);
+        throw winrt::hresult_error(eInvalidArg);
     }
     return 0.0;
 }
@@ -1021,7 +1024,7 @@ void RepeatedScrollSnapPoint::Combine(
 {
     // Snap points are not allowed within the bounds (Start thru End) of repeated snap points
     // TODO: Provide custom error message
-    throw winrt::hresult_error(E_INVALIDARG);
+    throw winrt::hresult_error(eInvalidArg);
 }
 
 int RepeatedScrollSnapPoint::SnapCount() const
@@ -1212,20 +1215,20 @@ std::tuple<double, double> ZoomSnapPoint::DetermineActualImpulseApplicableZone(
 double ZoomSnapPoint::DetermineMinActualApplicableZone(
     const SnapPointBase* previousSnapPoint) const
 {
-    // If we are not passed a previousSnapPoint it means we are the first in the list, see if we expand to negative Infinity or stay put.
+    // If we are not passed a previousSnapPoint it means we are the first in the list, see if we expand to negative std::numeric_limits<double>::infinity() or stay put.
     if (!previousSnapPoint)
     {
 #ifdef ApplicableRangeType
         if (applicableRangeType != winrt::SnapPointApplicableRangeType::Optional)
         {
-            return -INFINITY;
+            return -std::numeric_limits<double>::infinity();
         }
         else
         {
             return m_value - m_specifiedApplicableRange;
         }
 #else
-        return -INFINITY;
+        return -std::numeric_limits<double>::infinity();
 #endif
     }
     // If we are passed a previousSnapPoint then we need to account for its influence on us.
@@ -1257,13 +1260,13 @@ double ZoomSnapPoint::DetermineMinActualImpulseApplicableZone(
 {
     if (!previousSnapPoint)
     {
-        return -INFINITY;
+        return -std::numeric_limits<double>::infinity();
     }
     else
     {
         const double previousMaxInfluence = previousSnapPoint->ImpulseInfluence(m_value, previousIgnoredValue);
 
-        if (isnan(currentIgnoredValue))
+        if (std::isnan(currentIgnoredValue))
         {
             return previousMaxInfluence;
         }
@@ -1277,20 +1280,20 @@ double ZoomSnapPoint::DetermineMinActualImpulseApplicableZone(
 double ZoomSnapPoint::DetermineMaxActualApplicableZone(
     const SnapPointBase* nextSnapPoint) const
 {
-    // If we are not passed a nextSnapPoint it means we are the last in the list, see if we expand to Infinity or stay put.
+    // If we are not passed a nextSnapPoint it means we are the last in the list, see if we expand to std::numeric_limits<double>::infinity() or stay put.
     if (!nextSnapPoint)
     {
 #ifdef ApplicableRangeType
         if (m_applicableRangeType != winrt::SnapPointApplicableRangeType::Optional)
         {
-            return INFINITY;
+            return std::numeric_limits<double>::infinity();
         }
         else
         {
             return m_value + m_specifiedApplicableRange;
         }
 #else
-        return INFINITY;
+        return std::numeric_limits<double>::infinity();
 #endif
     }
     // If we are passed a nextSnapPoint then we need to account for its influence on us.
@@ -1322,13 +1325,13 @@ double ZoomSnapPoint::DetermineMaxActualImpulseApplicableZone(
 {
     if (!nextSnapPoint)
     {
-        return INFINITY;
+        return std::numeric_limits<double>::infinity();
     }
     else
     {
         const double nextMinInfluence = nextSnapPoint->ImpulseInfluence(m_value, nextIgnoredValue);
 
-        if (isnan(currentIgnoredValue))
+        if (std::isnan(currentIgnoredValue))
         {
             return nextMinInfluence;
         }
@@ -1370,7 +1373,7 @@ double ZoomSnapPoint::ImpulseInfluence(double edgeOfMidpoint, double ignoredValu
 {
     const double midPoint = (m_value + edgeOfMidpoint) / 2.0;
 
-    if (isnan(ignoredValue))
+    if (std::isnan(ignoredValue))
     {
         return midPoint;
     }
@@ -1398,14 +1401,14 @@ void ZoomSnapPoint::Combine(
         //TODO: The m_specifiedApplicableRange field is never expected to change after creation. A correction will be needed here.
         m_specifiedApplicableRange = std::max(snapPointAsIrregular.ApplicableRange(), m_specifiedApplicableRange);
 #else
-        MUX_ASSERT(m_specifiedApplicableRange == INFINITY);
+        MUX_ASSERT(m_specifiedApplicableRange == std::numeric_limits<double>::infinity());
 #endif
         combinationCount++;
     }
     else
     {
         // TODO: Provide custom error message
-        throw winrt::hresult_error(E_INVALIDARG);
+        throw winrt::hresult_error(eInvalidArg);
     }
 }
 
@@ -1689,7 +1692,7 @@ std::tuple<double, double> RepeatedZoomSnapPoint::DetermineActualApplicableZone(
     if (nextSnapPoint && *static_cast<SnapPointBase*>(this) == (nextSnapPoint))
     {
         // TODO: Provide custom error message
-        throw winrt::hresult_error(E_INVALIDARG);
+        throw winrt::hresult_error(eInvalidArg);
     }
 
     return actualApplicableZoneReturned;
@@ -1753,7 +1756,7 @@ double RepeatedZoomSnapPoint::DetermineMinActualImpulseApplicableZone(
             return currentIgnoredValue;
         }
 
-        if (!isnan(previousIgnoredValue))
+        if (!std::isnan(previousIgnoredValue))
         {
             return previousSnapPoint->ImpulseInfluence(m_start, previousIgnoredValue);
         }
@@ -1785,7 +1788,7 @@ double RepeatedZoomSnapPoint::DetermineMaxActualImpulseApplicableZone(
             return currentIgnoredValue;
         }
 
-        if (!isnan(nextIgnoredValue))
+        if (!std::isnan(nextIgnoredValue))
         {
             return nextSnapPoint->ImpulseInfluence(m_end, nextIgnoredValue);
         }
@@ -1845,7 +1848,7 @@ double RepeatedZoomSnapPoint::Influence(double edgeOfMidpoint) const
     {
         // Snap points are not allowed within the bounds (Start thru End) of repeated snap points
         // TODO: Provide custom error message
-        throw winrt::hresult_error(E_INVALIDARG);
+        throw winrt::hresult_error(eInvalidArg);
     }
     return 0.0;
 }
@@ -1881,7 +1884,7 @@ void RepeatedZoomSnapPoint::Combine(
 {
     // Snap points are not allowed within the bounds (Start thru End) of repeated snap points
     // TODO: Provide custom error message
-    throw winrt::hresult_error(E_INVALIDARG);
+    throw winrt::hresult_error(eInvalidArg);
 }
 
 int RepeatedZoomSnapPoint::SnapCount() const

@@ -16,6 +16,7 @@ module;
 export module ixx.MuxcTraceLogging;
 
 import inc.win32;
+import std;
 
 export inline constexpr ULONGLONG KeywordItemsRepeater = 0x0000000000000001;
 export inline constexpr ULONGLONG KeywordScrollPresenter = 0x0000000000000002;
@@ -34,12 +35,87 @@ export inline constexpr ULONGLONG KeywordNavigationView = 0x0000000000002000;
 export inline constexpr ULONGLONG KeywordInkToolbar = 0x0000000000004000;
 export inline constexpr ULONGLONG KeywordTitleBar = 0x0000000000008000;
 
+#define KEYWORD_SCROLLPRESENTER KeywordScrollPresenter
+#define KEYWORD_SCROLLVIEW KeywordScrollView
+#define KEYWORD_TITLEBAR KeywordTitleBar
+
+#define TRACE_MSG_METH L"%s[0x%p]()\n"
+#define TRACE_MSG_METH_DBL L"%s[0x%p](%lf)\n"
+#define TRACE_MSG_METH_DBL_DBL L"%s[0x%p](%lf, %lf)\n"
+#define TRACE_MSG_METH_DBL_INT L"%s[0x%p](%lf, %d)\n"
+#define TRACE_MSG_METH_DBL_DBL_INT L"%s[0x%p](%lf, %lf, %d)\n"
+#define TRACE_MSG_METH_DBL_DBL_FLT L"%s[0x%p](%lf, %lf, %f)\n"
+#define TRACE_MSG_METH_DBL_DBL_STR L"%s[0x%p](%lf, %lf, %s)\n"
+#define TRACE_MSG_METH_FLT L"%s[0x%p](%f)\n"
+#define TRACE_MSG_METH_FLT_FLT L"%s[0x%p](%f, %f)\n"
+#define TRACE_MSG_METH_FLT_FLT_FLT L"%s[0x%p](%f, %f, %f)\n"
+#define TRACE_MSG_METH_FLT_FLT_FLT_FLT L"%s[0x%p](%f, %f, %f, %f)\n"
+#define TRACE_MSG_METH_FLT_FLT_STR_INT L"%s[0x%p](%f, %f, %s, %d)\n"
+#define TRACE_MSG_METH_INT L"%s[0x%p](%d)\n"
+#define TRACE_MSG_METH_INT_INT L"%s[0x%p](%d, %d)\n"
+#define TRACE_MSG_METH_PTR L"%s[0x%p](0x%p)\n"
+#define TRACE_MSG_METH_PTR_PTR L"%s[0x%p](0x%p, 0x%p)\n"
+#define TRACE_MSG_METH_PTR_DBL L"%s[0x%p](0x%p, %lf)\n"
+#define TRACE_MSG_METH_PTR_INT L"%s[0x%p](0x%p, %d)\n"
+#define TRACE_MSG_METH_PTR_STR L"%s[0x%p](0x%p, %s)\n"
+#define TRACE_MSG_METH_STR L"%s[0x%p](%s)\n"
+#define TRACE_MSG_METH_IND_STR L"%s[0x%p](%*s)\n"
+#define TRACE_MSG_METH_IND_STR_STR L"%s[0x%p](%*s, %s)\n"
+#define TRACE_MSG_METH_IND_STR_STR_INT L"%s[0x%p](%*s, %s, %d)\n"
+#define TRACE_MSG_METH_IND_STR_STR_INT_INT L"%s[0x%p](%*s, %s, %d, %d)\n"
+#define TRACE_MSG_METH_IND_STR_STR_FLT L"%s[0x%p](%*s, %s, %f)\n"
+#define TRACE_MSG_METH_IND_STR_STR_FLT_FLT L"%s[0x%p](%*s, %s, %f, %f)\n"
+#define TRACE_MSG_METH_IND_STR_STR_FLT_FLT_FLT_FLT L"%s[0x%p](%*s, %s, %f, %f, %f, %f)\n"
+#define TRACE_MSG_METH_IND_STR_STR_INT_FLT_FLT_FLT_FLT L"%s[0x%p](%*s, %s, %d, %f, %f, %f, %f)\n"
+#define TRACE_MSG_METH_STR_STR L"%s[0x%p](%s, %s)\n"
+#define TRACE_MSG_METH_STR_DBL L"%s[0x%p](%s, %lf)\n"
+#define TRACE_MSG_METH_STR_DBL_DBL L"%s[0x%p](%s, %lf, %lf)\n"
+#define TRACE_MSG_METH_STR_FLT L"%s[0x%p](%s, %f)\n"
+#define TRACE_MSG_METH_STR_INT L"%s[0x%p](%s, %d)\n"
+#define TRACE_MSG_METH_STR_STR_PTR L"%s[0x%p](%s, %s, 0x%p)\n"
+#define TRACE_MSG_METH_STR_STR_DBL L"%s[0x%p](%s, %s, %lf)\n"
+#define TRACE_MSG_METH_STR_STR_INT L"%s[0x%p](%s, %s, %d)\n"
+#define TRACE_MSG_METH_STR_STR_STR L"%s[0x%p](%s, %s, %s)\n"
+#define TRACE_MSG_METH_STR_INT_INT L"%s[0x%p](%s, %d, %d)\n"
+#define TRACE_MSG_METH_STR_FLT_FLT L"%s[0x%p](%s, %f, %f)\n"
+#define TRACE_MSG_METH_STR_STR_FLT_FLT L"%s[0x%p](%s, %s, %f, %f)\n"
+#define TRACE_MSG_METH_STR_STR_FLT_FLT_FLT_FLT L"%s[0x%p](%s, %s, %f, %f, %f, %f)\n"
+#define TRACE_MSG_METH_STR_STR_FLT L"%s[0x%p](%s, %s, %f)\n"
+#define TRACE_MSG_METH_STR_STR_INT_INT L"%s[0x%p](%s, %s, %d, %d)\n"
+#define TRACE_MSG_METH_STR_STR_DBL_DBL L"%s[0x%p](%s, %s, %lf, %lf)\n"
+#define TRACE_MSG_METH_METH L"%s[0x%p] - calls %s()\n"
+#define TRACE_MSG_METH_METH_INT L"%s[0x%p] - calls %s(%d)\n"
+#define TRACE_MSG_METH_METH_STR L"%s[0x%p] - calls %s(%s)\n"
+#define TRACE_MSG_METH_METH_STR_STR L"%s[0x%p] - calls %s(%s, %s)\n"
+#define TRACE_MSG_METH_METH_FLT_STR L"%s[0x%p] - calls %s(%f, %s)\n"
+#define TRACE_MSG_METH_METH_FLT_FLT_FLT L"%s[0x%p] - calls %s(%f, %f, %f)\n"
+
+#define METH_NAME TraceMethodName(__FUNCTION__).c_str()
+
 export inline constexpr PCSTR TelemetryProviderName = "Microsoft.UI.Xaml.Controls";
 export inline constexpr PCSTR PerfProviderName = "Microsoft.UI.Xaml.Controls.Perf";
 export inline constexpr PCSTR DebugProviderName = "Microsoft.UI.Xaml.Controls.Debug";
 
 export
 {
+inline std::wstring TraceMethodName(char const* functionName)
+{
+    if (functionName == nullptr)
+    {
+        return {};
+    }
+
+    const int length = MultiByteToWideChar(CP_UTF8, 0, functionName, -1, nullptr, 0);
+    if (length <= 0)
+    {
+        return {};
+    }
+
+    std::wstring result(length - 1, L'\0');
+    MultiByteToWideChar(CP_UTF8, 0, functionName, -1, result.data(), length);
+    return result;
+}
+
 TRACELOGGING_DECLARE_PROVIDER(g_hTelemetryProvider);
 extern bool g_IsTelemetryProviderEnabled;
 extern UCHAR g_TelemetryProviderLevel;

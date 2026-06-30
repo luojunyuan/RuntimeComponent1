@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using Common;
@@ -9,11 +9,11 @@ using System.Diagnostics;
 using System.Numerics;
 using System.Threading;
 using Windows.Foundation;
-using Microsoft.UI.Composition;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Shapes;
-using Microsoft.UI.Private.Controls;
+using Windows.UI.Composition;
+using Islands.UI.Xaml.Controls;
+using Islands.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Shapes;
+using Islands.UI.Xaml.Controls.Primitives;
 
 using WEX.TestExecution;
 using WEX.TestExecution.Markup;
@@ -21,7 +21,7 @@ using WEX.Logging.Interop;
 
 using Windows.UI.ViewManagement;
 
-namespace Microsoft.UI.Xaml.Tests.MUXControls.ApiTests
+namespace Windows.UI.Xaml.Tests.MUXControls.ApiTests
 {
     partial class ScrollPresenterTests : ApiTestBase
     {

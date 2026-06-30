@@ -3,6 +3,64 @@
 
 module inc.common;
 
+bool SharedHelpers::IsAnimationsEnabled()
+{
+    return winrt::UISettings().AnimationsEnabled();
+}
+
+bool SharedHelpers::DoRectsIntersect(const winrt::Rect& rect1, const winrt::Rect& rect2)
+{
+    return !(rect1.Width <= 0 || rect1.Height <= 0 || rect2.Width <= 0 || rect2.Height <= 0) &&
+        rect2.X <= rect1.X + rect1.Width &&
+        rect2.X + rect2.Width >= rect1.X &&
+        rect2.Y <= rect1.Y + rect1.Height &&
+        rect2.Y + rect2.Height >= rect1.Y;
+}
+
+bool SharedHelpers::IsAncestor(
+    const winrt::DependencyObject& child,
+    const winrt::DependencyObject& parent,
+    bool checkVisibility)
+{
+    if (!child || !parent || child == parent)
+    {
+        return false;
+    }
+
+    auto isCollapsed = [](const winrt::DependencyObject& object)
+    {
+        if (const auto element = object.try_as<winrt::IUIElement>())
+        {
+            return element.Visibility() == winrt::Visibility::Collapsed;
+        }
+
+        return false;
+    };
+
+    if (checkVisibility && (isCollapsed(parent) || isCollapsed(child)))
+    {
+        return false;
+    }
+
+    winrt::DependencyObject current = winrt::VisualTreeHelper::GetParent(child);
+    while (current)
+    {
+        if (checkVisibility && isCollapsed(current))
+        {
+            return false;
+        }
+
+        if (current == parent)
+        {
+            return true;
+        }
+
+        current = winrt::VisualTreeHelper::GetParent(current);
+    }
+
+    return false;
+}
+
 winrt::IconElement SharedHelpers::MakeIconElementFrom(winrt::IconSource const& iconSource)
 {
     if (!iconSource)

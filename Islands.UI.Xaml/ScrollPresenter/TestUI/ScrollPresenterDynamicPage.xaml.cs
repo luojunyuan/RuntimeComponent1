@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using System;
@@ -6,20 +6,20 @@ using System.Numerics;
 using System.Collections.Generic;
 using Windows.Foundation;
 using Windows.UI;
-using Microsoft.UI.Composition;
+using Windows.UI.Composition;
 using Windows.UI.ViewManagement;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Hosting;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Media.Imaging;
-using Microsoft.UI.Xaml.Navigation;
-using Microsoft.UI.Xaml.Shapes;
-using Microsoft.UI.Private.Controls;
+using Windows.UI.Xaml;
+using Islands.UI.Xaml.Controls;
+using Islands.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Hosting;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
+using Windows.UI.Xaml.Navigation;
+using Windows.UI.Xaml.Shapes;
+using Islands.UI.Xaml.Controls.Primitives;
 using MUXControlsTestApp.Utilities;
-using Microsoft.UI.Dispatching;
+using Windows.System;
 
 namespace MUXControlsTestApp
 {
@@ -161,17 +161,17 @@ namespace MUXControlsTestApp
             viewbox = new Viewbox();
             tilePanel = new TilePanel();
             tilePanel.TileCount = 100;
-            tilePanel.Background = new SolidColorBrush(Microsoft.UI.Colors.Orange);
+            tilePanel.Background = new SolidColorBrush(Windows.UI.Colors.Orange);
             largeImg = new Image() { Source = new BitmapImage(new Uri("ms-appx:/Assets/LargeWisteria.jpg")) };
-            SolidColorBrush chartreuseBrush = new SolidColorBrush(Microsoft.UI.Colors.Chartreuse);
-            SolidColorBrush blanchedAlmondBrush = new SolidColorBrush(Microsoft.UI.Colors.BlanchedAlmond);
-            SolidColorBrush interBrush = new SolidColorBrush(Microsoft.UI.Colors.Yellow);
+            SolidColorBrush chartreuseBrush = new SolidColorBrush(Windows.UI.Colors.Chartreuse);
+            SolidColorBrush blanchedAlmondBrush = new SolidColorBrush(Windows.UI.Colors.BlanchedAlmond);
+            SolidColorBrush interBrush = new SolidColorBrush(Windows.UI.Colors.Yellow);
             LinearGradientBrush lgb = new LinearGradientBrush() { StartPoint = new Point(0, 0), EndPoint = new Point(1, 1) };
-            GradientStop gs = new GradientStop() { Color = Microsoft.UI.Colors.Blue, Offset = 0.0 };
+            GradientStop gs = new GradientStop() { Color = Windows.UI.Colors.Blue, Offset = 0.0 };
             lgb.GradientStops.Add(gs);
-            gs = new GradientStop() { Color = Microsoft.UI.Colors.White, Offset = 0.5 };
+            gs = new GradientStop() { Color = Windows.UI.Colors.White, Offset = 0.5 };
             lgb.GradientStops.Add(gs);
-            gs = new GradientStop() { Color = Microsoft.UI.Colors.Red, Offset = 1.0 };
+            gs = new GradientStop() { Color = Windows.UI.Colors.Red, Offset = 1.0 };
             lgb.GradientStops.Add(gs);
             rectangle = new Rectangle() { Fill = lgb };
             button = new Button() { Content = "Button" };
@@ -220,7 +220,7 @@ namespace MUXControlsTestApp
                 BorderBrush = chartreuseBrush,
                 BorderThickness = new Thickness(3),
                 Margin = new Thickness(15),
-                Background = new SolidColorBrush(Microsoft.UI.Colors.Beige),
+                Background = new SolidColorBrush(Windows.UI.Colors.Beige),
                 Child = populatedBorderChild
             };
             horizontalStackPanel = new StackPanel()
@@ -766,13 +766,13 @@ namespace MUXControlsTestApp
                     scrollPresenter.Background = null;
                     break;
                 case 1:
-                    scrollPresenter.Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent);
+                    scrollPresenter.Background = new SolidColorBrush(Windows.UI.Colors.Transparent);
                     break;
                 case 2:
-                    scrollPresenter.Background = new SolidColorBrush(Microsoft.UI.Colors.AliceBlue);
+                    scrollPresenter.Background = new SolidColorBrush(Windows.UI.Colors.AliceBlue);
                     break;
                 case 3:
-                    scrollPresenter.Background = new SolidColorBrush(Microsoft.UI.Colors.Aqua);
+                    scrollPresenter.Background = new SolidColorBrush(Windows.UI.Colors.Aqua);
                     break;
             }
         }
@@ -785,15 +785,15 @@ namespace MUXControlsTestApp
             {
                 cmbBackground.SelectedIndex = 0;
             }
-            else if (bg.Color == Microsoft.UI.Colors.Transparent)
+            else if (bg.Color == Windows.UI.Colors.Transparent)
             {
                 cmbBackground.SelectedIndex = 1;
             }
-            else if (bg.Color == Microsoft.UI.Colors.AliceBlue)
+            else if (bg.Color == Windows.UI.Colors.AliceBlue)
             {
                 cmbBackground.SelectedIndex = 2;
             }
-            else if (bg.Color == Microsoft.UI.Colors.Aqua)
+            else if (bg.Color == Windows.UI.Colors.Aqua)
             {
                 cmbBackground.SelectedIndex = 3;
             }
@@ -2308,7 +2308,7 @@ namespace MUXControlsTestApp
                     lstAsyncEventMessage.Add(msgHead);
                 }
 
-                var ignored = this.DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal, AppendAsyncEventMessage);
+                var ignored = this.DispatcherQueue.TryEnqueue(Windows.System.DispatcherQueuePriority.Normal, AppendAsyncEventMessage);
             }
         }
 
@@ -2392,7 +2392,7 @@ namespace MUXControlsTestApp
                 dynamicScrollPresenter.Width = 300.0;
                 dynamicScrollPresenter.Height = 400.0;
                 dynamicScrollPresenter.Margin = new Thickness(1);
-                dynamicScrollPresenter.Background = new SolidColorBrush(Microsoft.UI.Colors.HotPink);
+                dynamicScrollPresenter.Background = new SolidColorBrush(Windows.UI.Colors.HotPink);
                 dynamicScrollPresenter.VerticalAlignment = VerticalAlignment.Top;
                 Grid.SetRow(dynamicScrollPresenter, 1);
             }

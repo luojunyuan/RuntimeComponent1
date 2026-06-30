@@ -1,11 +1,12 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-#include "pch.h"
-#include "common.h"
-#include "TypeLogging.h"
-#include "ScrollPresenterTrace.h"
-#include "BringIntoViewOffsetsChange.h"
+import inc.common;
+import ixx.ScrollPresenterTrace;
+import ixx.TypeLogging;
+import ixx.BringIntoViewOffsetsChange;
+import std;
+#include "../Telemetry/ScrollTraceMacros.h"
 
 BringIntoViewOffsetsChange::BringIntoViewOffsetsChange(
     const ITrackerHandleManager* owner,

@@ -1,18 +1,24 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-#include "pch.h"
-#include "common.h"
-#include "Vector.h"
-#include "ScrollPresenter.h"
-#include "ScrollPresenterTrace.h"
-#include "ScrollingAnchorRequestedEventArgs.h"
+import inc.common;
+import ixx.ScrollPresenterTrace;
+import ixx.Vector;
+import ixx.ScrollPresenter;
+import ixx.ScrollingAnchorRequestedEventArgs;
+import std;
+#include "../Telemetry/ScrollTraceMacros.h"
 
 ScrollingAnchorRequestedEventArgs::ScrollingAnchorRequestedEventArgs(const winrt::ScrollPresenter& scrollPresenter)
 {
     SCROLLPRESENTER_TRACE_VERBOSE(nullptr, TRACE_MSG_METH_PTR, METH_NAME, this, scrollPresenter);
 
     m_scrollPresenter.set(scrollPresenter);
+}
+
+ScrollingAnchorRequestedEventArgs::~ScrollingAnchorRequestedEventArgs()
+{
+    SCROLLPRESENTER_TRACE_VERBOSE(nullptr, TRACE_MSG_METH, METH_NAME, this);
 }
 
 #pragma region IScrollingAnchorRequestedEventArgs
@@ -40,7 +46,7 @@ void ScrollingAnchorRequestedEventArgs::AnchorElement(winrt::UIElement const& va
     }
     else
     {
-        throw winrt::hresult_error(E_INVALIDARG);
+        throw winrt::hresult_error(eInvalidArg);
     }
 }
 

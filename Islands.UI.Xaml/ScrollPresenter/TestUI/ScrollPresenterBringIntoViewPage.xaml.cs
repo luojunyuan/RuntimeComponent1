@@ -1,19 +1,19 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Windows.Foundation;
-using Microsoft.UI.Composition;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-using Microsoft.UI.Private.Controls;
-using Microsoft.UI.Xaml.Tests.MUXControls.ApiTests.RepeaterTests.Common;
-using Microsoft.UI.Dispatching;
+using Windows.UI.Composition;
+using Windows.UI.Xaml;
+using Islands.UI.Xaml.Controls;
+using Islands.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Navigation;
+using Islands.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Tests.MUXControls.ApiTests.RepeaterTests.Common;
+using Windows.System;
 
 namespace MUXControlsTestApp
 {
@@ -683,7 +683,7 @@ namespace MUXControlsTestApp
                     lstAsyncEventMessage.Add(msgHead);
                 }
 
-                var ignored = this.DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal, AppendAsyncEventMessage);
+                var ignored = this.DispatcherQueue.TryEnqueue(Windows.System.DispatcherQueuePriority.Normal, AppendAsyncEventMessage);
             }
         }
 

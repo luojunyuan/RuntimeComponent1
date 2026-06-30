@@ -419,6 +419,64 @@ struct __declspec(empty_bases) DeriveFromPanelHelper_base : winrt::Windows::UI::
     {
         return hstring{ winrt::name_of<T>() };
     }
+
+    winrt::Size MeasureOverride(winrt::Size const& availableSize)
+    {
+        return availableSize;
+    }
+
+    winrt::Size ArrangeOverride(winrt::Size const& finalSize)
+    {
+        return finalSize;
+    }
+
+    void OnApplyTemplate()
+    {
+    }
+
+    bool GoToElementStateCore(winrt::hstring const&, bool)
+    {
+        return false;
+    }
+
+    winrt::AutomationPeer OnCreateAutomationPeer()
+    {
+        return nullptr;
+    }
+
+    void OnDisconnectVisualChildren()
+    {
+    }
+
+    winrt::Windows::Foundation::Collections::IIterable<winrt::Windows::Foundation::Collections::IIterable<winrt::Point>> FindSubElementsForTouchTargeting(
+        winrt::Point const&,
+        winrt::Rect const&)
+    {
+        return nullptr;
+    }
+
+    winrt::Windows::Foundation::Collections::IIterable<winrt::DependencyObject> GetChildrenInTabFocusOrder()
+    {
+        return nullptr;
+    }
+
+    void OnProcessKeyboardAccelerators(winrt::ProcessKeyboardAcceleratorEventArgs const&)
+    {
+    }
+
+    void OnKeyboardAcceleratorInvoked(winrt::KeyboardAcceleratorInvokedEventArgs const&)
+    {
+    }
+
+    void OnBringIntoViewRequested(winrt::BringIntoViewRequestedEventArgs const&)
+    {
+    }
+
+    void PopulatePropertyInfoOverride(
+        winrt::hstring const&,
+        winrt::AnimationPropertyInfo const&) const
+    {
+    }
 };
 
 template <typename D, typename T, typename ... I>

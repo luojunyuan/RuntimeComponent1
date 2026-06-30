@@ -1,9 +1,9 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using System;
-using Microsoft.UI.Xaml.Automation.Peers;
-using Microsoft.UI.Xaml.Automation.Provider;
+using Windows.UI.Xaml.Automation.Peers;
+using Windows.UI.Xaml.Automation.Provider;
 
 namespace MUXControlsTestApp
 {
@@ -16,7 +16,7 @@ namespace MUXControlsTestApp
             this.InitializeComponent();
         }
 
-        private void BtnSetScrollPercent_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+        private void BtnSetScrollPercent_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             EnsureAutomationPeer();
 

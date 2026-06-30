@@ -1,9 +1,11 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-#include "pch.h"
-#include "ScrollViewBringIntoViewOperation.h"
-#include "ScrollViewTrace.h"
+import inc.common;
+import ixx.ScrollViewTrace;
+import ixx.ScrollViewBringIntoViewOperation;
+import std;
+#include "../Telemetry/ScrollTraceMacros.h"
 
 ScrollViewBringIntoViewOperation::ScrollViewBringIntoViewOperation(winrt::UIElement const& targetElement, bool cancelBringIntoView)
 {
@@ -30,12 +32,12 @@ winrt::UIElement ScrollViewBringIntoViewOperation::TargetElement() const
     return m_targetElement.get();
 }
 
-int8_t ScrollViewBringIntoViewOperation::TicksCount() const
+std::int8_t ScrollViewBringIntoViewOperation::TicksCount() const
 {
     return m_ticksCount;
 }
 
-int8_t ScrollViewBringIntoViewOperation::TickOperation()
+std::int8_t ScrollViewBringIntoViewOperation::TickOperation()
 {
     SCROLLVIEW_TRACE_VERBOSE(nullptr, TRACE_MSG_METH_PTR_INT, METH_NAME, this, m_targetElement.get(), m_ticksCount);
 

@@ -1,13 +1,14 @@
-﻿namespace MU_PRIVATE_CONTROLS_NAMESPACE
+import "ScrollView.idl";
+
+namespace Islands.UI.Xaml.Controls.Primitives
 {
 
-[MUX_INTERNAL]
 [default_interface]
 [webhosthidden]
 runtimeclass ScrollViewTestHooks
 {
-    static Windows.Foundation.IReference<Boolean> GetAutoHideScrollControllers(MU_XC_NAMESPACE.ScrollView scrollView);
-    static void SetAutoHideScrollControllers(MU_XC_NAMESPACE.ScrollView scrollView, Windows.Foundation.IReference<Boolean> value);
+    static Windows.Foundation.IReference<Boolean> GetAutoHideScrollControllers(Islands.UI.Xaml.Controls.ScrollView scrollView);
+    static void SetAutoHideScrollControllers(Islands.UI.Xaml.Controls.ScrollView scrollView, Windows.Foundation.IReference<Boolean> value);
 }
 
 }

@@ -9,6 +9,7 @@ export import inc.win32;
 export import inc.ErrorHandling;
 export import winrt_base;
 export import winrt.Windows.Foundation;
+export import winrt.Windows.Foundation.Numerics;
 export import winrt.Windows.Foundation.Collections;
 export import winrt.Windows.Foundation.Metadata;
 export import winrt.Windows.ApplicationModel.Activation;
@@ -60,8 +61,22 @@ export import winrt.Windows.Data.Json;
 export import winrt.Microsoft.UI.Xaml.Controls;
 export import winrt.Microsoft.UI.Xaml.Controls.AnimatedVisuals;
 export import winrt.Islands.UI.Xaml.Controls;
+export import winrt.Islands.UI.Xaml.Controls.Primitives;
+export import winrt.Islands.UI.Xaml.Automation.Peers;
 
 export namespace winrt::Islands::UI::Xaml::Controls
+{
+    namespace implementation {}
+    namespace factory_implementation {}
+}
+
+export namespace winrt::Islands::UI::Xaml::Controls::Primitives
+{
+    namespace implementation {}
+    namespace factory_implementation {}
+}
+
+export namespace winrt::Islands::UI::Xaml::Automation::Peers
 {
     namespace implementation {}
     namespace factory_implementation {}
@@ -132,14 +147,72 @@ export namespace winrt
     using TitleBarAutomationPeer = ::winrt::Islands::UI::Xaml::Controls::TitleBarAutomationPeer;
     using TitleBarTemplateSettings = ::winrt::Islands::UI::Xaml::Controls::TitleBarTemplateSettings;
     using TitleBarWindowAdapter = ::winrt::Islands::UI::Xaml::Controls::TitleBarWindowAdapter;
+    using ConfigurationChangedEventHandler = ::winrt::Islands::UI::Xaml::Controls::ConfigurationChangedEventHandler;
+    using IRepeaterScrollingSurface = ::winrt::Islands::UI::Xaml::Controls::IRepeaterScrollingSurface;
+    using IScrollView = ::winrt::Islands::UI::Xaml::Controls::IScrollView;
+    using PostArrangeEventHandler = ::winrt::Islands::UI::Xaml::Controls::PostArrangeEventHandler;
+    using ViewportChangedEventHandler = ::winrt::Islands::UI::Xaml::Controls::ViewportChangedEventHandler;
+    using ScrollPresenterAutomationPeer = ::winrt::Islands::UI::Xaml::Automation::Peers::ScrollPresenterAutomationPeer;
+    using ScrollView = ::winrt::Islands::UI::Xaml::Controls::ScrollView;
+    using ScrollViewTestHooks = ::winrt::Islands::UI::Xaml::Controls::Primitives::ScrollViewTestHooks;
+    using ScrollPresenter = ::winrt::Islands::UI::Xaml::Controls::Primitives::ScrollPresenter;
+    using ScrollPresenterTestHooks = ::winrt::Islands::UI::Xaml::Controls::Primitives::ScrollPresenterTestHooks;
+    using ScrollPresenterTestHooksAnchorEvaluatedEventArgs = ::winrt::Islands::UI::Xaml::Controls::Primitives::ScrollPresenterTestHooksAnchorEvaluatedEventArgs;
+    using ScrollPresenterTestHooksExpressionAnimationStatusChangedEventArgs = ::winrt::Islands::UI::Xaml::Controls::Primitives::ScrollPresenterTestHooksExpressionAnimationStatusChangedEventArgs;
+    using ScrollPresenterTestHooksInteractionSourcesChangedEventArgs = ::winrt::Islands::UI::Xaml::Controls::Primitives::ScrollPresenterTestHooksInteractionSourcesChangedEventArgs;
+    using ScrollPresenterViewChangeResult = ::winrt::Islands::UI::Xaml::Controls::Primitives::ScrollPresenterViewChangeResult;
+    using ScrollControllerAddScrollVelocityRequestedEventArgs = ::winrt::Islands::UI::Xaml::Controls::Primitives::ScrollControllerAddScrollVelocityRequestedEventArgs;
+    using ScrollControllerPanRequestedEventArgs = ::winrt::Islands::UI::Xaml::Controls::Primitives::ScrollControllerPanRequestedEventArgs;
+    using ScrollControllerScrollByRequestedEventArgs = ::winrt::Islands::UI::Xaml::Controls::Primitives::ScrollControllerScrollByRequestedEventArgs;
+    using ScrollControllerScrollToRequestedEventArgs = ::winrt::Islands::UI::Xaml::Controls::Primitives::ScrollControllerScrollToRequestedEventArgs;
+    using IScrollController = ::winrt::Islands::UI::Xaml::Controls::Primitives::IScrollController;
+    using IScrollControllerPanningInfo = ::winrt::Islands::UI::Xaml::Controls::Primitives::IScrollControllerPanningInfo;
+    using IScrollPresenter = ::winrt::Islands::UI::Xaml::Controls::Primitives::IScrollPresenter;
+    using RepeatedScrollSnapPoint = ::winrt::Islands::UI::Xaml::Controls::Primitives::RepeatedScrollSnapPoint;
+    using RepeatedZoomSnapPoint = ::winrt::Islands::UI::Xaml::Controls::Primitives::RepeatedZoomSnapPoint;
+    using ScrollSnapPoint = ::winrt::Islands::UI::Xaml::Controls::Primitives::ScrollSnapPoint;
+    using ScrollSnapPointBase = ::winrt::Islands::UI::Xaml::Controls::Primitives::ScrollSnapPointBase;
+    using ScrollSnapPointsAlignment = ::winrt::Islands::UI::Xaml::Controls::Primitives::ScrollSnapPointsAlignment;
+    using SnapPointBase = ::winrt::Islands::UI::Xaml::Controls::Primitives::SnapPointBase;
+    using ZoomSnapPoint = ::winrt::Islands::UI::Xaml::Controls::Primitives::ZoomSnapPoint;
+    using ZoomSnapPointBase = ::winrt::Islands::UI::Xaml::Controls::Primitives::ZoomSnapPointBase;
+    using ScrollingAnchorRequestedEventArgs = ::winrt::Islands::UI::Xaml::Controls::ScrollingAnchorRequestedEventArgs;
+    using ScrollingAnimationMode = ::winrt::Islands::UI::Xaml::Controls::ScrollingAnimationMode;
+    using ScrollingBringingIntoViewEventArgs = ::winrt::Islands::UI::Xaml::Controls::ScrollingBringingIntoViewEventArgs;
+    using ScrollingChainMode = ::winrt::Islands::UI::Xaml::Controls::ScrollingChainMode;
+    using ScrollingContentOrientation = ::winrt::Islands::UI::Xaml::Controls::ScrollingContentOrientation;
+    using ScrollingInputKinds = ::winrt::Islands::UI::Xaml::Controls::ScrollingInputKinds;
+    using ScrollingInteractionState = ::winrt::Islands::UI::Xaml::Controls::ScrollingInteractionState;
+    using ScrollingRailMode = ::winrt::Islands::UI::Xaml::Controls::ScrollingRailMode;
+    using ScrollingScrollAnimationStartingEventArgs = ::winrt::Islands::UI::Xaml::Controls::ScrollingScrollAnimationStartingEventArgs;
+    using ScrollingScrollBarVisibility = ::winrt::Islands::UI::Xaml::Controls::ScrollingScrollBarVisibility;
+    using ScrollingScrollCompletedEventArgs = ::winrt::Islands::UI::Xaml::Controls::ScrollingScrollCompletedEventArgs;
+    using ScrollingScrollMode = ::winrt::Islands::UI::Xaml::Controls::ScrollingScrollMode;
+    using ScrollingScrollOptions = ::winrt::Islands::UI::Xaml::Controls::ScrollingScrollOptions;
+    using ScrollingScrollStartingEventArgs = ::winrt::Islands::UI::Xaml::Controls::ScrollingScrollStartingEventArgs;
+    using ScrollingSnapPointsMode = ::winrt::Islands::UI::Xaml::Controls::ScrollingSnapPointsMode;
+    using ScrollingZoomAnimationStartingEventArgs = ::winrt::Islands::UI::Xaml::Controls::ScrollingZoomAnimationStartingEventArgs;
+    using ScrollingZoomCompletedEventArgs = ::winrt::Islands::UI::Xaml::Controls::ScrollingZoomCompletedEventArgs;
+    using ScrollingZoomMode = ::winrt::Islands::UI::Xaml::Controls::ScrollingZoomMode;
+    using ScrollingZoomOptions = ::winrt::Islands::UI::Xaml::Controls::ScrollingZoomOptions;
+    using ScrollingZoomStartingEventArgs = ::winrt::Islands::UI::Xaml::Controls::ScrollingZoomStartingEventArgs;
     using namespace ::winrt::Windows::Web;
 }
 
 export using std::wstring_view;
+export using std::int8_t;
+export using std::int16_t;
+export using std::int32_t;
+export using std::int64_t;
+export using std::uint8_t;
+export using std::uint16_t;
+export using std::uint32_t;
+export using std::uint64_t;
 export using namespace std::literals;
 export using ResourceIdType = const winrt::hstring&;
 
-export inline void MUX_ASSERT(bool condition)
+export template <typename T>
+inline void MUX_ASSERT(T const& condition)
 {
-    assert(condition);
+    assert(static_cast<bool>(condition));
 }

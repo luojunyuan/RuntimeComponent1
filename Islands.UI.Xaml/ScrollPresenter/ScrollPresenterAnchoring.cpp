@@ -1,18 +1,20 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
-
-#include "pch.h"
-#include "common.h"
-#include "TypeLogging.h"
-#include "ScrollPresenterTypeLogging.h"
-#include "ScrollPresenter.h"
-#include "DoubleUtil.h"
-#ifdef DBG
-#include "ScrollPresenterTestHooks.h"
-#endif
 
 // Used when ScrollPresenter.HorizontalAnchorRatio or ScrollPresenter.VerticalAnchorRatio is 0.0 or 1.0 to determine whether the Content is scrolled to an edge.
 // It is declared at an edge if it's within 1/10th of a pixel.
+import inc.common;
+import ixx.ScrollPresenterTrace;
+import ixx.TypeLogging;
+import ixx.ScrollPresenterTypeLogging;
+import ixx.ScrollPresenter;
+import inc.DoubleUtil;
+import inc.FloatUtil;
+import ixx.ScrollingAnchorRequestedEventArgs;
+import ixx.ScrollPresenterTestHooks;
+import std;
+#include "../Telemetry/ScrollTraceMacros.h"
+
 const double c_edgeDetectionTolerance = 0.1;
 
 void ScrollPresenter::RaiseConfigurationChanged()
@@ -68,10 +70,10 @@ void ScrollPresenter::RaiseAnchorRequested()
 // the current offsets, zoomFactor, viewport size, content size and state.
 // When all 4 returned booleans are False, no element anchoring is performed, no far edge anchoring is performed. There may still be anchoring at near edges.
 void ScrollPresenter::IsAnchoring(
-    _Out_ bool* isAnchoringElementHorizontally,
-    _Out_ bool* isAnchoringElementVertically,
-    _Out_opt_ bool* isAnchoringFarEdgeHorizontally,
-    _Out_opt_ bool* isAnchoringFarEdgeVertically)
+    bool* isAnchoringElementHorizontally,
+    bool* isAnchoringElementVertically,
+    bool* isAnchoringFarEdgeHorizontally,
+    bool* isAnchoringFarEdgeVertically)
 {
     *isAnchoringElementHorizontally = false;
     *isAnchoringElementVertically = false;
@@ -101,7 +103,7 @@ void ScrollPresenter::IsAnchoring(
 
     // For edge anchoring, the near edge is considered when HorizontalAnchorRatio or VerticalAnchorRatio is 0.0. 
     // When the property is 1.0, the far edge is considered.
-    if (!isnan(horizontalAnchorRatio))
+    if (!std::isnan(horizontalAnchorRatio))
     {
         SCROLLPRESENTER_TRACE_VERBOSE_DBG(*this, TRACE_MSG_METH_STR_DBL, METH_NAME, this, L"HorizontalAnchorRatio", horizontalAnchorRatio);
 
@@ -128,7 +130,7 @@ void ScrollPresenter::IsAnchoring(
         }
     }
 
-    if (!isnan(verticalAnchorRatio))
+    if (!std::isnan(verticalAnchorRatio))
     {
         SCROLLPRESENTER_TRACE_VERBOSE_DBG(*this, TRACE_MSG_METH_STR_DBL, METH_NAME, this, L"VerticalAnchorRatio", verticalAnchorRatio);
 
@@ -176,8 +178,8 @@ void ScrollPresenter::IsAnchoring(
 void ScrollPresenter::ComputeViewportAnchorPoint(
     double viewportWidth,
     double viewportHeight,
-    _Out_ double* viewportAnchorPointHorizontalOffset,
-    _Out_ double* viewportAnchorPointVerticalOffset)
+    double* viewportAnchorPointHorizontalOffset,
+    double* viewportAnchorPointVerticalOffset)
 {
     *viewportAnchorPointHorizontalOffset = DoubleUtil::NaN;
     *viewportAnchorPointVerticalOffset = DoubleUtil::NaN;
@@ -199,8 +201,8 @@ void ScrollPresenter::ComputeViewportAnchorPoint(
 // - elementAnchorPointVerticalOffset: unzoomed vertical offset of the anchor element's point within the ScrollPresenter.Content. NaN if there is no vertical anchoring.
 void ScrollPresenter::ComputeElementAnchorPoint(
     bool isForPreArrange,
-    _Out_ double* elementAnchorPointHorizontalOffset,
-    _Out_ double* elementAnchorPointVerticalOffset)
+    double* elementAnchorPointHorizontalOffset,
+    double* elementAnchorPointVerticalOffset)
 {
     *elementAnchorPointHorizontalOffset = DoubleUtil::NaN;
     *elementAnchorPointVerticalOffset = DoubleUtil::NaN;
@@ -219,10 +221,10 @@ void ScrollPresenter::ComputeElementAnchorPoint(
 
 void ScrollPresenter::ComputeAnchorPoint(
     const winrt::Rect& anchorBounds,
-    _Out_ double* anchorPointX,
-    _Out_ double* anchorPointY)
+    double* anchorPointX,
+    double* anchorPointY)
 {
-    if (isnan(HorizontalAnchorRatio()))
+    if (std::isnan(HorizontalAnchorRatio()))
     {
         *anchorPointX = DoubleUtil::NaN;
     }
@@ -234,7 +236,7 @@ void ScrollPresenter::ComputeAnchorPoint(
         *anchorPointX = anchorBounds.X + HorizontalAnchorRatio() * anchorBounds.Width;
     }
 
-    if (isnan(VerticalAnchorRatio()))
+    if (std::isnan(VerticalAnchorRatio()))
     {
         *anchorPointY = DoubleUtil::NaN;
     }
@@ -277,16 +279,16 @@ winrt::Size ScrollPresenter::ComputeViewportToElementAnchorPointsDistance(
             &viewportAnchorPointHorizontalOffset,
             &viewportAnchorPointVerticalOffset);
 
-        MUX_ASSERT(!isnan(viewportAnchorPointHorizontalOffset) || !isnan(viewportAnchorPointVerticalOffset));
-        MUX_ASSERT(isnan(viewportAnchorPointHorizontalOffset) == isnan(elementAnchorPointHorizontalOffset));
-        MUX_ASSERT(isnan(viewportAnchorPointVerticalOffset) == isnan(elementAnchorPointVerticalOffset));
+        MUX_ASSERT(!std::isnan(viewportAnchorPointHorizontalOffset) || !std::isnan(viewportAnchorPointVerticalOffset));
+        MUX_ASSERT(std::isnan(viewportAnchorPointHorizontalOffset) == std::isnan(elementAnchorPointHorizontalOffset));
+        MUX_ASSERT(std::isnan(viewportAnchorPointVerticalOffset) == std::isnan(elementAnchorPointVerticalOffset));
 
         // Rounding the distance to 6 precision digits to avoid layout cycles due to float/double conversions.
         const winrt::Size viewportToElementAnchorPointsDistance = winrt::Size{
-            isnan(viewportAnchorPointHorizontalOffset) ?
-                FloatUtil::NaN : static_cast<float>(round((elementAnchorPointHorizontalOffset - viewportAnchorPointHorizontalOffset) * 1000000) / 1000000),
-            isnan(viewportAnchorPointVerticalOffset) ?
-                FloatUtil::NaN : static_cast<float>(round((elementAnchorPointVerticalOffset - viewportAnchorPointVerticalOffset) * 1000000) / 1000000)
+            std::isnan(viewportAnchorPointHorizontalOffset) ?
+                FloatUtil::NaN : static_cast<float>(std::round((elementAnchorPointHorizontalOffset - viewportAnchorPointHorizontalOffset) * 1000000) / 1000000),
+            std::isnan(viewportAnchorPointVerticalOffset) ?
+                FloatUtil::NaN : static_cast<float>(std::round((elementAnchorPointVerticalOffset - viewportAnchorPointVerticalOffset) * 1000000) / 1000000)
         };
 
         SCROLLPRESENTER_TRACE_VERBOSE(*this, TRACE_MSG_METH_FLT_FLT, METH_NAME, this, viewportToElementAnchorPointsDistance.Width, viewportToElementAnchorPointsDistance.Height);
@@ -367,7 +369,7 @@ void ScrollPresenter::EnsureAnchorElementSelection()
         &viewportAnchorPointHorizontalOffset,
         &viewportAnchorPointVerticalOffset);
 
-    MUX_ASSERT(!isnan(viewportAnchorPointHorizontalOffset) || !isnan(viewportAnchorPointVerticalOffset));
+    MUX_ASSERT(!std::isnan(viewportAnchorPointHorizontalOffset) || !std::isnan(viewportAnchorPointVerticalOffset));
 
     RaiseAnchorRequested();
 
@@ -471,9 +473,9 @@ void ScrollPresenter::ProcessAnchorCandidate(
     const winrt::Rect& viewportAnchorBounds,
     double viewportAnchorPointHorizontalOffset,
     double viewportAnchorPointVerticalOffset,
-    _Inout_ double* bestAnchorCandidateDistance,
-    _Inout_ winrt::UIElement* bestAnchorCandidate,
-    _Inout_ winrt::Rect* bestAnchorCandidateBounds) const
+    double* bestAnchorCandidateDistance,
+    winrt::UIElement* bestAnchorCandidate,
+    winrt::Rect* bestAnchorCandidateBounds) const
 {
     MUX_ASSERT(anchorCandidate);
     MUX_ASSERT(content);
@@ -495,13 +497,13 @@ void ScrollPresenter::ProcessAnchorCandidate(
     // Using the distances from the viewport anchor point to the four corners of the anchor candidate.
     double anchorCandidateDistance{ 0.0 };
 
-    if (!isnan(viewportAnchorPointHorizontalOffset))
+    if (!std::isnan(viewportAnchorPointHorizontalOffset))
     {
         anchorCandidateDistance += std::pow(viewportAnchorPointHorizontalOffset - anchorCandidateBounds.X, 2);
         anchorCandidateDistance += std::pow(viewportAnchorPointHorizontalOffset - (static_cast<double>(anchorCandidateBounds.X) + static_cast<double>(anchorCandidateBounds.Width)), 2);
     }
 
-    if (!isnan(viewportAnchorPointVerticalOffset))
+    if (!std::isnan(viewportAnchorPointVerticalOffset))
     {
         anchorCandidateDistance += std::pow(viewportAnchorPointVerticalOffset - anchorCandidateBounds.Y, 2);
         anchorCandidateDistance += std::pow(viewportAnchorPointVerticalOffset - (static_cast<double>(anchorCandidateBounds.Y) + static_cast<double>(anchorCandidateBounds.Height)), 2);

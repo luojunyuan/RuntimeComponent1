@@ -1,14 +1,17 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-#include "pch.h"
-#include "common.h"
-#include "TypeLogging.h"
-#include "ScrollPresenterTypeLogging.h"
-#include "ScrollPresenterAutomationPeer.h"
-#include "ResourceAccessor.h"
 #include <UIAutomationCore.h>
 #include <UIAutomationCoreApi.h>
+
+import inc.common;
+import ixx.ScrollPresenterTrace;
+import ixx.TypeLogging;
+import ixx.ScrollPresenterTypeLogging;
+import ixx.ScrollPresenterAutomationPeer;
+import ixx.ResourceAccessor;
+import std;
+#include "../Telemetry/ScrollTraceMacros.h"
 
 double ScrollPresenterAutomationPeer::s_minimumPercent{ 0.0 };
 double ScrollPresenterAutomationPeer::s_maximumPercent{ 100.0 };
@@ -138,7 +141,7 @@ void ScrollPresenterAutomationPeer::SetScrollPercent(double horizontalPercent, d
     if ((scrollHorizontally && (horizontalPercent < s_minimumPercent || horizontalPercent > s_maximumPercent)) ||
         (scrollVertically && (verticalPercent < s_minimumPercent || verticalPercent > s_maximumPercent)))
     {
-        throw winrt::hresult_error(E_INVALIDARG);
+        throw winrt::hresult_error(eInvalidArg);
     }
 
     auto scrollPresenter = winrt::get_self<ScrollPresenter>(GetScrollPresenter());
@@ -362,7 +365,7 @@ double ScrollPresenterAutomationPeer::GetViewPercent(double zoomedExtent, double
         return s_maximumPercent;
     }
 
-    return std::min(s_maximumPercent, (viewport / zoomedExtent * s_maximumPercent));
+    return (std::min)(s_maximumPercent, (viewport / zoomedExtent * s_maximumPercent));
 }
 
 double ScrollPresenterAutomationPeer::GetScrollPercent(double zoomedExtent, double viewport, double offset)
@@ -377,8 +380,8 @@ double ScrollPresenterAutomationPeer::GetScrollPercent(double zoomedExtent, doub
 
     double scrollPercent = offset / (zoomedExtent - viewport) * s_maximumPercent;
 
-    scrollPercent = std::max(scrollPercent, s_minimumPercent);
-    scrollPercent = std::min(scrollPercent, s_maximumPercent);
+    scrollPercent = (std::max)(scrollPercent, s_minimumPercent);
+    scrollPercent = (std::min)(scrollPercent, s_maximumPercent);
 
     return scrollPercent;
 }
