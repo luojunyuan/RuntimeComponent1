@@ -7,8 +7,9 @@ import winrt_base;
 import winrt.Islands.UI.Xaml.Controls.Primitives;
 import winrt.Windows.UI.Composition.Interactions;
 
-#define WINRT_IMPORT_MODULE
+#ifdef WINRT_IMPORT_MODULE
 #undef WINRT_IMPORT_MODULE
+#endif
 
 ScrollPresenterTestHooksInteractionSourcesChangedEventArgs::ScrollPresenterTestHooksInteractionSourcesChangedEventArgs(
     const winrt::Windows::UI::Composition::Interactions::CompositionInteractionSourceCollection& interactionSources)

@@ -7,8 +7,9 @@ import std;
 import winrt_base;
 import winrt.Islands.UI.Xaml.Controls.Primitives;
 
-#define WINRT_IMPORT_MODULE
+#ifdef WINRT_IMPORT_MODULE
 #undef WINRT_IMPORT_MODULE
+#endif
 
 ScrollPresenterTestHooksExpressionAnimationStatusChangedEventArgs::ScrollPresenterTestHooksExpressionAnimationStatusChangedEventArgs(
     bool isExpressionAnimationStarted, std::wstring_view const& propertyName)
