@@ -42,26 +42,13 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ScrollViewTestHooksFactory.cpp">
       <Filter>Test Hooks</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ScrollBarController.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ScrollView.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ScrollViewBringIntoViewOperation.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ScrollViewTrace.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ScrollViewTestHooks.h">
-      <Filter>Test Hooks</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ScrollViewTestHooksFactory.h">
-      <Filter>Test Hooks</Filter>
-    </ClInclude>
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\Generated\ScrollView.properties.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ScrollBarController.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ScrollView.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ScrollViewBringIntoViewOperation.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ScrollViewTrace.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ScrollViewTestHooks.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ScrollViewTestHooksFactory.ixx" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="$(MSBuildThisFileDirectory)ScrollView.idl">
@@ -81,6 +68,8 @@
     <Page Include="$(MSBuildThisFileDirectory)ScrollView_perf2026.xaml">
       <Filter>Styles</Filter>
     </Page>
+    <Page Include="$(MSBuildThisFileDirectory)ScrollView_themeresources.xaml" />
+    <Page Include="$(MSBuildThisFileDirectory)ScrollView_themeresources.xaml" />
     <Page Include="$(MSBuildThisFileDirectory)ScrollView_themeresources.xaml" />
     <Page Include="$(MSBuildThisFileDirectory)ScrollView_themeresources.xaml" />
   </ItemGroup>

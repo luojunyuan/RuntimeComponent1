@@ -29,7 +29,6 @@
       <UniqueIdentifier>{c0ab91ee-5c0f-434e-895f-c7b9050c6e30}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
-
   <ItemGroup>
     <Midl Include="$(MSBuildThisFileDirectory)ScrollPresenter.idl">
       <Filter>IDL</Filter>
@@ -44,112 +43,6 @@
       <Filter>Test Hooks</Filter>
     </Midl>
   </ItemGroup>
-
-  <ItemGroup>
-    <ClInclude Include="$(MSBuildThisFileDirectory)InteractionTrackerAsyncOperation.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)InteractionTrackerOwner.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ScrollPresenter.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ScrollPresenterTrace.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ScrollPresenterTypeLogging.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)BringIntoViewOffsetsChange.h">
-      <Filter>View Changes</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)OffsetsChange.h">
-      <Filter>View Changes</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)OffsetsChangeWithAdditionalVelocity.h">
-      <Filter>View Changes</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ViewChange.h">
-      <Filter>View Changes</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ViewChangeBase.h">
-      <Filter>View Changes</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ZoomFactorChange.h">
-      <Filter>View Changes</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ZoomFactorChangeWithAdditionalVelocity.h">
-      <Filter>View Changes</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ScrollControllerAddScrollVelocityRequestedEventArgs.h">
-      <Filter>Scroll Controllers</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ScrollControllerPanRequestedEventArgs.h">
-      <Filter>Scroll Controllers</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ScrollControllerScrollByRequestedEventArgs.h">
-      <Filter>Scroll Controllers</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ScrollControllerScrollToRequestedEventArgs.h">
-      <Filter>Scroll Controllers</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ScrollingAnchorRequestedEventArgs.h">
-      <Filter>Scrolling Events</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ScrollingBringingIntoViewEventArgs.h">
-      <Filter>Scrolling Events</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ScrollingScrollAnimationStartingEventArgs.h">
-      <Filter>Scrolling Events</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ScrollingScrollCompletedEventArgs.h">
-      <Filter>Scrolling Events</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ScrollingScrollOptions.h">
-      <Filter>Scrolling Events</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ScrollingScrollStartingEventArgs.h">
-      <Filter>Scrolling Events</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ScrollingZoomAnimationStartingEventArgs.h">
-      <Filter>Scrolling Events</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ScrollingZoomCompletedEventArgs.h">
-      <Filter>Scrolling Events</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ScrollingZoomOptions.h">
-      <Filter>Scrolling Events</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ScrollingZoomStartingEventArgs.h">
-      <Filter>Scrolling Events</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)SnapPoint.h">
-      <Filter>Snap Points</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)SnapPointWrapper.h">
-      <Filter>Snap Points</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ScrollPresenterAutomationPeer.h">
-      <Filter>Automation</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ScrollPresenterTestHooks.h">
-      <Filter>Test Hooks</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ScrollPresenterTestHooksAnchorEvaluatedEventArgs.h">
-      <Filter>Test Hooks</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ScrollPresenterTestHooksExpressionAnimationStatusChangedEventArgs.h">
-      <Filter>Test Hooks</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ScrollPresenterTestHooksFactory.h">
-      <Filter>Test Hooks</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ScrollPresenterTestHooksInteractionSourcesChangedEventArgs.h">
-      <Filter>Test Hooks</Filter>
-    </ClInclude>
-  </ItemGroup>
-
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)..\Generated\ScrollPresenter.properties.cpp">
       <Filter>Generated</Filter>
@@ -256,5 +149,44 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ScrollPresenterTestHooksInteractionSourcesChangedEventArgs.cpp">
       <Filter>Test Hooks</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\Generated\ScrollPresenter.properties.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)BringIntoViewOffsetsChange.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)InteractionTrackerAsyncOperation.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)InteractionTrackerOwner.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)OffsetsChange.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)OffsetsChangeWithAdditionalVelocity.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)RepeatedScrollSnapPoint.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)RepeatedZoomSnapPoint.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ScrollControllerAddScrollVelocityRequestedEventArgs.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ScrollControllerPanRequestedEventArgs.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ScrollControllerScrollByRequestedEventArgs.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ScrollControllerScrollToRequestedEventArgs.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ScrollingAnchorRequestedEventArgs.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ScrollingBringingIntoViewEventArgs.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ScrollingScrollAnimationStartingEventArgs.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ScrollingScrollCompletedEventArgs.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ScrollingScrollOptions.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ScrollingScrollStartingEventArgs.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ScrollingZoomAnimationStartingEventArgs.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ScrollingZoomCompletedEventArgs.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ScrollingZoomOptions.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ScrollingZoomStartingEventArgs.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ScrollPresenter.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ScrollPresenterAutomationPeer.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ScrollPresenterTrace.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ScrollPresenterTypeLogging.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ScrollPresenterTestHooks.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ScrollPresenterTestHooksAnchorEvaluatedEventArgs.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ScrollPresenterTestHooksExpressionAnimationStatusChangedEventArgs.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ScrollPresenterTestHooksFactory.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ScrollPresenterTestHooksInteractionSourcesChangedEventArgs.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ScrollSnapPoint.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SnapPoint.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SnapPointWrapper.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ViewChange.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ViewChangeBase.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ZoomFactorChange.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ZoomFactorChangeWithAdditionalVelocity.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ZoomSnapPoint.ixx" />
   </ItemGroup>
 </Project>
