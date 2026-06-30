@@ -51,26 +51,35 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)TitleBarWindowAdapter.ixx" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="$(MSBuildThisFileDirectory)TitleBar.xaml">
+    <None Include="$(MSBuildThisFileDirectory)TitleBar.xaml" />
+    <None Include="$(MSBuildThisFileDirectory)TitleBar_themeresources.xaml" />
+    <None Include="$(MSBuildThisFileDirectory)TitleBar_themeresources_perf2026.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <IslandsControlsResource Include="$(MSBuildThisFileDirectory)TitleBar.xaml">
       <ControlsResourcesVersion>Any</ControlsResourcesVersion>
       <Version>RS1</Version>
       <Type>DefaultStyle</Type>
-    </Page>
-    <Page Include="$(MSBuildThisFileDirectory)TitleBar_themeresources.xaml">
+      <Visible>false</Visible>
+    </IslandsControlsResource>
+    <IslandsControlsResource Include="$(MSBuildThisFileDirectory)TitleBar_themeresources.xaml">
       <ControlsResourcesVersion>Any</ControlsResourcesVersion>
       <Version>RS1</Version>
       <Type>ThemeResources</Type>
-    </Page>
-    <Page Include="$(MSBuildThisFileDirectory)TitleBar.xaml">
+      <Visible>false</Visible>
+    </IslandsControlsResource>
+    <IslandsControlsResource Include="$(MSBuildThisFileDirectory)TitleBar.xaml">
       <ControlsResourcesVersion>Any</ControlsResourcesVersion>
       <Version>RS1</Version>
       <Type>StylePerf2026</Type>
-    </Page>
-    <Page Include="$(MSBuildThisFileDirectory)TitleBar_themeresources_perf2026.xaml">
+      <Visible>false</Visible>
+    </IslandsControlsResource>
+    <IslandsControlsResource Include="$(MSBuildThisFileDirectory)TitleBar_themeresources_perf2026.xaml">
       <ControlsResourcesVersion>Any</ControlsResourcesVersion>
       <Version>RS1</Version>
       <Type>ThemeResourcesPerf2026</Type>
-    </Page>
+      <Visible>false</Visible>
+    </IslandsControlsResource>
   </ItemGroup>
   <ItemGroup>
     <Midl Include="$(MSBuildThisFileDirectory)TitleBar.idl" />

@@ -47,26 +47,27 @@
     <ClCompile Condition="'$(Configuration)'=='Debug'" Include="$(MSBuildThisFileDirectory)ScrollViewTestHooksFactory.ixx" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="$(MSBuildThisFileDirectory)ScrollView.xaml">
-      <IsPublic>false</IsPublic>
+    <None Include="$(MSBuildThisFileDirectory)ScrollView.xaml" />
+    <None Include="$(MSBuildThisFileDirectory)ScrollView_themeresources.xaml" />
+    <None Include="$(MSBuildThisFileDirectory)ScrollView_perf2026.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <IslandsControlsResource Include="$(MSBuildThisFileDirectory)ScrollView.xaml">
       <Type>DefaultStyle</Type>
-      <FileType>Document</FileType>
-    </Page>
-    <Page Include="$(MSBuildThisFileDirectory)ScrollView_themeresources.xaml">
-      <IsPublic>false</IsPublic>
+      <Visible>false</Visible>
+    </IslandsControlsResource>
+    <IslandsControlsResource Include="$(MSBuildThisFileDirectory)ScrollView_themeresources.xaml">
       <Type>ThemeResources</Type>
-      <FileType>Document</FileType>
-    </Page>
-    <Page Include="$(MSBuildThisFileDirectory)ScrollView_perf2026.xaml">
-      <IsPublic>false</IsPublic>
+      <Visible>false</Visible>
+    </IslandsControlsResource>
+    <IslandsControlsResource Include="$(MSBuildThisFileDirectory)ScrollView_perf2026.xaml">
       <Type>StylePerf2026</Type>
-      <FileType>Document</FileType>
-    </Page>
-    <Page Include="$(MSBuildThisFileDirectory)ScrollView_themeresources.xaml">
-      <IsPublic>false</IsPublic>
+      <Visible>false</Visible>
+    </IslandsControlsResource>
+    <IslandsControlsResource Include="$(MSBuildThisFileDirectory)ScrollView_themeresources.xaml">
       <Type>ThemeResourcesPerf2026</Type>
-      <FileType>Document</FileType>
-    </Page>
+      <Visible>false</Visible>
+    </IslandsControlsResource>
   </ItemGroup>
   <ItemGroup>
     <Midl Include="$(MSBuildThisFileDirectory)ScrollView.idl" />
